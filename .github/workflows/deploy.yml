@@ -8,7 +8,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: 🚀 Checkout repo
         uses: actions/checkout@v4
@@ -17,23 +16,15 @@ jobs:
         run: |
           echo "SSH_HOST=${{ secrets.SSH_HOST }}"
           echo "SSH_USER=${{ secrets.SSH_USER }}"
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
 
       - name: 🔑 Deploy via SSH
         uses: appleboy/ssh-action@master
-        env:
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_KEY: ${{ secrets.SSH_KEY }}
         with:
-          host: $SSH_HOST
-          username: $SSH_USER
-          key: $SSH_KEY
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
           script: |
-            echo "✅ Connected to server!"
             cd /var/www/app
             git pull origin main
             npm install
-            npm run build  # Om du har en frontend
             pm2 restart my-app || pm2 start npm --name "my-app" -- start
