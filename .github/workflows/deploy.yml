@@ -49,7 +49,3 @@ jobs:
 
             # Restart backend correctly
             pm2 restart backend || pm2 start npm --name "backend" -- start
-
-            # Save PM2 process list and ensure auto-start on reboot
-            pm2 save
-            pm2 startup
