@@ -13,6 +13,10 @@ const server = createServer(app);
 app.use(express.json());
 app.use(cors());
 
+app.get("/", (req: Request, res: Response) => {
+  res.send("Server is running!");
+});
+
 // Example route to test database connection
 app.get("/test-db", async (req: Request, res: Response) => {
   try {
