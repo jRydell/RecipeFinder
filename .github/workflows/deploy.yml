@@ -26,23 +26,29 @@ jobs:
           script: |
             cd /var/www/app
 
-            # Pull latest changes
+            # Pull latest changes (for both frontend & backend)
             git pull origin main
 
-            # Install dependencies
+            # Install frontend dependencies
             npm install
 
-            # Build project
+            # Build frontend
             npm run build
 
             # Restart frontend
             pm2 restart my-app || pm2 start npm --name "my-app" -- start
 
+            # Navigate to backend folder
             cd /var/www/app/backend
 
-            # Restart backend
+            # Install backend dependencies
+            npm install
 
-            pm2 restart backend ||pm2 start npm --name "backend" --start
+            # Build backend
+            npm run build
+
+            # Restart backend correctly
+            pm2 restart backend || pm2 start npm --name "backend" -- start
 
             # Save PM2 process list and ensure auto-start on reboot
             pm2 save
