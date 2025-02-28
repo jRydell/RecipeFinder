@@ -23,18 +23,15 @@ app.get("/", (req: Request, res: Response) => {
   const hours = Math.floor(uptime / (1000 * 60 * 60)) % 24;
   const days = Math.floor(uptime / (1000 * 60 * 60 * 24));
 
-  res.json({
-    status: "Server is running",
-    startedAt: serverStartTime.toISOString(),
-    uptime: {
-      total: uptime,
-      formatted: `${days}d ${hours}h ${minutes}m ${seconds}s`,
-      days,
-      hours,
-      minutes,
-      seconds,
-    },
-  });
+  // Format the output as plain text
+  const formattedUptime = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  const statusText = `Server Status: Running
+Server started at: ${serverStartTime.toISOString()}
+Uptime: ${formattedUptime}`;
+
+  // Set the content type to plain text and send the response
+  res.setHeader("Content-Type", "text/plain");
+  res.send(statusText);
 });
 
 // Example route to test database connection
