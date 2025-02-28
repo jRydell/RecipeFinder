@@ -9,13 +9,15 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: 🚀 Checkout repository
+      - name: 🚀 Checkout repo
         uses: actions/checkout@v4
 
-      - name: 🔑 Validate Secrets
-        run: echo "Secrets loaded successfully"
+      - name: 🐛 Debug Secrets
+        run: |
+          echo "SSH_HOST=${{ secrets.SSH_HOST }}"
+          echo "SSH_USER=${{ secrets.SSH_USER }}"
 
-      - name: 🔄 Deploy via SSH
+      - name: 🔑 Deploy via SSH
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -25,23 +27,26 @@ jobs:
             # Navigate to the project directory
             cd /var/www/app
 
-            # Pull the latest code from the main branch
+            # Ensure we have the latest changes
             git pull origin main  
 
             # Remove old dependencies and reinstall them
             rm -rf node_modules package-lock.json  
             npm install  
 
-            # Build the TypeScript project
+            # Compile TypeScript project (if applicable)
             npm run build  
 
-            # Stop and delete any existing PM2 process
+            # Ensure PM2 is properly restarted
             pm2 stop backend || true  
             pm2 delete backend || true  
-
-            # Start the backend application with PM2
             pm2 start npm --name "backend" -- start  
 
-            # Save the PM2 process list for auto-start on reboot
+            # Wait to prevent startup issues
+            sleep 5  
+
+            # Save PM2 process list for auto restart
             pm2 save  
+
+            # Ensure PM2 auto-starts on system reboot
             pm2 startup
