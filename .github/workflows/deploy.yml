@@ -38,9 +38,11 @@ jobs:
             # Restart frontend
             pm2 restart my-app || pm2 start npm --name "my-app" -- start
 
+            cd /var/www/app/backend
+
             # Restart backend
-            pm2 delete backend || true
-            pm2 start npm --name "backend" -- start
+
+            pm2 restart backend ||pm2 start npm --name "backend" --start
 
             # Save PM2 process list and ensure auto-start on reboot
             pm2 save
