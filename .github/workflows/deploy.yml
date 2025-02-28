@@ -14,15 +14,24 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 🐛 Debug Secrets
-        run: echo "SSH_HOST=${{ secrets.SSH_HOST }}"
+        run: |
+          echo "SSH_HOST=${{ secrets.SSH_HOST }}"
+          echo "SSH_USER=${{ secrets.SSH_USER }}"
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
 
       - name: 🔑 Deploy via SSH
         uses: appleboy/ssh-action@master
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
+          host: $SSH_HOST
+          username: $SSH_USER
+          key: $SSH_KEY
           script: |
+            echo "✅ Connected to server!"
             cd /var/www/app
             git pull origin main
             npm install
