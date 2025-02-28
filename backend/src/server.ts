@@ -7,7 +7,7 @@ import connection from "./db";
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT;
+const port = parseInt(process.env.PORT || "5000");
 const server = createServer(app);
 
 app.use(express.json());
@@ -34,7 +34,8 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   res.status(500).send("Something broke!");
 });
 
-server.listen(port, async () => {
+// ✅ Bind to 0.0.0.0 to allow external access
+server.listen(port, "0.0.0.0", async () => {
   console.log(`Server is running on port ${port}`);
   try {
     await connection.query("SELECT 1");
