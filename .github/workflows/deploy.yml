@@ -36,7 +36,7 @@ jobs:
             npm run build
 
             # Restart frontend
-            pm2 restart my-app || pm2 start npm --name "my-app" -- start
+            pm2 restart my-app 
 
             # Navigate to backend folder
             cd /var/www/app/backend
@@ -48,4 +48,4 @@ jobs:
             npm run build
 
             # Restart backend correctly
-            pm2 restart backend || pm2 start npm --name "backend" -- start
+            pm2 restart backend
