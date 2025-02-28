@@ -25,9 +25,23 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd /var/www/app
-            git pull origin main  # Ensure we have the latest changes
-            npm install            # Install any new dependencies
-            npm run build           # Compile TypeScript into dist folder
-            pm2 restart backend || pm2 start npm --name "backend" -- start  # Use 'backend' as the name
-            pm2 save               # Save PM2 process list for auto restart
-            pm2 startup            # Ensure PM2 is set up to restart on reboot
+
+            # Pull latest changes
+            git pull origin main
+
+            # Install dependencies
+            npm install
+
+            # Build project
+            npm run build
+
+            # Restart frontend
+            pm2 restart my-app || pm2 start npm --name "my-app" -- start
+
+            # Restart backend
+            pm2 delete backend || true
+            pm2 start npm --name "backend" -- start
+
+            # Save PM2 process list and ensure auto-start on reboot
+            pm2 save
+            pm2 startup
