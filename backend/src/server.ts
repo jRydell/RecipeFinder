@@ -9,12 +9,32 @@ dotenv.config();
 const app = express();
 const port = parseInt(process.env.PORT || "5000");
 const server = createServer(app);
+const serverStartTime = new Date();
 
 app.use(express.json());
 app.use(cors());
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Server is running!");
+  const uptime = new Date().getTime() - serverStartTime.getTime();
+
+  // Calculate time components
+  const seconds = Math.floor(uptime / 1000) % 60;
+  const minutes = Math.floor(uptime / (1000 * 60)) % 60;
+  const hours = Math.floor(uptime / (1000 * 60 * 60)) % 24;
+  const days = Math.floor(uptime / (1000 * 60 * 60 * 24));
+
+  res.json({
+    status: "Server is running",
+    startedAt: serverStartTime.toISOString(),
+    uptime: {
+      total: uptime,
+      formatted: `${days}d ${hours}h ${minutes}m ${seconds}s`,
+      days,
+      hours,
+      minutes,
+      seconds,
+    },
+  });
 });
 
 // Example route to test database connection
