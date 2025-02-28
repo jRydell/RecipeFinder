@@ -13,6 +13,9 @@ jobs:
       - name: 🚀 Checkout repo
         uses: actions/checkout@v4
 
+      - name: 🐛 Debug Secrets
+        run: echo "SSH_HOST=${{ secrets.SSH_HOST }}"
+
       - name: 🔑 Deploy via SSH
         uses: appleboy/ssh-action@master
         with:
