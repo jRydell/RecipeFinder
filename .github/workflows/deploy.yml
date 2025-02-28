@@ -30,23 +30,17 @@ jobs:
             # Ensure we have the latest changes
             git pull origin main  
 
-            # Remove old dependencies and reinstall them
-            rm -rf node_modules package-lock.json  
+            # Install dependencies (without removing old ones)
             npm install  
 
-            # Compile TypeScript project (if applicable)
+            # Build TypeScript project (if applicable)
             npm run build  
 
-            # Ensure PM2 is properly restarted
-            pm2 stop backend || true  
-            pm2 delete backend || true  
-            pm2 start npm --name "backend" -- start  
-
-            # Wait to prevent startup issues
-            sleep 5  
+            # Restart the app using PM2
+            pm2 restart backend || pm2 start npm --name "backend" -- start  
 
             # Save PM2 process list for auto restart
             pm2 save  
 
-            # Ensure PM2 auto-starts on system reboot
+            # Ensure PM2 starts on reboot
             pm2 startup
