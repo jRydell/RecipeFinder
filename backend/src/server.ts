@@ -7,11 +7,32 @@ import connection from "./db";
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT;
+const port = parseInt(process.env.PORT || "");
 const server = createServer(app);
+const serverStartTime = new Date(); // Track when server started
 
 app.use(express.json());
 app.use(cors());
+
+app.get("/", (req: Request, res: Response) => {
+  const uptime = new Date().getTime() - serverStartTime.getTime();
+
+  // Calculate time components
+  const seconds = Math.floor(uptime / 1000) % 60;
+  const minutes = Math.floor(uptime / (1000 * 60)) % 60;
+  const hours = Math.floor(uptime / (1000 * 60 * 60)) % 24;
+  const days = Math.floor(uptime / (1000 * 60 * 60 * 24));
+
+  // Format the output as plain text
+  const formattedUptime = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  const statusText = `Server Status: Running
+Server started at: ${serverStartTime.toISOString()}
+Uptime: ${formattedUptime}`;
+
+  // Set the content type to plain text and send the response
+  res.setHeader("Content-Type", "text/plain");
+  res.send(statusText);
+});
 
 // Example route to test database connection
 app.get("/test-db", async (req: Request, res: Response) => {
