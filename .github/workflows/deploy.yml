@@ -12,11 +12,6 @@ jobs:
       - name: 🚀 Checkout repo
         uses: actions/checkout@v4
 
-      - name: 🐛 Debug Secrets
-        run: |
-          echo "SSH_HOST=${{ secrets.SSH_HOST }}"
-          echo "SSH_USER=${{ secrets.SSH_USER }}"
-
       - name: 🔑 Deploy via SSH
         uses: appleboy/ssh-action@master
         with:
@@ -26,5 +21,14 @@ jobs:
           script: |
             cd /var/www/app
             git pull origin main
+
+            # Frontend deployment
             npm install
+            npm run build
             pm2 restart my-app || pm2 start npm --name "my-app" -- start
+
+            # Backend deployment
+            cd backend
+            npm install
+            npm run build
+            pm2 restart backend || pm2 start npm --name "backend" -- start
