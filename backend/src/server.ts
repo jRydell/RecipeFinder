@@ -62,7 +62,8 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   res.status(500).send("Something broke!");
 });
 
-server.listen(port, async () => {
+// Change the listen line at the bottom of the file
+server.listen(port, "0.0.0.0", async () => {
   console.log(`Server is running on port ${port}`);
   try {
     await connection.query("SELECT 1");
