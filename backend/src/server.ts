@@ -9,23 +9,12 @@ dotenv.config();
 const app = express();
 const port = parseInt(process.env.PORT || "5000"); // Add default port if not specified
 const server = createServer(app);
-const serverStartTime = new Date(); // Track when server started
+const serverStartTime = new Date();
 
 app.use(express.json());
 app.use(cors());
 
-// ADD THIS NEW ROUTE: Handle requests to /api endpoint
-app.get("/api", (req: Request, res: Response) => {
-  res.json({
-    message: "API is working",
-    version: "1.0.0",
-    serverTime: new Date().toISOString(),
-    availableEndpoints: ["/api", "/api/test-db"],
-  });
-});
-
-// MODIFY THIS ROUTE: Move test-db under /api path
-app.get("/api/test-db", async (req: Request, res: Response) => {
+app.get("/test-db", async (req: Request, res: Response) => {
   try {
     const [rows] = await connection.query("SELECT 1 + 1 AS solution");
     res.json(rows);
