@@ -19,16 +19,19 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /var/www/app
+            # Navigate to project directory
+            cd /var/www/projectunknown
+
+            # Pull latest changes
             git pull origin main
 
             # Frontend deployment
+            cd frontend
             npm install
             npm run build
 
-
             # Backend deployment
-            cd server
+            cd ../server
             npm install
             npm run build
             pm2 restart server || pm2 start npm --name "backend" -- start
