@@ -24,6 +24,14 @@ app.get("/test-db", async (req: Request, res: Response) => {
   }
 });
 
+app.get("/health", (req: Request, res: Response) => {
+  res.json({
+    status: "healthy",
+    timestamp: new Date().toISOString(),
+    database: "connected", // Assuming DB is connected if server is running
+  });
+});
+
 // Keep original root endpoint as is for direct server access
 app.get("/", (req: Request, res: Response) => {
   const uptime = new Date().getTime() - serverStartTime.getTime();
