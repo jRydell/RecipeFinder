@@ -17,52 +17,71 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            # Clear output to see what's happening
-            echo "Starting deployment at $(date)"
+            # Print each command before executing it
+            set -x
+
+            echo "===== STARTING DEPLOYMENT $(date) ====="
 
             # Navigate to project directory
             cd /var/www/projectunknown
 
-            # Pull latest changes with verbose output
-            echo "Pulling latest changes..."
+            # Pull latest changes
+            echo "===== PULLING LATEST CHANGES ====="
             git pull origin main
 
-            # Frontend deployment with better error reporting
-            echo "Building frontend..."
+            # Frontend deployment with extensive debugging
+            echo "===== BUILDING FRONTEND ====="
             cd frontend
-            echo "Installing dependencies..."
-            npm ci --no-audit --no-fund || npm install
 
-            # Clear out old build files to ensure clean build
-            echo "Removing old build files..."
+            # Print environment info
+            echo "===== ENVIRONMENT INFO ====="
+            echo "Node version: $(node -v)"
+            echo "NPM version: $(npm -v)"
+
+            # Install dependencies with fallback
+            echo "===== INSTALLING DEPENDENCIES ====="
+            rm -rf node_modules package-lock.json
+            npm install --verbose
+
+            # Clear out old build files
+            echo "===== CLEANING BUILD DIRECTORY ====="
             rm -rf dist
 
-            # Build with detailed output
-            echo "Running build process..."
-            npm run build
+            # Increase Node memory limit for build process
+            export NODE_OPTIONS="--max-old-space-size=4096"
+
+            # Run build with detailed output
+            echo "===== RUNNING BUILD PROCESS ====="
+            npm run build || {
+              echo "===== STANDARD BUILD FAILED, TRYING FALLBACK ====="
+              # If the build script fails, try direct Vite build
+              npx vite build
+            }
 
             # Check if build succeeded
-            if [ ! -d "dist" ]; then
-              echo "ERROR: Frontend build failed - dist folder not created"
+            if [ -d "dist" ] && [ "$(ls -A dist)" ]; then
+              echo "===== BUILD SUCCEEDED ====="
+              echo "Build output:"
+              ls -la dist
+            else
+              echo "===== BUILD FAILED - No dist directory or empty dist ====="
               exit 1
             fi
 
-            # Set proper permissions
-            echo "Setting permissions..."
-            chmod -R 755 dist
-
             # Backend deployment
-            echo "Deploying backend..."
+            echo "===== DEPLOYING BACKEND ====="
             cd ../server
-            npm ci --no-audit --no-fund || npm install
+            npm install
             npm run build
 
-            # Restart backend service with better error handling
-            echo "Restarting backend service..."
+            # Restart backend service
+            echo "===== RESTARTING BACKEND SERVICE ====="
             pm2 restart backend || pm2 start npm --name "backend" -- start
+            pm2 status
 
-            # Reload Nginx to ensure frontend is served correctly
-            echo "Reloading Nginx..."
+            # Reload Nginx
+            echo "===== RELOADING NGINX ====="
             sudo systemctl reload nginx
+            nginx -t
 
-            echo "Deployment completed at $(date)"
+            echo "===== DEPLOYMENT COMPLETED $(date) ====="
