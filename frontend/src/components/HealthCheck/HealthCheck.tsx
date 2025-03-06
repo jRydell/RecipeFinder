@@ -70,9 +70,10 @@ const Health = () => {
 
         <p>
           <strong>Last Updated: </strong> {health?.timestamp}
-          <strong>Deployment worflow works...</strong>
         </p>
         <p>
+          <strong>Nu funkar deployment igen</strong>
+          <strong>Nu funkar deployment igen</strong>
           <strong>Nu funkar deployment igen</strong>
         </p>
       </div>
