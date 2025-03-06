@@ -16,72 +16,67 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          script: |
-            # Print each command before executing it
-            set -x
-
-            echo "===== STARTING DEPLOYMENT $(date) ====="
-
-            # Navigate to project directory
-            cd /var/www/projectunknown
-
-            # Pull latest changes
-            echo "===== PULLING LATEST CHANGES ====="
-            git pull origin main
-
-            # Frontend deployment with extensive debugging
-            echo "===== BUILDING FRONTEND ====="
-            cd frontend
-
-            # Print environment info
-            echo "===== ENVIRONMENT INFO ====="
-            echo "Node version: $(node -v)"
-            echo "NPM version: $(npm -v)"
-
-            # Install dependencies with fallback
-            echo "===== INSTALLING DEPENDENCIES ====="
-            rm -rf node_modules package-lock.json
-            npm install --verbose
-
-            # Clear out old build files
-            echo "===== CLEANING BUILD DIRECTORY ====="
-            rm -rf dist
-
-            # Increase Node memory limit for build process
-            export NODE_OPTIONS="--max-old-space-size=4096"
-
-            # Run build with detailed output
-            echo "===== RUNNING BUILD PROCESS ====="
-            npm run build || {
-              echo "===== STANDARD BUILD FAILED, TRYING FALLBACK ====="
-              # If the build script fails, try direct Vite build
-              npx vite build
-            }
-
-            # Check if build succeeded
-            if [ -d "dist" ] && [ "$(ls -A dist)" ]; then
-              echo "===== BUILD SUCCEEDED ====="
-              echo "Build output:"
-              ls -la dist
-            else
-              echo "===== BUILD FAILED - No dist directory or empty dist ====="
-              exit 1
-            fi
-
-            # Backend deployment
-            echo "===== DEPLOYING BACKEND ====="
-            cd ../server
-            npm install
-            npm run build
-
-            # Restart backend service
-            echo "===== RESTARTING BACKEND SERVICE ====="
-            pm2 restart backend || pm2 start npm --name "backend" -- start
-            pm2 status
-
-            # Reload Nginx
-            echo "===== RELOADING NGINX ====="
-            sudo systemctl reload nginx
-            nginx -t
-
-            echo "===== DEPLOYMENT COMPLETED $(date) ====="
+         script: |
+  # Create a log file
+  LOG_FILE="/var/www/projectunknown/deploy-$(date +%Y%m%d-%H%M%S).log"
+  
+  # Run commands and log output
+  {
+    # Print each command before executing it
+    set -x
+    
+    echo "===== STARTING DEPLOYMENT $(date) ====="
+    
+    # Navigate to project directory
+    cd /var/www/projectunknown
+    
+    # Pull latest changes
+    echo "===== PULLING LATEST CHANGES ====="
+    git pull origin main
+    
+    # Frontend deployment with extensive debugging
+    echo "===== BUILDING FRONTEND ====="
+    cd frontend
+    
+    # Print environment info
+    echo "===== ENVIRONMENT INFO ====="
+    echo "Node version: $(node -v)"
+    echo "NPM version: $(npm -v)"
+    
+    # Install dependencies with fallback
+    echo "===== INSTALLING DEPENDENCIES ====="
+    rm -rf node_modules package-lock.json
+    npm install --verbose
+    
+    # Clear out old build files
+    echo "===== CLEANING BUILD DIRECTORY ====="
+    rm -rf dist
+    
+    # Increase Node memory limit for build process
+    export NODE_OPTIONS="--max-old-space-size=4096"
+    
+    # Run build with detailed output
+    echo "===== RUNNING BUILD PROCESS ====="
+    npm run build || {
+      echo "===== STANDARD BUILD FAILED, TRYING FALLBACK ====="
+      # If the build script fails, try direct Vite build
+      npx vite build
+    }
+    
+    # Check if build succeeded
+    if [ -d "dist" ] && [ "$(ls -A dist)" ]; then
+      echo "===== BUILD SUCCEEDED ====="
+      echo "Build output:"
+      ls -la dist
+    else
+      echo "===== BUILD FAILED - No dist directory or empty dist ====="
+      exit 1
+    fi
+    
+    # Rest of your deployment steps...
+    
+    echo "===== DEPLOYMENT COMPLETED $(date) ====="
+  } 2>&1 | tee -a "$LOG_FILE"
+  
+  # Print the location of the log file for reference
+  echo "Deployment log saved to $LOG_FILE"
