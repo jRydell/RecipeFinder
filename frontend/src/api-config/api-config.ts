@@ -1,17 +1,14 @@
 import axios, { AxiosResponse } from "axios";
 
-// MORE RELIABLE ENVIRONMENT DETECTION
-// This explicitly checks for your production server IP/domain
-const PRODUCTION_HOSTS = ["83.252.101.28"]; // Add your server IP/hostname here
-
-// Determine environment based on host
+// Environment detection based on hostname
+const PRODUCTION_HOSTS = ["83.252.101.28"];
 const isDevelopment = !PRODUCTION_HOSTS.includes(window.location.hostname);
 
-// Debug logging to verify detection
+// Debug logging for environment detection
 console.log("Current hostname:", window.location.hostname);
 console.log("Is development environment?", isDevelopment);
 
-// Set base URL appropriately - empty for production (will use relative URLs)
+// Set base URL appropriately - empty for production (uses relative URLs)
 const API_URL = isDevelopment ? "http://localhost:3000" : "";
 
 console.log("API Base URL:", API_URL);
@@ -20,13 +17,12 @@ console.log(
   isDevelopment ? `${API_URL}/health` : "/api/health"
 );
 
-// Create axios instance with the right base URL
+// Create axios instance with configuration
 const apiClient = axios.create({
   baseURL: API_URL,
   headers: {
     "Content-Type": "application/json",
   },
-  // Add a reasonable timeout
   timeout: 8000,
 });
 
@@ -40,10 +36,9 @@ type ApiResponse = {
 export const ENDPOINTS = {
   HEALTH: isDevelopment ? "/health" : "/api/health",
   TEST_DB: isDevelopment ? "/test-db" : "/api/test-db",
-  // Add other endpoints here following the same pattern
 };
 
-// Add request logging
+// Request interceptor for logging
 apiClient.interceptors.request.use(
   (config) => {
     console.log(`Making request to: ${config.baseURL || ""}${config.url}`);
@@ -55,7 +50,7 @@ apiClient.interceptors.request.use(
   }
 );
 
-// Add response/error logging
+// Response interceptor for centralized error handling
 apiClient.interceptors.response.use(
   (response) => {
     console.log(`Response from ${response.config.url}:`, response.status);
@@ -81,45 +76,25 @@ apiClient.interceptors.response.use(
   }
 );
 
-// Export API methods that use the configured client
+// Clean API methods without redundant try/catch blocks
 export const api = {
   get: async <T = ApiResponse>(endpoint: string): Promise<T> => {
-    try {
-      const response: AxiosResponse<T> = await apiClient.get(endpoint);
-      return response.data;
-    } catch (error) {
-      console.error(`GET request failed for ${endpoint}:`, error);
-      throw error;
-    }
+    const response: AxiosResponse<T> = await apiClient.get(endpoint);
+    return response.data;
   },
 
   post: async <T = ApiResponse>(endpoint: string, data: any): Promise<T> => {
-    try {
-      const response: AxiosResponse<T> = await apiClient.post(endpoint, data);
-      return response.data;
-    } catch (error) {
-      console.error(`POST request failed for ${endpoint}:`, error);
-      throw error;
-    }
+    const response: AxiosResponse<T> = await apiClient.post(endpoint, data);
+    return response.data;
   },
 
   put: async <T = ApiResponse>(endpoint: string, data: any): Promise<T> => {
-    try {
-      const response: AxiosResponse<T> = await apiClient.put(endpoint, data);
-      return response.data;
-    } catch (error) {
-      console.error(`PUT request failed for ${endpoint}:`, error);
-      throw error;
-    }
+    const response: AxiosResponse<T> = await apiClient.put(endpoint, data);
+    return response.data;
   },
 
   delete: async <T = ApiResponse>(endpoint: string): Promise<T> => {
-    try {
-      const response: AxiosResponse<T> = await apiClient.delete(endpoint);
-      return response.data;
-    } catch (error) {
-      console.error(`DELETE request failed for ${endpoint}:`, error);
-      throw error;
-    }
+    const response: AxiosResponse<T> = await apiClient.delete(endpoint);
+    return response.data;
   },
 };
