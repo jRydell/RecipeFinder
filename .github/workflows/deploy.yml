@@ -33,6 +33,3 @@ jobs:
             npm install
             npm run build
             pm2 restart backend || pm2 start npm --name "backend" -- start
-
-            # Reload Nginx to serve new frontend files
-            sudo systemctl reload nginx

@@ -62,7 +62,9 @@ const Health = () => {
         <p>
           <strong>Status: </strong>
           <span
-            className={health?.status === "up" ? "status-up" : "status-down"}
+            className={
+              health?.status === "healthy" ? "status-up" : "status-down"
+            }
           >
             {health?.status}
           </span>
@@ -70,6 +72,9 @@ const Health = () => {
 
         <p>
           <strong>Last Updated: </strong> {health?.timestamp}
+        </p>
+        <p>
+          <strong>Nu funkar deployment igen </strong>
         </p>
       </div>
     </div>
