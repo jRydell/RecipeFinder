@@ -4,18 +4,8 @@ import axios, { AxiosResponse } from "axios";
 const PRODUCTION_HOSTS = ["83.252.101.28"];
 const isDevelopment = !PRODUCTION_HOSTS.includes(window.location.hostname);
 
-// Debug logging for environment detection
-console.log("Current hostname:", window.location.hostname);
-console.log("Is development environment?", isDevelopment);
-
 // Set base URL appropriately - empty for production (uses relative URLs)
 const API_URL = isDevelopment ? "http://localhost:3000" : "";
-
-console.log("API Base URL:", API_URL);
-console.log(
-  "Health endpoint will be:",
-  isDevelopment ? `${API_URL}/health` : "/api/health"
-);
 
 // Create axios instance with configuration
 const apiClient = axios.create({
@@ -76,7 +66,6 @@ apiClient.interceptors.response.use(
   }
 );
 
-// Clean API methods without redundant try/catch blocks
 export const api = {
   get: async <T = ApiResponse>(endpoint: string): Promise<T> => {
     const response: AxiosResponse<T> = await apiClient.get(endpoint);
