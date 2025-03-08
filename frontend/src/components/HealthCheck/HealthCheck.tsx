@@ -30,7 +30,8 @@ const Health = () => {
       }
     };
 
-    checkHealth();
+    // Fix: Add void operator to handle the floating promise warning
+    void checkHealth();
   }, []);
 
   // Display loading state
@@ -49,7 +50,10 @@ const Health = () => {
       <div className="health-container">
         <h2>Server Health</h2>
         <p className="error">{error}</p>
-        <button onClick={() => window.location.reload()}>Try Again</button>
+        {/* Fix: Add type attribute to button */}
+        <button type="button" onClick={() => window.location.reload()}>
+          Try Again
+        </button>
       </div>
     );
   }

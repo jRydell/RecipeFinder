@@ -1,6 +1,14 @@
 import { useState, useEffect, useCallback } from "react";
 import { api } from "../api-config/api-config";
 
+// Define more specific types to replace 'any'
+type ApiPayload = Record<string, unknown>;
+type ApiDependency = string | number | boolean | null | undefined;
+type ApiOptions = {
+  immediate?: boolean;
+  dependencies?: ApiDependency[];
+};
+
 /**
  * Base hook that provides state management and API request handling
  * for all HTTP methods (GET, POST, PUT, DELETE)
@@ -14,11 +22,8 @@ import { api } from "../api-config/api-config";
 export const useApi = <T>(
   method: "get" | "post" | "put" | "delete",
   endpoint: string,
-  payload?: any,
-  options: {
-    immediate?: boolean; // Whether to call the API immediately when component mounts
-    dependencies?: any[]; // Additional values that should trigger a re-fetch when changed
-  } = { immediate: true, dependencies: [] }
+  payload?: ApiPayload,
+  options: ApiOptions = { immediate: true, dependencies: [] }
 ) => {
   // State management for API operations
   const [data, setData] = useState<T | null>(null); // Stores the API response data
@@ -31,7 +36,7 @@ export const useApi = <T>(
    * Only recreates if method, endpoint or payload changes
    */
   const execute = useCallback(
-    async (customPayload?: any) => {
+    async (customPayload?: ApiPayload) => {
       try {
         setLoading(true);
         setError(null);
@@ -44,10 +49,16 @@ export const useApi = <T>(
             break;
           case "post":
             // Use customPayload if provided, otherwise use the default payload
-            response = await api.post<T>(endpoint, customPayload || payload);
+            response = await api.post<T>(
+              endpoint,
+              customPayload || payload || {}
+            );
             break;
           case "put":
-            response = await api.put<T>(endpoint, customPayload || payload);
+            response = await api.put<T>(
+              endpoint,
+              customPayload || payload || {}
+            );
             break;
           case "delete":
             response = await api.delete<T>(endpoint);
@@ -74,7 +85,8 @@ export const useApi = <T>(
    */
   useEffect(() => {
     if (options.immediate) {
-      execute();
+      // Use void to fix the floating promise warning
+      void execute();
     }
     // Using custom dependencies array provided in options
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -90,10 +102,7 @@ export const useApi = <T>(
  * @param endpoint - API endpoint to call
  * @param options - Optional configuration (immediate, dependencies)
  */
-export const useGet = <T>(
-  endpoint: string,
-  options?: { immediate?: boolean; dependencies?: any[] }
-) => {
+export const useGet = <T>(endpoint: string, options?: ApiOptions) => {
   return useApi<T>("get", endpoint, undefined, options);
 };
 
@@ -108,8 +117,8 @@ export const useGet = <T>(
  */
 export const usePost = <T>(
   endpoint: string,
-  payload?: any,
-  options?: { immediate?: boolean; dependencies?: any[] }
+  payload?: ApiPayload,
+  options?: ApiOptions
 ) => {
   return useApi<T>("post", endpoint, payload, { immediate: false, ...options });
 };
@@ -125,8 +134,8 @@ export const usePost = <T>(
  */
 export const usePut = <T>(
   endpoint: string,
-  payload?: any,
-  options?: { immediate?: boolean; dependencies?: any[] }
+  payload?: ApiPayload,
+  options?: ApiOptions
 ) => {
   return useApi<T>("put", endpoint, payload, { immediate: false, ...options });
 };
@@ -139,10 +148,7 @@ export const usePut = <T>(
  * @param endpoint - API endpoint to call
  * @param options - Optional configuration (immediate, dependencies)
  */
-export const useDelete = <T>(
-  endpoint: string,
-  options?: { immediate?: boolean; dependencies?: any[] }
-) => {
+export const useDelete = <T>(endpoint: string, options?: ApiOptions) => {
   return useApi<T>("delete", endpoint, undefined, {
     immediate: false,
     ...options,
