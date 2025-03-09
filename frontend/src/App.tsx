@@ -2,10 +2,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import Home from "./pages/Home";
 import Health from "./pages/HealthCheck";
-import "./Index.css";
+import "./App.css";
 import NotFound from "./pages/NotFound";
-
-// Define a NotFound component
 
 const router = createBrowserRouter([
   {
