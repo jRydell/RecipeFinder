@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { api, ENDPOINTS } from "../../api-config/api-config";
+import { api, ENDPOINTS } from "../api-config/api-config";
 
 // Define the shape of data we expect from the health endpoint
 type HealthData = {
