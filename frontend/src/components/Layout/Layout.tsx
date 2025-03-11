@@ -16,14 +16,6 @@ const Layout = () => {
               </li>
               <li>
                 <Link
-                  to="/health"
-                  className="hover:text-blue-300 transition-colors"
-                >
-                  Health Check
-                </Link>
-              </li>
-              <li>
-                <Link
                   to="/categories"
                   className="hover:text-blue-300 transition-colors"
                 >
@@ -46,7 +38,6 @@ const Layout = () => {
                   Log in
                 </Link>
               </li>
-              {/* Add more navigation links as needed */}
             </ul>
           </nav>
         </div>
