@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import RecipeCard from "../components/RecipeCard";
 import { mealDbService } from "../services/mealdb-service";
 
@@ -10,18 +11,27 @@ type Meal = {
 };
 
 const Home = () => {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const queryParam = searchParams.get("q") || "";
+
+  const [searchQuery, setSearchQuery] = useState(queryParam);
   const [searchResults, setSearchResults] = useState<Meal[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSearch = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!searchQuery.trim()) return;
+  // Perform search when component mounts if there's a query parameter
+  useEffect(() => {
+    if (queryParam) {
+      performSearch(queryParam);
+    }
+  }, [queryParam]);
+
+  const performSearch = async (query: string) => {
+    if (!query.trim()) return;
 
     setLoading(true);
     try {
-      const result = await mealDbService.searchByName(searchQuery);
+      const result = await mealDbService.searchByName(query);
       setSearchResults(result || []);
       if (!result || result.length === 0) {
         setError("No recipes found. Try a different search term.");
@@ -34,6 +44,16 @@ const Home = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Update URL with search query
+    setSearchParams(searchQuery ? { q: searchQuery } : {});
+
+    // Perform the search
+    performSearch(searchQuery);
   };
 
   return (
