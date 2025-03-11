@@ -1,13 +1,13 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import Home from "./pages/Home";
-import Health from "./pages/HealthCheck";
 import "./App.css";
 import NotFound from "./pages/NotFound";
 
 import Login from "./pages/Login";
 import Categories from "./pages/Categories";
 import MyRecipes from "./pages/MyRecipes";
+import RecipeDetails from "./components/RecipeDetails";
 
 const router = createBrowserRouter([
   {
@@ -19,11 +19,11 @@ const router = createBrowserRouter([
         index: true,
         element: <Home />,
       },
-
       {
-        path: "health",
-        element: <Health />,
+        path: "recipe/:id",
+        element: <RecipeDetails />,
       },
+
       {
         path: "categories",
         element: <Categories />,

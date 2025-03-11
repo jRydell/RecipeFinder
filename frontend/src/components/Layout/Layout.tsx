@@ -46,7 +46,6 @@ const Layout = () => {
                   Log in
                 </Link>
               </li>
-              {/* Add more navigation links as needed */}
             </ul>
           </nav>
         </div>

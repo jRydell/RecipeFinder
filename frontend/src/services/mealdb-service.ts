@@ -1,4 +1,3 @@
-// src/services/mealdb-service.ts
 import axios from "axios";
 
 const API_BASE = "https://www.themealdb.com/api/json/v1/1";
