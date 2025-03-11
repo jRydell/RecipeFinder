@@ -22,7 +22,6 @@ type ApiResponse = {
   success?: boolean;
 };
 
-// Define type for request data
 type ApiRequestData = Record<string, unknown>;
 
 // Configure endpoints with environment-aware paths
@@ -54,21 +53,18 @@ apiClient.interceptors.response.use(
     const axiosError = error as AxiosError;
 
     if (axiosError.response) {
-      // Server responded with a non-2xx status
       console.error(
         `API error ${axiosError.response.status} from ${
           axiosError.config?.url || "unknown endpoint"
         }`
       );
     } else if (axiosError.request) {
-      // Request was made but no response received
       console.error(
         `No response received from ${
           axiosError.config?.url || "unknown endpoint"
         }`
       );
     } else {
-      // Something else happened
       console.error(
         `Error with request to ${
           axiosError.config?.url || "unknown endpoint"
