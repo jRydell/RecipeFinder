@@ -25,11 +25,11 @@ jobs:
 
             # Frontend deployment
             cd frontend
-            npm install
+            npm ci
             npm run build
 
             # Backend deployment
             cd ../server
-            npm install
+            npm ci
             npm run build
             pm2 restart backend || pm2 start npm --name "backend" -- start
