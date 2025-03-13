@@ -13,15 +13,10 @@ const RecipeDetails = () => {
       if (!id) return;
 
       setLoading(true);
-      try {
-        const data = await mealDbService.getById(id);
-        setRecipe(data);
-      } catch (err) {
-        console.error("Error fetching recipe details:", err);
-        setError("Failed to load recipe details. Please try again.");
-      } finally {
-        setLoading(false);
-      }
+      const { data, error } = await mealDbService.getById(id);
+      setRecipe(data);
+      setError(error);
+      setLoading(false);
     };
 
     fetchRecipeDetails();

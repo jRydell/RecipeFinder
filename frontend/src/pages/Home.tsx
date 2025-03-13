@@ -30,20 +30,18 @@ const Home = () => {
     if (!query.trim()) return;
 
     setLoading(true);
-    try {
-      const result = await mealDbService.searchByName(query);
-      setSearchResults(result || []);
-      if (!result || result.length === 0) {
-        setError("No recipes found. Try a different search term.");
-      } else {
-        setError(null);
-      }
-    } catch (err) {
-      console.error("Search failed", err);
-      setError("Error searching for recipes.");
-    } finally {
-      setLoading(false);
+    const { data, error } = await mealDbService.searchByName(query);
+
+    if (error) {
+      setError(error);
+    } else if (!data || data.length === 0) {
+      setError("No recipes found. Try a different search term.");
+    } else {
+      setSearchResults(data);
+      setError(null);
     }
+
+    setLoading(false);
   };
 
   const handleSearch = async (e: React.FormEvent) => {

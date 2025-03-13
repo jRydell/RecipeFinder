@@ -61,29 +61,92 @@ export type Category = {
   strCategoryDescription: string;
 };
 
+export type ServiceResponse<T> = {
+  data: T | null;
+  error: string | null;
+};
+
 export const mealDbService = {
-  searchByName: async (name: string) => {
-    const response = await axios.get(`${API_BASE}/search.php?s=${name}`);
-    return response.data.meals || [];
+  searchByName: async (name: string): Promise<ServiceResponse<Meal[]>> => {
+    try {
+      const response = await axios.get(`${API_BASE}/search.php?s=${name}`);
+      return {
+        data: response.data.meals || [],
+        error: null,
+      };
+    } catch (error) {
+      console.error(`Error searching for "${name}":`, error);
+      return {
+        data: [],
+        error: "Failed to search recipes. Please try again.",
+      };
+    }
   },
 
-  getById: async (id: string) => {
-    const response = await axios.get(`${API_BASE}/lookup.php?i=${id}`);
-    return response.data.meals?.[0] || null;
+  getById: async (id: string): Promise<ServiceResponse<Meal>> => {
+    try {
+      const response = await axios.get(`${API_BASE}/lookup.php?i=${id}`);
+      const meal = response.data.meals?.[0] || null;
+      return {
+        data: meal,
+        error: meal ? null : "Recipe not found",
+      };
+    } catch (error) {
+      console.error(`Error fetching recipe ${id}:`, error);
+      return {
+        data: null,
+        error: "Failed to load recipe details. Please try again.",
+      };
+    }
   },
 
-  getCategories: async () => {
-    const response = await axios.get(`${API_BASE}/categories.php`);
-    return response.data.categories || [];
+  getCategories: async (): Promise<ServiceResponse<Category[]>> => {
+    try {
+      const response = await axios.get(`${API_BASE}/categories.php`);
+      return {
+        data: response.data.categories || [],
+        error: null,
+      };
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      return {
+        data: [],
+        error: "Failed to load categories. Please try again.",
+      };
+    }
   },
 
-  filterByCategory: async (category: string) => {
-    const response = await axios.get(`${API_BASE}/filter.php?c=${category}`);
-    return response.data.meals || [];
+  filterByCategory: async (
+    category: string
+  ): Promise<ServiceResponse<Meal[]>> => {
+    try {
+      const response = await axios.get(`${API_BASE}/filter.php?c=${category}`);
+      return {
+        data: response.data.meals || [],
+        error: null,
+      };
+    } catch (error) {
+      console.error(`Error filtering by category "${category}":`, error);
+      return {
+        data: [],
+        error: "Failed to load recipes for this category. Please try again.",
+      };
+    }
   },
 
-  getRandomMeal: async () => {
-    const response = await axios.get(`${API_BASE}/random.php`);
-    return response.data.meals?.[0] || null;
+  getRandomMeal: async (): Promise<ServiceResponse<Meal>> => {
+    try {
+      const response = await axios.get(`${API_BASE}/random.php`);
+      return {
+        data: response.data.meals?.[0] || null,
+        error: null,
+      };
+    } catch (error) {
+      console.error("Error fetching random meal:", error);
+      return {
+        data: null,
+        error: "Failed to load random recipe. Please try again.",
+      };
+    }
   },
 };
