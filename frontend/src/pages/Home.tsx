@@ -65,7 +65,7 @@ const Home = () => {
     <div className="max-w-4xl mx-auto p-4">
       <Card className="mb-8">
         <CardHeader>
-          <CardTitle className="text-3xl">Find something tasty!!</CardTitle>
+          <CardTitle className="text-3xl">Find something you like</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSearch} className="flex gap-2">
