@@ -25,7 +25,11 @@ jobs:
 
             # Frontend deployment
             cd frontend
-            echo "Installing frontend dependencies with npm ci..."
-            npm ci || npm install --legacy-peer-deps
-            echo "Building frontend..."
+            npm ci
             npm run build
+
+            # Backend deployment
+            cd ../server
+            npm ci
+            npm run build
+            pm2 restart backend || pm2 start npm --name "backend" -- start
