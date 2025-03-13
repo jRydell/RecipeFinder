@@ -1,4 +1,5 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
+import { ThemeToggle } from "../ThemeToggle"; // Added import
 
 // Import Shadcn components
 import { Button } from "@/components/ui/button";
@@ -66,6 +67,9 @@ const Layout = () => {
 
           {/* Right side - Search and Account */}
           <div className="ml-auto flex items-center space-x-4">
+            {/* Theme Toggle - Added here */}
+            <ThemeToggle />
+
             <Link to="/">
               <Button variant="ghost" size="icon">
                 <Search className="h-5 w-5" />
@@ -102,6 +106,11 @@ const Layout = () => {
                   <Link to="/login" className="text-lg font-medium">
                     Sign in
                   </Link>
+                  {/* Theme toggle in mobile menu - Added here */}
+                  <div className="flex items-center justify-between pt-4 mt-4 border-t">
+                    <span className="text-muted-foreground">Theme</span>
+                    <ThemeToggle />
+                  </div>
                 </nav>
               </SheetContent>
             </Sheet>
