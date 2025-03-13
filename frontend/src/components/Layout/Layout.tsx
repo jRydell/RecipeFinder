@@ -1,59 +1,149 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
+import { ThemeToggle } from "../ThemeToggle"; // Added import
+
+// Import Shadcn components
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+
+// Icons
+import { Menu, Search } from "lucide-react";
 
 const Layout = () => {
+  const location = useLocation();
+  const isActive = (path: string) => location.pathname === path;
+
   return (
-    <div className="min-h-screen flex flex-col text-center">
-      {/* Header/Navigation */}
-      <header className="bg-slate-800 text-white shadow-md w-full">
-        <div className="max-w-3xl mx-auto px-6 py-4 flex flex-col items-center">
-          <div className="text-xl font-bold mb-4">Project Unknown</div>
-          <nav>
-            <ul className="flex space-x-6">
-              <li>
-                <Link to="/" className="hover:text-blue-300 transition-colors">
-                  Home
+    <div className="min-h-screen flex flex-col">
+      {/* Modern Header with Navigation */}
+      <header className="border-b bg-background sticky top-0 z-30">
+        <div className="container flex h-16 items-center px-4">
+          {/* Logo */}
+          <Link to="/" className="font-bold text-xl mr-6">
+            RecipeFinder
+          </Link>
+
+          {/* Desktop Navigation */}
+          <NavigationMenu className="hidden md:flex">
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <Link to="/">
+                  <NavigationMenuLink
+                    className={navigationMenuTriggerStyle()}
+                    active={isActive("/")}
+                  >
+                    Home
+                  </NavigationMenuLink>
                 </Link>
-              </li>
-              <li>
-                <Link
-                  to="/categories"
-                  className="hover:text-blue-300 transition-colors"
-                >
-                  Categories
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Link to="/categories">
+                  <NavigationMenuLink
+                    className={navigationMenuTriggerStyle()}
+                    active={isActive("/categories")}
+                  >
+                    Categories
+                  </NavigationMenuLink>
                 </Link>
-              </li>
-              <li>
-                <Link
-                  to="/my-recipes"
-                  className="hover:text-blue-300 transition-colors"
-                >
-                  My recipes
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Link to="/my-recipes">
+                  <NavigationMenuLink
+                    className={navigationMenuTriggerStyle()}
+                    active={isActive("/my-recipes")}
+                  >
+                    My Recipes
+                  </NavigationMenuLink>
                 </Link>
-              </li>
-              <li>
-                <Link
-                  to="/login"
-                  className="hover:text-blue-300 transition-colors"
-                >
-                  Log in
-                </Link>
-              </li>
-            </ul>
-          </nav>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
+
+          {/* Right side - Search and Account */}
+          <div className="ml-auto flex items-center space-x-4">
+            {/* Theme Toggle - Added here */}
+            <ThemeToggle />
+
+            <Link to="/">
+              <Button variant="ghost" size="icon">
+                <Search className="h-5 w-5" />
+                <span className="sr-only">Search</span>
+              </Button>
+            </Link>
+
+            {/* Account Button */}
+            <Link to="/login">
+              <Button variant="outline" size="sm">
+                Sign in
+              </Button>
+            </Link>
+
+            {/* Mobile Menu */}
+            <Sheet>
+              <SheetTrigger asChild className="md:hidden">
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-5 w-5" />
+                  <span className="sr-only">Toggle menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[240px]">
+                <nav className="flex flex-col gap-4 mt-8">
+                  <Link to="/" className="text-lg font-medium">
+                    Home
+                  </Link>
+                  <Link to="/categories" className="text-lg font-medium">
+                    Categories
+                  </Link>
+                  <Link to="/my-recipes" className="text-lg font-medium">
+                    My Recipes
+                  </Link>
+                  <Link to="/login" className="text-lg font-medium">
+                    Sign in
+                  </Link>
+                  {/* Theme toggle in mobile menu - Added here */}
+                  <div className="flex items-center justify-between pt-4 mt-4 border-t">
+                    <span className="text-muted-foreground">Theme</span>
+                    <ThemeToggle />
+                  </div>
+                </nav>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </header>
 
-      {/* Main Content with centered text */}
-      <main className="flex-grow flex justify-center w-full">
-        <div className="max-w-3xl w-full mx-auto px-6 py-8">
+      {/* Main Content */}
+      <main className="flex-grow">
+        <div className="container max-w-4xl mx-auto px-4 py-6">
           <Outlet />
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-slate-800 text-white py-4 w-full">
-        <div className="max-w-3xl mx-auto px-6">
-          © {new Date().getFullYear()} Project Unknown
+      {/* Enhanced Footer */}
+      <footer className="border-t py-6 bg-background">
+        <div className="container max-w-4xl mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="text-sm text-muted-foreground">
+              © {new Date().getFullYear()} RecipeFinder. All rights reserved.
+            </div>
+            <div className="flex gap-4">
+              <Button variant="ghost" size="sm">
+                Privacy
+              </Button>
+              <Button variant="ghost" size="sm">
+                Terms
+              </Button>
+              <Button variant="ghost" size="sm">
+                Contact
+              </Button>
+            </div>
+          </div>
         </div>
       </footer>
     </div>

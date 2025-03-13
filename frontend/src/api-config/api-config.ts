@@ -12,9 +12,9 @@ const apiClient = axios.create({
   timeout: 8000,
 });
 
-type ApiResponse = {
-  message?: string;
-  success?: boolean;
+export type ApiResponse<T = unknown> = {
+  data: T | null;
+  error: string | null;
 };
 
 type ApiRequestData = Record<string, unknown>;
@@ -25,65 +25,81 @@ export const ENDPOINTS = {
 };
 
 export const api = {
-  get: async <T = ApiResponse>(endpoint: string): Promise<T> => {
+  get: async <T>(endpoint: string): Promise<ApiResponse<T>> => {
     try {
       const response = await apiClient.get(endpoint);
-      return response.data;
+      return {
+        data: response.data,
+        error: null,
+      };
     } catch (error) {
       console.error(`Error fetching ${endpoint}:`, error);
-      throw new Error(
-        `API request failed: ${
+      return {
+        data: null,
+        error: `Failed to fetch data: ${
           error instanceof Error ? error.message : "Unknown error"
-        }`
-      );
+        }`,
+      };
     }
   },
 
-  post: async <T = ApiResponse>(
+  post: async <T>(
     endpoint: string,
     data: ApiRequestData
-  ): Promise<T> => {
+  ): Promise<ApiResponse<T>> => {
     try {
       const response = await apiClient.post(endpoint, data);
-      return response.data;
+      return {
+        data: response.data,
+        error: null,
+      };
     } catch (error) {
       console.error(`Error posting to ${endpoint}:`, error);
-      throw new Error(
-        `API request failed: ${
+      return {
+        data: null,
+        error: `Failed to save data: ${
           error instanceof Error ? error.message : "Unknown error"
-        }`
-      );
+        }`,
+      };
     }
   },
 
-  put: async <T = ApiResponse>(
+  put: async <T>(
     endpoint: string,
     data: ApiRequestData
-  ): Promise<T> => {
+  ): Promise<ApiResponse<T>> => {
     try {
       const response = await apiClient.put(endpoint, data);
-      return response.data;
+      return {
+        data: response.data,
+        error: null,
+      };
     } catch (error) {
       console.error(`Error updating ${endpoint}:`, error);
-      throw new Error(
-        `API request failed: ${
+      return {
+        data: null,
+        error: `Failed to update data: ${
           error instanceof Error ? error.message : "Unknown error"
-        }`
-      );
+        }`,
+      };
     }
   },
 
-  delete: async <T = ApiResponse>(endpoint: string): Promise<T> => {
+  delete: async <T>(endpoint: string): Promise<ApiResponse<T>> => {
     try {
       const response = await apiClient.delete(endpoint);
-      return response.data;
+      return {
+        data: response.data,
+        error: null,
+      };
     } catch (error) {
       console.error(`Error deleting at ${endpoint}:`, error);
-      throw new Error(
-        `API request failed: ${
+      return {
+        data: null,
+        error: `Failed to delete data: ${
           error instanceof Error ? error.message : "Unknown error"
-        }`
-      );
+        }`,
+      };
     }
   },
 };
