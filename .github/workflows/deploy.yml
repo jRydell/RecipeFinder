@@ -4,32 +4,47 @@ on:
       - main
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: 🚀 Checkout repo
         uses: actions/checkout@v4
 
-      - name: 🔑 Deploy via SSH
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Build Frontend
+        working-directory: ./frontend
+        run: |
+          npm ci
+          npx tsc --noEmit
+          npm run build
+
+      - name: Build Backend
+        working-directory: ./server
+        run: |
+          npm ci
+          npx tsc --noEmit
+          npm run build
+
+      - name: Deploy to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "frontend/dist/,server/dist/"
+          target: "/var/www/projectunknown"
+
+      - name: Restart services
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            # Navigate to project directory
             cd /var/www/projectunknown
-
-            # Pull latest changes
-            git pull origin main
-
-            # Frontend deployment
-            cd frontend
-            npm ci
-            npm run build
-
-            # Backend deployment
-            cd ../server
-            npm ci
-            npm run build
             pm2 restart backend || pm2 start npm --name "backend" -- start
