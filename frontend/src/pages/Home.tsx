@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import RecipeCard from "../components/RecipeCard";
 import { mealDbService } from "../services/mealdb-service";
-
-// Import Shadcn components
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,8 +13,8 @@ type Meal = {
   strMeal: string;
   strMealThumb: string;
   strCategory: string;
-  strArea?: string; // Added to match RecipeCard props
-  strTags?: string; // Added to match RecipeCard props
+  strArea?: string;
+  strTags?: string;
 };
 
 const Home = () => {
@@ -25,10 +23,10 @@ const Home = () => {
 
   const [searchQuery, setSearchQuery] = useState(queryParam);
   const [searchResults, setSearchResults] = useState<Meal[]>([]);
+  const [displayedCount, setDisplayedCount] = useState(6); // Added state
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Perform search when component mounts if there's a query parameter
   useEffect(() => {
     if (queryParam) {
       performSearch(queryParam);
@@ -39,6 +37,8 @@ const Home = () => {
     if (!query.trim()) return;
 
     setLoading(true);
+    setDisplayedCount(6); // Reset display count for new search
+
     const { data, error } = await mealDbService.searchByName(query);
 
     if (error) {
@@ -68,6 +68,7 @@ const Home = () => {
           <CardTitle className="text-3xl">Find something you like</CardTitle>
         </CardHeader>
         <CardContent>
+          {/* Form content stays the same */}
           <form onSubmit={handleSearch} className="flex gap-2">
             <Input
               type="text"
@@ -89,7 +90,7 @@ const Home = () => {
         </CardContent>
       </Card>
 
-      {/* Loading state with skeletons */}
+      {/* Loading state stays the same */}
       {loading && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {Array.from({ length: 6 }).map((_, i) => (
@@ -109,29 +110,46 @@ const Home = () => {
         </div>
       )}
 
-      {/* Search results */}
+      {/* Updated search results with Load More */}
       {!loading && searchResults.length > 0 && (
         <div className="mb-8">
           <h2 className="text-2xl font-bold mb-4">
             Search Results ({searchResults.length})
           </h2>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {searchResults.map((meal) => (
+            {searchResults.slice(0, displayedCount).map((meal) => (
               <RecipeCard
                 key={meal.idMeal}
                 id={meal.idMeal}
                 title={meal.strMeal}
                 image={meal.strMealThumb}
                 category={meal.strCategory}
-                area={meal.strArea || ""} // Added with fallback
-                tags={meal.strTags} // Added
+                area={meal.strArea || ""}
+                tags={meal.strTags}
               />
             ))}
           </div>
+
+          {/* Load More button */}
+          {displayedCount < searchResults.length && (
+            <div className="mt-8 text-center">
+              <Button
+                variant="outline"
+                onClick={() =>
+                  setDisplayedCount((prev) =>
+                    Math.min(prev + 6, searchResults.length)
+                  )
+                }
+              >
+                Load More ({searchResults.length - displayedCount} more recipes)
+              </Button>
+            </div>
+          )}
         </div>
       )}
 
-      {/* Empty state when no search has been performed */}
+      {/* Empty state stays the same */}
       {!loading && searchResults.length === 0 && !error && !queryParam && (
         <div className="text-center py-16">
           <p className="text-muted-foreground text-lg">
