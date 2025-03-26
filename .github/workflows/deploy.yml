@@ -33,3 +33,4 @@ jobs:
             npm ci || { echo "Backend npm install failed"; exit 1; }
             npm run build || { echo "Backend build failed"; exit 1; }
             pm2 restart backend || pm2 start npm --name "backend" -- start
+            pm2 save
