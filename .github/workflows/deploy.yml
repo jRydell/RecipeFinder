@@ -23,13 +23,13 @@ jobs:
             # Pull latest changes
             git pull origin main
 
-            # Frontend deployment
+             # Frontend deployment
             cd frontend
-            npm ci
-            npm run build
+            npm ci || { echo "Frontend npm install failed"; exit 1; }
+            npm run build || { echo "Frontend build failed"; exit 1; }
 
-            # Backend deployment
+             # Backend deployment
             cd ../server
-            npm ci
-            npm run build
+            npm ci || { echo "Backend npm install failed"; exit 1; }
+            npm run build || { echo "Backend build failed"; exit 1; }
             pm2 restart backend || pm2 start npm --name "backend" -- start

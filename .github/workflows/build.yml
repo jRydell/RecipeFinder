@@ -21,9 +21,9 @@ jobs:
 
       - name: Install frontend dependencies
         working-directory: ./frontend
-        run: npm install
+        run: npm ci
 
-      - name: TypeScript check # Add this step
+      - name: TypeScript check
         working-directory: ./frontend
         run: npx tsc --noEmit
 
@@ -46,7 +46,11 @@ jobs:
 
       - name: Install backend dependencies
         working-directory: ./server
-        run: npm install
+        run: npm ci
+
+      - name: TypeScript check
+        working-directory: ./server
+        run: npx tsc --noEmit
 
       - name: Build backend
         working-directory: ./server
