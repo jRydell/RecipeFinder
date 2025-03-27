@@ -22,6 +22,8 @@ type ApiRequestData = Record<string, unknown>;
 export const ENDPOINTS = {
   HEALTH: isDevelopment ? "/health" : "/api/health",
   TEST_DB: isDevelopment ? "/test-db" : "/api/test-db",
+  REGISTER: isDevelopment ? "/register" : "/api/register",
+  LOGIN: isDevelopment ? "/register" : "/api/register",
 };
 
 export const api = {
