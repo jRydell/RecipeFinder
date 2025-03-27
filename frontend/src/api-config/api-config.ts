@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Environment detection
-const PRODUCTION_HOSTS = ["83.252.101.28"];
+const PRODUCTION_HOSTS = ["83.252.108.161"];
 const isDevelopment = !PRODUCTION_HOSTS.includes(window.location.hostname);
 
 const API_URL = isDevelopment ? "http://localhost:3000" : "";
