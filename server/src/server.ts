@@ -4,6 +4,7 @@ import cors from "cors";
 import { createServer } from "http";
 import connection from "./db";
 import authRoutes from "./routes/auth.routes";
+import savedRecipeRoutes from "./routes/savedRecipe.routes";
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(cors());
 
 // Register API routes
 app.use("/api/auth", authRoutes);
+app.use("/api/saved-recipes", savedRecipeRoutes);
 
 app.get("/test-db", async (req: Request, res: Response) => {
   try {
