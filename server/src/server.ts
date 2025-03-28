@@ -6,6 +6,7 @@ import connection from "./db";
 import authRoutes from "./routes/auth.routes";
 import savedRecipeRoutes from "./routes/savedRecipe.routes";
 import ratingRoutes from "./routes/rating.routes";
+import commentRoutes from "./routes/comment.routes";
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use(cors());
 app.use("/api/auth", authRoutes);
 app.use("/api/saved-recipes", savedRecipeRoutes);
 app.use("/api/ratings", ratingRoutes);
+app.use("/api/comments", commentRoutes);
 
 app.get("/test-db", async (req: Request, res: Response) => {
   try {

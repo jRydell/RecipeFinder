@@ -12,6 +12,6 @@ export type CommentDTO = {
   comment: string;
 };
 
-export type CommentWithUser = Comment & {
+export type CommentResponse = Comment & {
   username: string;
 };
