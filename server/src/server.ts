@@ -5,6 +5,7 @@ import { createServer } from "http";
 import connection from "./db";
 import authRoutes from "./routes/auth.routes";
 import savedRecipeRoutes from "./routes/savedRecipe.routes";
+import ratingRoutes from "./routes/rating.routes";
 
 dotenv.config();
 
@@ -16,9 +17,9 @@ const serverStartTime = new Date();
 app.use(express.json());
 app.use(cors());
 
-// Register API routes
 app.use("/api/auth", authRoutes);
 app.use("/api/saved-recipes", savedRecipeRoutes);
+app.use("/api/ratings", ratingRoutes);
 
 app.get("/test-db", async (req: Request, res: Response) => {
   try {
@@ -28,14 +29,6 @@ app.get("/test-db", async (req: Request, res: Response) => {
     console.error(error);
     res.status(500).send("Database connection error");
   }
-});
-
-app.get("/health", (req: Request, res: Response) => {
-  res.json({
-    status: "healthy",
-    timestamp: new Date().toISOString(),
-    database: "connected",
-  });
 });
 
 app.get("/", (req: Request, res: Response) => {
@@ -57,7 +50,7 @@ Uptime: ${formattedUptime}`;
 // Error handling middleware
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
-  res.status(500).send("Something broke!");
+  res.status(500).send("Something went wrong!");
 });
 
 server.listen(port, "127.0.0.1", async () => {

@@ -11,3 +11,9 @@ export type RatingDTO = {
   meal_id: string;
   rating: number;
 };
+
+export type RecipeRatingResponse = {
+  average: number;
+  count: number;
+  userRating?: number | null;
+};
