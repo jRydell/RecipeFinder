@@ -8,6 +8,8 @@ import Login from "./pages/Login";
 import Categories from "./pages/Categories";
 import MyRecipes from "./pages/MyRecipes";
 import RecipeDetails from "./components/RecipeDetails";
+import Register from "./pages/Register";
+import ProtectedRoute from "./components/ProtectedRoutes";
 
 const router = createBrowserRouter([
   {
@@ -33,8 +35,16 @@ const router = createBrowserRouter([
         element: <Login />,
       },
       {
+        path: "register",
+        element: <Register />,
+      },
+      {
         path: "my-recipes",
-        element: <MyRecipes />,
+        element: (
+          <ProtectedRoute>
+            <MyRecipes />
+          </ProtectedRoute>
+        ),
       },
     ],
   },

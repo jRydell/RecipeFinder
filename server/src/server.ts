@@ -23,7 +23,7 @@ app.use("/api/saved-recipes", savedRecipeRoutes);
 app.use("/api/ratings", ratingRoutes);
 app.use("/api/comments", commentRoutes);
 
-app.get("/test-db", async (req: Request, res: Response) => {
+app.get("/api/test-db", async (req: Request, res: Response) => {
   try {
     const [rows] = await connection.query("SELECT 1 + 1 AS solution");
     res.json(rows);
@@ -33,7 +33,7 @@ app.get("/test-db", async (req: Request, res: Response) => {
   }
 });
 
-app.get("/", (req: Request, res: Response) => {
+app.get("/api/", (req: Request, res: Response) => {
   const uptime = new Date().getTime() - serverStartTime.getTime();
   const seconds = Math.floor(uptime / 1000) % 60;
   const minutes = Math.floor(uptime / (1000 * 60)) % 60;

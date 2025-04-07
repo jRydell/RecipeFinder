@@ -14,8 +14,10 @@ import {
 
 // Icons
 import { Menu, Search } from "lucide-react";
+import { useAuthStore } from "@/stores/auth.store";
 
 const Layout = () => {
+  const { isAuthenticated, logout } = useAuthStore();
   const location = useLocation();
   const isActive = (path: string) => location.pathname === path;
 
@@ -79,8 +81,12 @@ const Layout = () => {
 
             {/* Account Button */}
             <Link to="/login">
-              <Button variant="outline" size="sm">
-                Sign in
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => isAuthenticated && logout()}
+              >
+                {isAuthenticated ? "Sign out" : "Sign in"}
               </Button>
             </Link>
 
