@@ -3,16 +3,25 @@ import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import { createServer } from "http";
 import connection from "./db";
+import authRoutes from "./routes/auth.routes";
+import savedRecipeRoutes from "./routes/savedRecipe.routes";
+import ratingRoutes from "./routes/rating.routes";
+import commentRoutes from "./routes/comment.routes";
 
 dotenv.config();
 
 const app = express();
-const port = parseInt(process.env.PORT || "5000"); // Add default port if not specified
+const port = parseInt(process.env.PORT || "3000");
 const server = createServer(app);
 const serverStartTime = new Date();
 
 app.use(express.json());
 app.use(cors());
+
+app.use("/api/auth", authRoutes);
+app.use("/api/saved-recipes", savedRecipeRoutes);
+app.use("/api/ratings", ratingRoutes);
+app.use("/api/comments", commentRoutes);
 
 app.get("/test-db", async (req: Request, res: Response) => {
   try {
@@ -24,31 +33,18 @@ app.get("/test-db", async (req: Request, res: Response) => {
   }
 });
 
-app.get("/health", (req: Request, res: Response) => {
-  res.json({
-    status: "healthy",
-    timestamp: new Date().toISOString(),
-    database: "connected", // Assuming DB is connected if server is running
-  });
-});
-
-// Keep original root endpoint as is for direct server access
 app.get("/", (req: Request, res: Response) => {
   const uptime = new Date().getTime() - serverStartTime.getTime();
-
-  // Calculate time components
   const seconds = Math.floor(uptime / 1000) % 60;
   const minutes = Math.floor(uptime / (1000 * 60)) % 60;
   const hours = Math.floor(uptime / (1000 * 60 * 60)) % 24;
   const days = Math.floor(uptime / (1000 * 60 * 60 * 24));
 
-  // Format the output as plain text
   const formattedUptime = `${days}d ${hours}h ${minutes}m ${seconds}s`;
   const statusText = `Server Status: Running
 Server started at: ${serverStartTime.toISOString()}
 Uptime: ${formattedUptime}`;
 
-  // Set the content type to plain text and send the response
   res.setHeader("Content-Type", "text/plain");
   res.send(statusText);
 });
@@ -56,7 +52,7 @@ Uptime: ${formattedUptime}`;
 // Error handling middleware
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
-  res.status(500).send("Something broke!");
+  res.status(500).send("Something went wrong!");
 });
 
 server.listen(port, "127.0.0.1", async () => {
