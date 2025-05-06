@@ -7,13 +7,11 @@ const isDevelopment = !PRODUCTION_HOSTS.includes(window.location.hostname);
 
 const API_URL = isDevelopment ? "http://localhost:3000" : "";
 
-// Function to get auth token from store
 const getAuthHeader = () => {
   const token = useAuthStore.getState().token;
   return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
-// Base axios instance
 const apiClient = axios.create({
   baseURL: API_URL,
   headers: { "Content-Type": "application/json" },
@@ -28,8 +26,6 @@ export type ApiResponse<T = unknown> = {
 type ApiRequestData = Record<string, unknown>;
 
 export const ENDPOINTS = {
-  HEALTH: "/api/health",
-  TEST_DB: "/api/test-db",
   REGISTER: "/api/auth/register",
   LOGIN: "/api/auth/login",
   SAVED_RECIPES: "/api/saved-recipes",

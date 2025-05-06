@@ -52,9 +52,10 @@ export const useAuthStore = create<AuthState>()(
             });
             return { success: true, error: null };
           }
-          return { success: false, error: "Login failed" };
+          return { success: false, error: response.error || "Login failed" };
         } catch (error) {
-          return { success: false, error: "Login failed" };
+          console.error("Unexpected login error:", error);
+          return { success: false, error: "An unexpected error occurred" };
         } finally {
           set({ isLoading: false });
         }
