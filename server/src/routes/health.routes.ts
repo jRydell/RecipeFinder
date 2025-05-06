@@ -24,17 +24,11 @@ Uptime: ${formattedUptime}`;
 
   // Database health endpoint
   router.get("/health/db", async (req: Request, res: Response) => {
-    try {
-      const result = await testConnection();
-      if (result) {
-        const [rows] = await connection.query("SELECT 1 + 1 AS solution");
-        res.json(rows);
-      } else {
-        res.status(500).send("Database connection error");
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).send("Database connection error");
+    const result = await testConnection();
+    if (result) {
+      res.json({ status: "connected", time: new Date().toISOString() });
+    } else {
+      res.status(500).json({ status: "disconnected" });
     }
   });
 

@@ -39,6 +39,19 @@ app.use(errorHandler);
 async function startServer() {
   server.listen(port, "127.0.0.1", async () => {
     console.log(`Server is running on port ${port}`);
+
+    const dbConnected = await testConnection();
+    if (dbConnected) {
+      console.log("Connected to MySQL database");
+    } else {
+      console.error("Unable to connect to MySQL database");
+    }
+  });
+}
+
+/* async function startServer() {
+  server.listen(port, "127.0.0.1", async () => {
+    console.log(`Server is running on port ${port}`);
     try {
       await connection.query("SELECT 1");
       console.log("Connected to MySQL database");
@@ -46,6 +59,6 @@ async function startServer() {
       console.error("Unable to connect to MySQL database:", error);
     }
   });
-}
+} */
 
 startServer();

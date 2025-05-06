@@ -9,8 +9,9 @@ export function setupLogging(app: Application, serverStartTime: Date) {
     const start = Date.now();
     res.on("finish", () => {
       const duration = Date.now() - start;
+      const responseTimestamp = new Date().toISOString();
       console.log(
-        `[${timestamp}] ${req.method} ${req.url} - ${res.statusCode} - ${duration}ms`
+        `[${responseTimestamp}] ${req.method} ${req.url} - ${res.statusCode} - ${duration}ms`
       );
     });
     next();
