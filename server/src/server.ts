@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import { createServer } from "http";
-import connection, { testConnection } from "./db";
+import connection from "./db";
 import authRoutes from "./routes/auth.routes";
 import savedRecipeRoutes from "./routes/savedRecipe.routes";
 import ratingRoutes from "./routes/rating.routes";
@@ -72,11 +72,10 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 
 server.listen(port, "127.0.0.1", async () => {
   console.log(`Server is running on port ${port}`);
-
-  const isConnected = await testConnection();
-  if (isConnected) {
-    console.log("Successfully connected to MySQL database");
-  } else {
-    console.error("Failed to connect to database - check your configuration");
+  try {
+    await connection.query("SELECT 1");
+    console.log("Connected to MySQL database");
+  } catch (error) {
+    console.error("Unable to connect to MySQL database:", error);
   }
 });
