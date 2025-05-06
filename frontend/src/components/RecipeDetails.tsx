@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { mealDbService, Meal } from "../services/mealdb-service";
-
-// Shadcn UI components
+import { Button } from "@/components/ui/button";
+import { useAuthStore } from "@/stores/auth.store";
+import { recipeService } from "@/services/recipe-service";
+import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -16,6 +18,51 @@ const RecipeDetails = () => {
   const [recipe, setRecipe] = useState<Meal | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  const { isAuthenticated } = useAuthStore();
+  const navigate = useNavigate();
+  const [isSaved, setIsSaved] = useState(false);
+  const [saveLoading, setSaveLoading] = useState(false);
+
+  useEffect(() => {
+    const checkIfSaved = async () => {
+      if (!recipe || !isAuthenticated) return;
+
+      const { data } = await recipeService.getSavedRecipes();
+      if (data) {
+        const saved = data.some((item) => item.meal_id === recipe.idMeal);
+        setIsSaved(saved);
+      }
+    };
+
+    checkIfSaved();
+  }, [recipe, isAuthenticated]);
+
+  // Add this function to handle save/unsave
+  const handleSaveRecipe = async () => {
+    if (!recipe) return;
+
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
+
+    setSaveLoading(true);
+
+    if (isSaved) {
+      await recipeService.removeSavedRecipe(recipe.idMeal);
+      setIsSaved(false);
+    } else {
+      await recipeService.saveRecipe(
+        recipe.idMeal,
+        recipe.strMeal,
+        recipe.strMealThumb
+      );
+      setIsSaved(true);
+    }
+
+    setSaveLoading(false);
+  };
 
   // Fetch recipe effect remains the same
   useEffect(() => {
@@ -104,6 +151,18 @@ const RecipeDetails = () => {
       {/* Recipe Title and Tags */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2 text-left">{recipe.strMeal}</h1>
+        <Button
+          variant={isSaved ? "outline" : "default"}
+          onClick={handleSaveRecipe}
+          disabled={saveLoading}
+          className="whitespace-nowrap"
+        >
+          {saveLoading
+            ? "Processing..."
+            : isSaved
+            ? "Remove from My Recipes"
+            : "Save Recipe"}
+        </Button>
         <div className="flex flex-wrap gap-2 mb-4">
           {recipe.strCategory && (
             <Badge variant="secondary" className="text-sm">

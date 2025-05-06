@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useAuthStore } from "../stores/auth.store";
 
 // Environment detection
 const PRODUCTION_HOSTS = ["83.252.108.161"];
@@ -6,6 +7,13 @@ const isDevelopment = !PRODUCTION_HOSTS.includes(window.location.hostname);
 
 const API_URL = isDevelopment ? "http://localhost:3000" : "";
 
+// Function to get auth token from store
+const getAuthHeader = () => {
+  const token = useAuthStore.getState().token;
+  return token ? { Authorization: `Bearer ${token}` } : {};
+};
+
+// Base axios instance
 const apiClient = axios.create({
   baseURL: API_URL,
   headers: { "Content-Type": "application/json" },
@@ -20,16 +28,23 @@ export type ApiResponse<T = unknown> = {
 type ApiRequestData = Record<string, unknown>;
 
 export const ENDPOINTS = {
-  HEALTH: isDevelopment ? "/health" : "/api/health",
-  TEST_DB: isDevelopment ? "/test-db" : "/api/test-db",
-  REGISTER: isDevelopment ? "/auth/register" : "/api/auth/register",
-  LOGIN: isDevelopment ? "/auth/register" : "/auth/api/register",
+  HEALTH: "/api/health",
+  TEST_DB: "/api/test-db",
+  REGISTER: "/api/auth/register",
+  LOGIN: "/api/auth/login",
+  SAVED_RECIPES: "/api/saved-recipes",
+  RATINGS: "/api/ratings",
+  COMMENTS: "/api/comments",
 };
 
 export const api = {
   get: async <T>(endpoint: string): Promise<ApiResponse<T>> => {
     try {
-      const response = await apiClient.get(endpoint);
+      const response = await apiClient.get(endpoint, {
+        headers: {
+          ...getAuthHeader(),
+        },
+      });
       return {
         data: response.data,
         error: null,
@@ -50,7 +65,11 @@ export const api = {
     data: ApiRequestData
   ): Promise<ApiResponse<T>> => {
     try {
-      const response = await apiClient.post(endpoint, data);
+      const response = await apiClient.post(endpoint, data, {
+        headers: {
+          ...getAuthHeader(),
+        },
+      });
       return {
         data: response.data,
         error: null,
@@ -59,7 +78,7 @@ export const api = {
       console.error(`Error posting to ${endpoint}:`, error);
       return {
         data: null,
-        error: `Failed to save data: ${
+        error: `Failed to submit data: ${
           error instanceof Error ? error.message : "Unknown error"
         }`,
       };
@@ -71,7 +90,11 @@ export const api = {
     data: ApiRequestData
   ): Promise<ApiResponse<T>> => {
     try {
-      const response = await apiClient.put(endpoint, data);
+      const response = await apiClient.put(endpoint, data, {
+        headers: {
+          ...getAuthHeader(),
+        },
+      });
       return {
         data: response.data,
         error: null,
@@ -89,7 +112,11 @@ export const api = {
 
   delete: async <T>(endpoint: string): Promise<ApiResponse<T>> => {
     try {
-      const response = await apiClient.delete(endpoint);
+      const response = await apiClient.delete(endpoint, {
+        headers: {
+          ...getAuthHeader(),
+        },
+      });
       return {
         data: response.data,
         error: null,
