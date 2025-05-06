@@ -34,6 +34,32 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use(express.json());
 app.use(cors());
 
+app.get("/test-db", async (req: Request, res: Response) => {
+  try {
+    const [rows] = await connection.query("SELECT 1 + 1 AS solution");
+    res.json(rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Database connection error");
+  }
+});
+
+app.get("/", (req: Request, res: Response) => {
+  const uptime = new Date().getTime() - serverStartTime.getTime();
+  const seconds = Math.floor(uptime / 1000) % 60;
+  const minutes = Math.floor(uptime / (1000 * 60)) % 60;
+  const hours = Math.floor(uptime / (1000 * 60 * 60)) % 24;
+  const days = Math.floor(uptime / (1000 * 60 * 60 * 24));
+
+  const formattedUptime = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  const statusText = `Server Status: Running
+Server started at: ${serverStartTime.toISOString()}
+Uptime: ${formattedUptime}`;
+
+  res.setHeader("Content-Type", "text/plain");
+  res.send(statusText);
+});
+
 app.use("/api/auth", authRoutes);
 app.use("/api/saved-recipes", savedRecipeRoutes);
 app.use("/api/ratings", ratingRoutes);
