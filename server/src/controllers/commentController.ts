@@ -46,3 +46,33 @@ export const getComments = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Failed to fetch comments" });
   }
 };
+
+export const deleteComment = async (req: Request, res: Response) => {
+  try {
+    const { commentId } = req.params;
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(401).json({ error: "User ID not found" });
+    }
+
+    if (!commentId) {
+      return res.status(400).json({ error: "Comment ID is requried" });
+    }
+
+    const success = await commentQueries.deleteComment(
+      parseInt(commentId, 10),
+      userId
+    );
+
+    if (!success) {
+      return res.status(404).json({
+        error: "Comment not found or you don't have permission to delete it",
+      });
+    }
+    res.json({ message: "Comment deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting comment:", error);
+    res.status(500).json({ error: "Failed to delete comment" });
+  }
+};

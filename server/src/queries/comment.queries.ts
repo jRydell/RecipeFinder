@@ -28,3 +28,24 @@ export async function getCommentsByMealId(
 
   return rows as CommentResponse[];
 }
+
+export async function deleteComment(
+  commentId: number,
+  userId: number
+): Promise<boolean> {
+  const [comment] = await connection.query(
+    "SELECT * FROM comments WHERE id = ? AND user_id = ?",
+    [commentId, userId]
+  );
+
+  const commentArray = comment as any[];
+  if (commentArray.length === 0) {
+    return false;
+  }
+
+  const [result] = await connection.query("DELETE FROM comments WHERE id = ?", [
+    commentId,
+  ]);
+
+  return (result as any).affectedRows > 0;
+}

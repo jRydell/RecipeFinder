@@ -52,4 +52,8 @@ export const recipeService = {
   addComment: async (mealId: string, comment: string) => {
     return api.post(ENDPOINTS.COMMENTS, { mealId, comment });
   },
+
+  deleteComment: async (commentId: number) => {
+    return api.delete(`${ENDPOINTS.COMMENTS}/${commentId}`);
+  },
 };

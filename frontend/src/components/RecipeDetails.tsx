@@ -11,9 +11,9 @@ import { Separator } from "@/components/ui/separator";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Skeleton } from "@/components/ui/skeleton";
+import RecipeComments from "./RecipeComments";
 
 const RecipeDetails = () => {
-  // Keep all your existing state and functions
   const { id } = useParams<{ id: string }>();
   const [recipe, setRecipe] = useState<Meal | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -38,7 +38,6 @@ const RecipeDetails = () => {
     checkIfSaved();
   }, [recipe, isAuthenticated]);
 
-  // Add this function to handle save/unsave
   const handleSaveRecipe = async () => {
     if (!recipe) return;
 
@@ -64,7 +63,6 @@ const RecipeDetails = () => {
     setSaveLoading(false);
   };
 
-  // Fetch recipe effect remains the same
   useEffect(() => {
     const fetchRecipeDetails = async () => {
       if (!id) return;
@@ -78,7 +76,6 @@ const RecipeDetails = () => {
   }, [id]);
 
   const getIngredients = (recipe: Meal) => {
-    // Your existing getIngredients function
     const ingredients = [];
     for (let i = 1; i <= 20; i++) {
       const ingredient = recipe[`strIngredient${i}` as keyof Meal];
@@ -98,7 +95,6 @@ const RecipeDetails = () => {
     return ingredients;
   };
 
-  // Loading and error states remain the same
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto py-8">
@@ -219,6 +215,8 @@ const RecipeDetails = () => {
       </div>
 
       <Separator className="my-8" />
+      {/* Comment section*/}
+      <RecipeComments mealId={recipe.idMeal} />
 
       {/* Instructions */}
       <Card className="mb-8">

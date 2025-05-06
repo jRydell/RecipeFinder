@@ -12,7 +12,11 @@ declare global {
   }
 }
 
-const JWT_SECRET = process.env.JWT_SECRET || "your-default-secret";
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET environment variable is not defined");
+}
 
 export const authenticateToken = (
   req: Request,
