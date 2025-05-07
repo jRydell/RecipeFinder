@@ -46,6 +46,21 @@ export const api = {
         error: null,
       };
     } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        const serverMessage =
+          error.response.data?.message || `Error: ${error.response.status}`;
+        console.error(`Error fetching ${endpoint}:`, {
+          axiosMessage: error.message,
+          serverMessage: serverMessage,
+          status: error.response.status,
+        });
+
+        return {
+          data: null,
+          error: serverMessage,
+        };
+      }
+
       console.error(`Error fetching ${endpoint}:`, error);
       return {
         data: null,
@@ -71,6 +86,21 @@ export const api = {
         error: null,
       };
     } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        const serverMessage =
+          error.response.data?.message || `Error: ${error.response.status}`;
+        console.error(`Error posting to ${endpoint}:`, {
+          axiosMessage: error.message,
+          serverMessage: serverMessage,
+          status: error.response.status,
+        });
+
+        return {
+          data: null,
+          error: serverMessage,
+        };
+      }
+
       console.error(`Error posting to ${endpoint}:`, error);
       return {
         data: null,
@@ -96,6 +126,21 @@ export const api = {
         error: null,
       };
     } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        const serverMessage =
+          error.response.data?.message || `Error: ${error.response.status}`;
+        console.error(`Error updating ${endpoint}:`, {
+          axiosMessage: error.message,
+          serverMessage: serverMessage,
+          status: error.response.status,
+        });
+
+        return {
+          data: null,
+          error: serverMessage,
+        };
+      }
+
       console.error(`Error updating ${endpoint}:`, error);
       return {
         data: null,
@@ -118,6 +163,21 @@ export const api = {
         error: null,
       };
     } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        const serverMessage =
+          error.response.data?.message || `Error: ${error.response.status}`;
+        console.error(`Error deleting at ${endpoint}:`, {
+          axiosMessage: error.message,
+          serverMessage: serverMessage,
+          status: error.response.status,
+        });
+
+        return {
+          data: null,
+          error: serverMessage,
+        };
+      }
+
       console.error(`Error deleting at ${endpoint}:`, error);
       return {
         data: null,

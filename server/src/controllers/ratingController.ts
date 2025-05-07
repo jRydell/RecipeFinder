@@ -1,22 +1,23 @@
 import { Request, Response } from "express";
 import * as ratingQueries from "../queries/rating.queries";
-import { RecipeRatingResponse } from "../types/rating.types";
 
 export const rateRecipe = async (req: Request, res: Response) => {
   try {
-    const { mealId, rating } = req.body;
     const userId = req.user?.id;
+    const { mealId, rating } = req.body;
 
     if (!userId) {
-      return res.status(401).json({ error: "User ID not found" });
+      return res.status(401).json({ message: "Unauthorized" });
     }
 
     if (!mealId) {
-      return res.status(400).json({ error: "Recipe ID is required" });
+      return res.status(400).json({ message: "Recipe ID is required" });
     }
 
-    if (!rating || rating < 1 || rating > 5) {
-      return res.status(400).json({ error: "Rating must be between 1 and 5" });
+    if (typeof rating !== "number" || rating < 1 || rating > 5) {
+      return res
+        .status(400)
+        .json({ message: "Rating must be a number between 1 and 5" });
     }
 
     await ratingQueries.rateRecipe({
@@ -25,15 +26,12 @@ export const rateRecipe = async (req: Request, res: Response) => {
       rating,
     });
 
-    const updatedRating = await ratingQueries.getRecipeRating(mealId);
-
-    res.json({
-      message: "Rating submitted successfully",
-      rating: updatedRating,
+    res.status(201).json({
+      message: "Rating added successfully",
     });
   } catch (error) {
-    console.error("Error submitting rating:", error);
-    res.status(500).json({ error: "Failed to submit rating" });
+    console.error("Error adding rating:", error);
+    res.status(500).json({ message: "Failed to add rating" });
   }
 };
 
@@ -42,25 +40,40 @@ export const getRecipeRating = async (req: Request, res: Response) => {
     const { mealId } = req.params;
 
     if (!mealId) {
-      return res.status(400).json({ error: "Recipe ID is required" });
+      return res.status(400).json({ message: "Recipe ID is required" });
     }
 
-    const rating = await ratingQueries.getRecipeRating(mealId);
-    let userRating = null;
+    const ratings = await ratingQueries.getRecipeRating(mealId);
 
-    if (req.user?.id) {
-      userRating = await ratingQueries.getUserRating(req.user.id, mealId);
-    }
-
-    const response: RecipeRatingResponse = {
-      average: rating.average,
-      count: rating.count,
-      userRating,
-    };
-
-    res.json(response);
+    res.json(ratings);
   } catch (error) {
-    console.error("Error fetching rating:", error);
-    res.status(500).json({ error: "Failed to fetch rating" });
+    console.error("Error fetching ratings:", error);
+    res.status(500).json({ message: "Failed to fetch ratings" });
+  }
+};
+
+export const getUserRating = async (req: Request, res: Response) => {
+  try {
+    const userId = req.user?.id;
+    const { mealId } = req.params;
+
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    if (!mealId) {
+      return res.status(400).json({ message: "Recipe ID is required" });
+    }
+
+    const rating = await ratingQueries.getUserRating(userId, mealId);
+
+    if (!rating) {
+      return res.status(404).json({ message: "Rating not found" });
+    }
+
+    res.json(rating);
+  } catch (error) {
+    console.error("Error fetching user rating:", error);
+    res.status(500).json({ message: "Failed to fetch user rating" });
   }
 };
