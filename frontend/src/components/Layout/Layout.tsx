@@ -16,6 +16,7 @@ import {
 import { Menu, Search } from "lucide-react";
 import { useAuthStore } from "@/stores/auth.store";
 import ScrollToTop from "../ScrollToTop";
+import { BUILD_DATE } from "@/utils/lastUpdate";
 
 const Layout = () => {
   const { isAuthenticated, logout } = useAuthStore();
@@ -141,7 +142,10 @@ const Layout = () => {
         <div className="container max-w-4xl mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} RecipeFinder. All rights reserved.
+              © RecipeFinder. All rights reserved.
+              <span className="block md:inline md:ml-2">
+                Last updated: {BUILD_DATE}
+              </span>
             </div>
             <div className="flex gap-4">
               <Link

@@ -110,10 +110,6 @@ const About = () => {
           </Link>
         </Button>
       </div>
-
-      <p className="mt-8 text-sm text-muted-foreground text-center">
-        Last updated: May 7, 2025
-      </p>
     </div>
   );
 };
