@@ -105,11 +105,11 @@ RecipeFinder helps users find, save and rate recipes. The app lets you search an
 
     Run the following command in the terminal:
 
-        > **Note:** Make sure you are in the correct folder path/to/server/.
-
     ```bash
     npm run dev
     ```
+
+    > **Note:** Make sure you are in the server folder.
 
 7.  Start the frontend development server
 
