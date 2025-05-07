@@ -15,6 +15,7 @@ import {
 // Icons
 import { Menu, Search } from "lucide-react";
 import { useAuthStore } from "@/stores/auth.store";
+import ScrollToTop from "../ScrollToTop";
 
 const Layout = () => {
   const { isAuthenticated, logout } = useAuthStore();
@@ -23,6 +24,7 @@ const Layout = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <ScrollToTop />
       {/*Header/Navigation */}
       <header className="border-b bg-background sticky top-0 z-30">
         <div className="container flex h-16 items-center px-4">
@@ -35,34 +37,40 @@ const Layout = () => {
           <NavigationMenu className="hidden md:flex">
             <NavigationMenuList>
               <NavigationMenuItem>
-                <Link to="/">
-                  <NavigationMenuLink
-                    className={navigationMenuTriggerStyle()}
-                    active={isActive("/")}
-                  >
+                <NavigationMenuLink
+                  asChild
+                  className={navigationMenuTriggerStyle()}
+                >
+                  <Link to="/" className={isActive("/") ? "font-bold" : ""}>
                     Home
-                  </NavigationMenuLink>
-                </Link>
+                  </Link>
+                </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link to="/categories">
-                  <NavigationMenuLink
-                    className={navigationMenuTriggerStyle()}
-                    active={isActive("/categories")}
+                <NavigationMenuLink
+                  asChild
+                  className={navigationMenuTriggerStyle()}
+                >
+                  <Link
+                    to="/categories"
+                    className={isActive("/categories") ? "font-bold" : ""}
                   >
                     Categories
-                  </NavigationMenuLink>
-                </Link>
+                  </Link>
+                </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link to="/my-recipes">
-                  <NavigationMenuLink
-                    className={navigationMenuTriggerStyle()}
-                    active={isActive("/my-recipes")}
+                <NavigationMenuLink
+                  asChild
+                  className={navigationMenuTriggerStyle()}
+                >
+                  <Link
+                    to="/my-recipes"
+                    className={isActive("/my-recipes") ? "font-bold" : ""}
                   >
                     My Recipes
-                  </NavigationMenuLink>
-                </Link>
+                  </Link>
+                </NavigationMenuLink>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
@@ -136,15 +144,30 @@ const Layout = () => {
               © {new Date().getFullYear()} RecipeFinder. All rights reserved.
             </div>
             <div className="flex gap-4">
-              <Button variant="ghost" size="sm">
-                Privacy
-              </Button>
-              <Button variant="ghost" size="sm">
-                Terms
-              </Button>
-              <Button variant="ghost" size="sm">
+              <Link
+                to="/about"
+                className="text-sm text-muted-foreground hover:text-foreground"
+              >
+                About
+              </Link>
+              <Link
+                to="/contact"
+                className="text-sm text-muted-foreground hover:text-foreground"
+              >
                 Contact
-              </Button>
+              </Link>
+              <Link
+                to="/terms-and-conditions"
+                className="text-sm text-muted-foreground hover:text-foreground"
+              >
+                Terms & Conditions
+              </Link>
+              <Link
+                to="/privacy"
+                className="text-sm text-muted-foreground hover:text-foreground"
+              >
+                Privacy
+              </Link>
             </div>
           </div>
         </div>

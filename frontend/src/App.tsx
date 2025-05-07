@@ -10,6 +10,10 @@ import MyRecipes from "./pages/MyRecipes";
 import RecipeDetails from "./components/RecipeDetails";
 import Register from "./pages/Register";
 import ProtectedRoute from "./components/ProtectedRoutes";
+import Privacy from "./pages/Privacy";
+import About from "./pages/About";
+import Terms from "./pages/Terms";
+import Contact from "./pages/Contact";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +49,22 @@ const router = createBrowserRouter([
             <MyRecipes />
           </ProtectedRoute>
         ),
+      },
+      {
+        path: "about",
+        element: <About />,
+      },
+      {
+        path: "privacy",
+        element: <Privacy />,
+      },
+      {
+        path: "terms-and-conditions",
+        element: <Terms />,
+      },
+      {
+        path: "contact",
+        element: <Contact />,
       },
     ],
   },
