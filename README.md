@@ -56,72 +56,74 @@ RecipeFinder helps users find, save and rate recipes. The app lets you search an
 
 ### Installation
 
-1. Clone the repository
+1.  Clone the repository
 
-   ```bash
-   git clone https://github.com/jRydell/projectunknown.git
-   cd projectunknown
-   ```
+    ```bash
+    git clone https://github.com/jRydell/projectunknown.git
+    cd projectunknown
+    ```
 
-2. Install frontend dependencies
+2.  Install frontend dependencies
 
-   ```bash
-   cd frontend
-   npm install
-   ```
+    ```bash
+    cd frontend
+    npm install
+    ```
 
-3. Install backend dependencies
+3.  Install backend dependencies
 
-   ```bash
-   cd ../server
-   npm install
-   ```
+    ```bash
+    cd ../server
+    npm install
+    ```
 
-4. Create a `.env` file in the **backend** directory with the following variables:
+4.  Create a `.env` file in the **backend** directory with the following variables:
 
-   ```env
-   DB_HOST=localhost
-   DB_USER=yourusername
-   DB_PASSWORD=yourpassword
-   DB_NAME=recipefinder
-   JWT_SECRET=your-secret-key
-   PORT=3000
-   ```
+    ```env
+    DB_HOST=localhost
+    DB_USER=yourusername
+    DB_PASSWORD=yourpassword
+    DB_NAME=recipefinder
+    JWT_SECRET=your-secret-key
+    PORT=3000
+    ```
 
-   > **Note:** Keep the `.env` file secure and do not commit it to version control.
+    > **Note:** Keep the `.env` file secure and do not commit it to version control.
 
-5. Create the database & tables
+5.  Create the database & tables
 
-   Ensure MySQL is running. Open your MySQL client (CLI or GUI). Open the file `server/src/sql/schema.sql` in your editor, select all, copy and paste into your client, then execute.
+    Ensure MySQL is running. Open your MySQL client (CLI or GUI). Open the file `server/src/sql/schema.sql` in your editor, select all, copy and paste into your client, then execute.
 
-   **Using MySQL CLI:**
+    **Using MySQL CLI:**
 
-   ```bash
-   mysql -u yourusername -p
-   source path/to/server/src/sql/schema.sql;
-   ```
+    ```bash
+    mysql -u yourusername -p
+    source path/to/server/src/sql/schema.sql;
+    ```
 
-6. Start the backend server
+6.  Start the backend server
 
-   Open a terminal and run:
+    Run the following command in the terminal:
 
-   ```bash
-   npm run dev
-   ```
+        > **Note:** Make sure you are in the correct folder path/to/server/.
 
-7. Start the frontend development server
+    ```bash
+    npm run dev
+    ```
 
-   Open a separate terminal and run:
+7.  Start the frontend development server
 
-   ```bash
-   cd ../frontend
-   npm run dev
-   ```
+    Open a separate terminal and run:
 
-8. Open the application in your browser
+    ```bash
+    cd ../frontend
+    npm run dev
+    ```
 
-   - Frontend: [http://localhost:5173](http://localhost:5173)
-   - Backend API: [http://localhost:3000/api](http://localhost:3000/api)
+8.  Open the application in your browser
+
+    - Frontend: [http://localhost:5173](http://localhost:5173)
+    - Backend API: [http://localhost:3000/api](http://localhost:3000/api)
 
 ## Troubleshooting
 
