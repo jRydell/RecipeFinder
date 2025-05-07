@@ -1,13 +1,5 @@
 import { Link } from "react-router-dom";
-import {
-  ExternalLink,
-  Code,
-  Server,
-  Github,
-  Package,
-  ListChecks,
-  Blocks,
-} from "lucide-react";
+import { ExternalLink, Code, Server, Github, Blocks } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const About = () => {
@@ -102,7 +94,7 @@ const About = () => {
       <div className="flex flex-col sm:flex-row gap-4 justify-center my-10">
         <Button asChild>
           <a
-            href="https://github.com/username/recipefinder"
+            href="https://github.com/jRydell/projectunknown"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2"
