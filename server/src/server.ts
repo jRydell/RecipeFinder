@@ -49,16 +49,4 @@ async function startServer() {
   });
 }
 
-/* async function startServer() {
-  server.listen(port, "127.0.0.1", async () => {
-    console.log(`Server is running on port ${port}`);
-    try {
-      await connection.query("SELECT 1");
-      console.log("Connected to MySQL database");
-    } catch (error) {
-      console.error("Unable to connect to MySQL database:", error);
-    }
-  });
-} */
-
 startServer();
