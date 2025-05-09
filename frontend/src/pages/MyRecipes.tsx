@@ -77,7 +77,7 @@ const MyRecipes = () => {
         {savedRecipes.map((recipe) => (
           <div key={recipe.id} className="relative group">
             <RecipeCard
-              id={recipe.meal_id}
+              mealId={recipe.meal_id}
               title={recipe.meal_name}
               image={recipe.meal_thumb}
               category=""

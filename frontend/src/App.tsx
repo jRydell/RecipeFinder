@@ -7,7 +7,7 @@ import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Categories from "./pages/Categories";
 import MyRecipes from "./pages/MyRecipes";
-import RecipeDetails from "./components/RecipeDetails";
+import RecipeDetails from "./pages/RecipeDetails";
 import Register from "./pages/Register";
 import ProtectedRoute from "./components/ProtectedRoutes";
 import Privacy from "./pages/Privacy";
