@@ -1,0 +1,104 @@
+import { useEffect, useState } from "react";
+import { Button } from "./ui/button";
+import { useRecipeStore } from "@/stores/recipe.store";
+import { useAuthStore } from "@/stores/auth.store";
+import { recipeService } from "@/services/recipe-service";
+import { useNavigate } from "react-router-dom";
+import { Badge } from "./ui/badge";
+
+const RecipeHeader = () => {
+  const [isSaved, setIsSaved] = useState<boolean>();
+  const [saveLoading, setSaveLoading] = useState(false);
+  const { isAuthenticated } = useAuthStore();
+  const { recipe } = useRecipeStore();
+
+  const navigate = useNavigate();
+
+  if (!recipe) {
+    return;
+  }
+
+  useEffect(() => {
+    const checkIfSaved = async () => {
+      if (!recipe || !isAuthenticated) return;
+
+      const { data } = await recipeService.getSavedRecipes();
+      if (data) {
+        const saved = data.some((item) => item.meal_id === recipe.idMeal);
+        setIsSaved(saved);
+      }
+    };
+
+    checkIfSaved();
+  }, [recipe, isAuthenticated]);
+
+  const handleSaveRecipe = async () => {
+    if (!recipe) return;
+
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
+
+    setSaveLoading(true);
+
+    if (isSaved) {
+      await recipeService.removeSavedRecipe(recipe.idMeal);
+      setIsSaved(false);
+    } else {
+      await recipeService.saveRecipe(
+        recipe.idMeal,
+        recipe.strMeal,
+        recipe.strMealThumb
+      );
+      setIsSaved(true);
+    }
+
+    setSaveLoading(false);
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto py-8">
+      {/* Recipe Title and Tags */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold mb-2 text-left">{recipe.strMeal}</h1>
+        <Button
+          variant={isSaved ? "outline" : "default"}
+          onClick={handleSaveRecipe}
+          disabled={saveLoading}
+          className="whitespace-nowrap"
+        >
+          {saveLoading
+            ? "Processing..."
+            : isSaved
+            ? "Remove from My Recipes"
+            : "Save Recipe"}
+        </Button>
+        <div className="flex flex-wrap gap-2 mb-4">
+          {recipe.strCategory && (
+            <Badge variant="secondary" className="text-sm">
+              {recipe.strCategory}
+            </Badge>
+          )}
+          {recipe.strArea && (
+            <Badge variant="outline" className="text-sm">
+              {recipe.strArea} Cuisine
+            </Badge>
+          )}
+          {recipe.strTags &&
+            recipe.strTags.split(",").map((tag) => (
+              <Badge
+                key={tag}
+                variant="outline"
+                className="bg-muted text-muted-foreground text-sm"
+              >
+                {tag.trim()}
+              </Badge>
+            ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default RecipeHeader;

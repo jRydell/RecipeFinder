@@ -3,17 +3,16 @@ import Layout from "./components/Layout/Layout";
 import Home from "./pages/Home";
 import "./App.css";
 import NotFound from "./pages/NotFound";
-
 import Login from "./pages/Login";
 import Categories from "./pages/Categories";
 import MyRecipes from "./pages/MyRecipes";
-import RecipeDetails from "./pages/RecipeDetails";
 import Register from "./pages/Register";
 import ProtectedRoute from "./components/ProtectedRoutes";
 import Privacy from "./pages/Privacy";
 import About from "./pages/About";
 import Terms from "./pages/Terms";
 import Contact from "./pages/Contact";
+import Recipe from "./pages/Recipe";
 
 const router = createBrowserRouter([
   {
@@ -27,7 +26,7 @@ const router = createBrowserRouter([
       },
       {
         path: "recipe/:id",
-        element: <RecipeDetails />,
+        element: <Recipe />,
       },
 
       {

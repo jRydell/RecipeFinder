@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { mealDbService, Meal } from "../services/mealdb-service";
+import { mealDbService } from "../services/mealdb-service";
+import { useRecipeStore } from "@/stores/recipe.store";
 
-export const useRecipeDetails = (id: string | undefined) => {
-  const [recipe, setRecipe] = useState<Meal | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+export const useRecipeData = (id: string | undefined) => {
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const { recipe, setRecipe } = useRecipeStore();
 
   useEffect(() => {
     let isMounted = true;
