@@ -13,7 +13,6 @@ import About from "./pages/About";
 import Terms from "./pages/Terms";
 import Contact from "./pages/Contact";
 import Recipe from "./pages/Recipe";
-import { Layout } from "./components/layout/Layout";
 
 const router = createBrowserRouter([
   {
