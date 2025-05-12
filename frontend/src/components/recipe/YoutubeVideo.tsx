@@ -1,6 +1,6 @@
-import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import { useRecipeStore } from "@/stores/recipe.store";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
+import { AspectRatio } from "../ui/aspect-ratio";
 
 export const YoutubeVideo = () => {
   const { recipe } = useRecipeStore();
