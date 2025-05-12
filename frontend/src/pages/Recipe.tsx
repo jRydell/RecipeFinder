@@ -1,10 +1,9 @@
-import { useParams } from "react-router-dom";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
 import RecipeComments from "@/components/RecipeComments";
 import { getIngredients } from "@/utils/getIngredients";
-import { useRecipeData } from "../hooks/useRecipeDetails";
+import { useRecipeData } from "../hooks/useRecipeData";
 import RecipeHeader from "@/components/RecipeHeader";
 import RecipeImage from "@/components/RecipeImage";
 import RecipeIngredientsList from "@/components/RecipeIngredientsList";
@@ -12,11 +11,10 @@ import RecipeRatingCard from "@/components/RecipeRatingCard";
 import RecipeInstructions from "@/components/RecipeInstructions";
 import RecipeVideoTutorial from "@/components/RecipeVideoTutorial";
 const Recipe = () => {
-  const { id } = useParams<{ id: string }>();
-  const { recipe, loading, error } = useRecipeData(id);
+  const { recipe, loading, error } = useRecipeData();
 
   if (loading) {
-    return <RecipeDetailsSkeleton />;
+    return <RecipeLoadingSkeleton />;
   }
 
   if (error) {
@@ -69,7 +67,7 @@ const Recipe = () => {
 };
 
 // Loading skeleton
-const RecipeDetailsSkeleton = () => (
+const RecipeLoadingSkeleton = () => (
   <div className="max-w-4xl mx-auto py-8">
     <Skeleton className="h-12 w-2/3 mb-4" />
     <div className="flex gap-2 mb-8">
