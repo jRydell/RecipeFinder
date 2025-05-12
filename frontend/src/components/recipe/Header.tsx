@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { Button } from "./ui/button";
 import { useRecipeStore } from "@/stores/recipe.store";
 import { useAuthStore } from "@/stores/auth.store";
 import { recipeService } from "@/services/recipe-service";
 import { useNavigate } from "react-router-dom";
-import { Badge } from "./ui/badge";
+import { Button } from "../ui/button";
+import { Badge } from "../ui/badge";
 
-const RecipeHeader = () => {
+export const Header = () => {
   const [isSaved, setIsSaved] = useState<boolean>();
   const [saveLoading, setSaveLoading] = useState(false);
   const { isAuthenticated } = useAuthStore();
@@ -14,11 +14,11 @@ const RecipeHeader = () => {
 
   const navigate = useNavigate();
 
-  if (!recipe) {
-    return;
-  }
-
   useEffect(() => {
+    if (!recipe) {
+      return;
+    }
+
     const checkIfSaved = async () => {
       if (!recipe || !isAuthenticated) return;
 
@@ -29,14 +29,14 @@ const RecipeHeader = () => {
       }
     };
 
-    checkIfSaved();
+    void checkIfSaved();
   }, [recipe, isAuthenticated]);
 
   const handleSaveRecipe = async () => {
     if (!recipe) return;
 
     if (!isAuthenticated) {
-      navigate("/login");
+      void navigate("/login");
       return;
     }
 
@@ -57,13 +57,17 @@ const RecipeHeader = () => {
     setSaveLoading(false);
   };
 
+  if (!recipe) {
+    return;
+  }
+
   return (
-    <div className="max-w-4xl mx-auto py-8">
+    <header className="max-w-4xl mx-auto py-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2 text-left">{recipe.strMeal}</h1>
         <Button
           variant={isSaved ? "outline" : "default"}
-          onClick={handleSaveRecipe}
+          onClick={() => void handleSaveRecipe()}
           disabled={saveLoading}
           className="whitespace-nowrap"
         >
@@ -96,8 +100,6 @@ const RecipeHeader = () => {
             ))}
         </div>
       </div>
-    </div>
+    </header>
   );
 };
-
-export default RecipeHeader;

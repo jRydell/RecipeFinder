@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const Footer = () => {
+export const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
@@ -20,9 +20,7 @@ const Footer = () => {
             <span
               className="block md:inline md:ml-2"
               aria-label={`Last updated: ${new Date().toLocaleDateString()}`}
-            >
-              Last updated: {new Date().toLocaleDateString()}
-            </span>
+            ></span>
           </div>
           <nav aria-label="Footer navigation">
             <ul className="flex gap-4 list-none p-0 m-0">
@@ -69,5 +67,3 @@ const Footer = () => {
     </footer>
   );
 };
-
-export default Footer;

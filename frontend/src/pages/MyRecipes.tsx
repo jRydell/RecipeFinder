@@ -36,7 +36,7 @@ const MyRecipes = () => {
   };
 
   useEffect(() => {
-    fetchSavedRecipes();
+    void fetchSavedRecipes();
   }, []);
 
   if (isLoading) {
@@ -77,7 +77,7 @@ const MyRecipes = () => {
         {savedRecipes.map((recipe) => (
           <div key={recipe.id} className="relative group">
             <RecipeCard
-              mealId={recipe.meal_id}
+              id={recipe.meal_id}
               title={recipe.meal_name}
               image={recipe.meal_thumb}
               category=""
@@ -87,7 +87,7 @@ const MyRecipes = () => {
               variant="destructive"
               size="icon"
               className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
-              onClick={() => handleRemoveRecipe(recipe.meal_id)}
+              onClick={() => void handleRemoveRecipe(recipe.meal_id)}
             >
               <Trash2 className="h-4 w-4" />
             </Button>

@@ -1,22 +1,31 @@
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import { useRecipeStore } from "@/stores/recipe.store";
+import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 
-const RecipeVideoTutorial = () => {
+export const YoutubeVideo = () => {
   const { recipe } = useRecipeStore();
+
+  const getVideoId = () => {
+    if (!recipe?.strYoutube) return "";
+    try {
+      return recipe.strYoutube.split("v=")[1].split("&")[0];
+    } catch {
+      return "";
+    }
+  };
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Video Tutorial</CardTitle>
+        <CardTitle>Video Instructions:</CardTitle>
       </CardHeader>
       <CardContent>
         <AspectRatio ratio={16 / 9} className="overflow-hidden rounded-md">
+          {/* eslint-disable-next-line react-dom/no-missing-iframe-sandbox */}
           <iframe
             className="w-full h-full"
-            src={`https://www.youtube.com/embed/${
-              recipe?.strYoutube?.split("v=")[1]
-            }`}
-            title={`${recipe?.strMeal} video tutorial`}
+            src={`https://www.youtube-nocookie.com/embed/${getVideoId()}`}
+            title={`${recipe?.strMeal || "Recipe"} video tutorial`}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           ></iframe>
@@ -25,5 +34,3 @@ const RecipeVideoTutorial = () => {
     </Card>
   );
 };
-
-export default RecipeVideoTutorial;

@@ -1,15 +1,18 @@
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
-import RecipeComments from "@/components/RecipeComments";
 import { getIngredients } from "@/utils/getIngredients";
 import { useRecipeData } from "../hooks/useRecipeData";
-import RecipeHeader from "@/components/RecipeHeader";
-import RecipeImage from "@/components/RecipeImage";
-import RecipeIngredientsList from "@/components/RecipeIngredientsList";
-import RecipeRatingCard from "@/components/RecipeRatingCard";
-import RecipeInstructions from "@/components/RecipeInstructions";
-import RecipeVideoTutorial from "@/components/RecipeVideoTutorial";
+import {
+  Comments,
+  FoodImage,
+  Header,
+  IngredientList,
+  Instructions,
+  RatingCard,
+  YoutubeVideo,
+} from "@/components/recipe";
+
 const Recipe = () => {
   const { recipe, loading, error } = useRecipeData();
 
@@ -45,21 +48,21 @@ const Recipe = () => {
 
   return (
     <div className="max-w-4xl mx-auto py-8">
-      <RecipeHeader />
+      <Header />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-        <RecipeImage />
-        <RecipeIngredientsList ingredients={ingredients} />
+        <FoodImage />
+        <IngredientList ingredients={ingredients} />
       </div>
 
-      <RecipeRatingCard recipe={recipe} />
+      <RatingCard recipe={recipe} />
       <Separator className="my-8" />
-      <RecipeComments mealId={recipe.idMeal} />
+      <Comments mealId={recipe.idMeal} />
       <Separator className="my-8" />
-      <RecipeInstructions />
+      <Instructions />
       {recipe.strYoutube && (
         <>
           <Separator className="my-8" />
-          <RecipeVideoTutorial />
+          <YoutubeVideo />
         </>
       )}
     </div>

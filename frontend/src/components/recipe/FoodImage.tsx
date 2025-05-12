@@ -1,8 +1,9 @@
 import { useRecipeStore } from "@/stores/recipe.store";
-import { Card } from "./ui/card";
-import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 
-const RecipeImage = () => {
+import { AspectRatio } from "@radix-ui/react-aspect-ratio";
+import { Card } from "../ui/card";
+
+export const FoodImage = () => {
   const { recipe } = useRecipeStore();
 
   if (!recipe) {
@@ -20,5 +21,3 @@ const RecipeImage = () => {
     </Card>
   );
 };
-
-export default RecipeImage;

@@ -1,16 +1,17 @@
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useAuthStore } from "@/stores/auth.store";
+import { ThemeToggle } from "../ThemeToggle";
 import Navigation from "./Navigation";
 import MobileMenu from "./MobileNavigation";
-import { ThemeToggle } from "../ThemeToggle";
 
-const Header = () => {
+export const Header = () => {
   const { isAuthenticated, logout } = useAuthStore();
   const navItems = [
     { path: "/categories", label: "Categories" },
     { path: "/my-recipes", label: "My Recipes" },
   ];
+
   return (
     <header
       className="border-b bg-background sticky top-0 z-30"
@@ -40,4 +41,3 @@ const Header = () => {
     </header>
   );
 };
-export default Header;

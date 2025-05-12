@@ -1,7 +1,7 @@
-import { Card, CardHeader, CardTitle, CardContent } from "./ui/card";
 import { useRecipeStore } from "@/stores/recipe.store";
+import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 
-const RecipeInstructions = () => {
+export const Instructions = () => {
   const { recipe } = useRecipeStore();
   return (
     <Card className="mb-8">
@@ -25,5 +25,3 @@ const RecipeInstructions = () => {
     </Card>
   );
 };
-
-export default RecipeInstructions;

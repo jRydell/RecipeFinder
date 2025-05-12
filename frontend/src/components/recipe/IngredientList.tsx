@@ -1,15 +1,15 @@
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 type Ingredient = {
   measure: string;
   ingredient: string;
 };
 
-type RecipeIngredientsListProps = {
+type IngredientListProps = {
   ingredients: Ingredient[];
 };
 
-const RecipeIngredientsList = ({ ingredients }: RecipeIngredientsListProps) => {
+export const IngredientList = ({ ingredients }: IngredientListProps) => {
   return (
     <Card>
       <CardHeader>
@@ -17,8 +17,11 @@ const RecipeIngredientsList = ({ ingredients }: RecipeIngredientsListProps) => {
       </CardHeader>
       <CardContent>
         <ul className="space-y-2">
-          {ingredients.map((item: Ingredient, index: number) => (
-            <li key={index} className="flex items-start">
+          {ingredients.map((item: Ingredient) => (
+            <li
+              key={`${item.ingredient}-${item.measure}`}
+              className="flex items-start"
+            >
               <span className="font-medium mr-2">•</span>
               <span>
                 {item.measure} {item.ingredient}
@@ -30,5 +33,3 @@ const RecipeIngredientsList = ({ ingredients }: RecipeIngredientsListProps) => {
     </Card>
   );
 };
-
-export default RecipeIngredientsList;

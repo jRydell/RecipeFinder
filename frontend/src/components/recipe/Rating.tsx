@@ -1,6 +1,6 @@
 import { Star } from "lucide-react";
 import { useState } from "react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 const RecipeRating = () => {
   const [rating, setRating] = useState<number | null>(null);
