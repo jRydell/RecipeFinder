@@ -12,7 +12,11 @@ const Header = () => {
     { path: "/my-recipes", label: "My Recipes" },
   ];
   return (
-    <header className="border-b bg-background sticky top-0 z-30">
+    <header
+      className="border-b bg-background sticky top-0 z-30"
+      role="banner"
+      aria-label="Site header"
+    >
       <div className="container flex h-16 items-center px-4">
         <Link to="/" aria-label="Home" className="font-bold text-xl mr-6">
           RecipeFinder
@@ -20,7 +24,7 @@ const Header = () => {
         <Navigation navItems={navItems} />
         <div className="ml-auto flex items-center space-x-4">
           <ThemeToggle />
-          <Link to="/login" aria-label="Log in">
+          <Link to="/login">
             <Button
               variant="outline"
               size="sm"

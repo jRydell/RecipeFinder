@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -17,8 +17,11 @@ type NavItem = {
 };
 
 const Navigation = ({ navItems }: NavigationProps) => {
+  const location = useLocation();
+  const isActive = (path: string) => location.pathname === path;
+
   return (
-    <NavigationMenu className="hidden md:flex">
+    <NavigationMenu className="hidden md:flex" aria-label="Main navigation">
       <NavigationMenuList>
         {navItems.map((item) => (
           <NavigationMenuItem key={item.path}>
@@ -26,7 +29,13 @@ const Navigation = ({ navItems }: NavigationProps) => {
               asChild
               className={navigationMenuTriggerStyle()}
             >
-              <Link to={item.path}>{item.label}</Link>
+              <Link
+                to={item.path}
+                aria-current={isActive(item.path) ? "page" : undefined}
+                aria-label={item.label}
+              >
+                {item.label}
+              </Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
         ))}
