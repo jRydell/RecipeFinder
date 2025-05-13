@@ -69,7 +69,6 @@ const Home = () => {
           <CardTitle className="text-3xl">Find something you like</CardTitle>
         </CardHeader>
         <CardContent>
-          {/* Form content stays the same */}
           <form onSubmit={handleSearch} className="flex gap-2">
             <Input
               type="text"
@@ -94,6 +93,7 @@ const Home = () => {
       {loading && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {Array.from({ length: 6 }).map((_, i) => (
+            // eslint-disable-next-line react-x/no-array-index-key
             <Card key={`skeleton-${i}`} className="overflow-hidden h-full">
               <div className="aspect-video">
                 <Skeleton className="h-full w-full" />
@@ -146,7 +146,6 @@ const Home = () => {
         </div>
       )}
 
-      {/* Empty state stays the same */}
       {!loading && searchResults.length === 0 && !error && !queryParam && (
         <div className="text-center py-16">
           <p className="text-muted-foreground text-lg">
