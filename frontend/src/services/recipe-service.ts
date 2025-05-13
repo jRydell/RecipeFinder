@@ -33,7 +33,7 @@ export const recipeService = {
     return api.post(ENDPOINTS.SAVED_RECIPES, { mealId, mealName, mealThumb });
   },
 
-  removeSavedRecipe: async (mealId: string) => {
+  deleteSavedRecipe: async (mealId: string) => {
     return api.delete(`${ENDPOINTS.SAVED_RECIPES}/${mealId}`);
   },
 

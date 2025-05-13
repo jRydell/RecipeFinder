@@ -1,9 +1,9 @@
-import { useRecipeStore } from "@/stores/recipe.store";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 import { AspectRatio } from "../ui/aspect-ratio";
+import { useRecipeData } from "@/hooks/useRecipeData";
 
 export const YoutubeVideo = () => {
-  const { recipe } = useRecipeStore();
+  const { recipe } = useRecipeData();
 
   const getVideoId = () => {
     if (!recipe?.strYoutube) return "";

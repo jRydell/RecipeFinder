@@ -1,13 +1,12 @@
-import { useRecipeStore } from "@/stores/recipe.store";
-
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import { Card } from "../ui/card";
+import { useRecipeData } from "@/hooks/useRecipeData";
 
 export const FoodImage = () => {
-  const { recipe } = useRecipeStore();
+  const { recipe } = useRecipeData();
 
   if (!recipe) {
-    return;
+    return null;
   }
   return (
     <Card className="overflow-hidden">

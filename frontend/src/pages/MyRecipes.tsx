@@ -24,7 +24,7 @@ const MyRecipes = () => {
   };
 
   const handleRemoveRecipe = async (mealId: string) => {
-    const { error } = await recipeService.removeSavedRecipe(mealId);
+    const { error } = await recipeService.deleteSavedRecipe(mealId);
 
     if (!error) {
       setSavedRecipes((prev) =>

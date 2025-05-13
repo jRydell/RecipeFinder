@@ -32,9 +32,14 @@ const getAuthHeader = () => {
   return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
+type ErrorResponse = {
+  message?: string;
+};
+
 const handleError = (error: unknown): string => {
   if (axios.isAxiosError(error) && error.response) {
-    return error.response.data?.message || `Error: ${error.response.status}`;
+    const errorData = error.response.data as ErrorResponse;
+    return errorData.message || `Error: ${error.response.status}`;
   }
 
   return error instanceof Error ? error.message : "Unknown error";
@@ -43,7 +48,7 @@ const handleError = (error: unknown): string => {
 export const api = {
   get: async <T>(endpoint: string): Promise<ApiResponse<T>> => {
     try {
-      const response = await apiClient.get(endpoint, {
+      const response = await apiClient.get<T>(endpoint, {
         headers: { ...getAuthHeader() },
       });
       return { data: response.data, error: null };
@@ -58,7 +63,7 @@ export const api = {
     data: ApiRequestData
   ): Promise<ApiResponse<T>> => {
     try {
-      const response = await apiClient.post(endpoint, data, {
+      const response = await apiClient.post<T>(endpoint, data, {
         headers: { ...getAuthHeader() },
       });
       return { data: response.data, error: null };
@@ -73,7 +78,7 @@ export const api = {
     data: ApiRequestData
   ): Promise<ApiResponse<T>> => {
     try {
-      const response = await apiClient.put(endpoint, data, {
+      const response = await apiClient.put<T>(endpoint, data, {
         headers: { ...getAuthHeader() },
       });
       return { data: response.data, error: null };
@@ -85,7 +90,7 @@ export const api = {
 
   delete: async <T>(endpoint: string): Promise<ApiResponse<T>> => {
     try {
-      const response = await apiClient.delete(endpoint, {
+      const response = await apiClient.delete<T>(endpoint, {
         headers: { ...getAuthHeader() },
       });
       return { data: response.data, error: null };

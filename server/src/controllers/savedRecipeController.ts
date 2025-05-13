@@ -53,7 +53,7 @@ export const getSavedRecipes = async (req: Request, res: Response) => {
   }
 };
 
-export const removeSavedRecipe = async (req: Request, res: Response) => {
+export const deleteSavedRecipe = async (req: Request, res: Response) => {
   try {
     const { mealId } = req.params;
     const userId = req.user?.id;

@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { useRecipeStore } from "@/stores/recipe.store";
 import { useAuthStore } from "@/stores/auth.store";
 import { recipeService } from "@/services/recipe-service";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
+import { useRecipeData } from "@/hooks/useRecipeData";
 
 export const Header = () => {
   const [isSaved, setIsSaved] = useState<boolean>();
   const [saveLoading, setSaveLoading] = useState(false);
   const { isAuthenticated } = useAuthStore();
-  const { recipe } = useRecipeStore();
+  const { recipe } = useRecipeData();
 
   const navigate = useNavigate();
 
@@ -43,7 +43,7 @@ export const Header = () => {
     setSaveLoading(true);
 
     if (isSaved) {
-      await recipeService.removeSavedRecipe(recipe.idMeal);
+      await recipeService.deleteSavedRecipe(recipe.idMeal);
       setIsSaved(false);
     } else {
       await recipeService.saveRecipe(

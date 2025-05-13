@@ -13,7 +13,7 @@ router.post("/", savedRecipeController.saveRecipe);
 // Get all saved recipes for the logged-in user
 router.get("/", savedRecipeController.getSavedRecipes);
 
-// Remove a recipe from user's collection
-router.delete("/:mealId", savedRecipeController.removeSavedRecipe);
+// Re a recipe from user's collection
+router.delete("/:mealId", savedRecipeController.deleteSavedRecipe);
 
 export default router;
