@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import RecipeCard from "../components/RecipeCard";
+
 import { mealDbService } from "../services/mealdb-service";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
+import RecipeCard from "@/components/RecipeCard";
 
 type Meal = {
   idMeal: string;
@@ -23,13 +24,13 @@ const Home = () => {
 
   const [searchQuery, setSearchQuery] = useState(queryParam);
   const [searchResults, setSearchResults] = useState<Meal[]>([]);
-  const [displayedCount, setDisplayedCount] = useState(6); // Added state
+  const [displayedCount, setDisplayedCount] = useState(6);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (queryParam) {
-      performSearch(queryParam);
+      void performSearch(queryParam);
     }
   }, [queryParam]);
 
@@ -37,7 +38,7 @@ const Home = () => {
     if (!query.trim()) return;
 
     setLoading(true);
-    setDisplayedCount(6); // Reset display count for new search
+    setDisplayedCount(6);
 
     const { data, error } = await mealDbService.searchByName(query);
 
@@ -55,10 +56,10 @@ const Home = () => {
     setLoading(false);
   };
 
-  const handleSearch = async (e: React.FormEvent) => {
+  const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setSearchParams(searchQuery ? { q: searchQuery } : {});
-    performSearch(searchQuery);
+    void performSearch(searchQuery);
   };
 
   return (
@@ -68,7 +69,6 @@ const Home = () => {
           <CardTitle className="text-3xl">Find something you like</CardTitle>
         </CardHeader>
         <CardContent>
-          {/* Form content stays the same */}
           <form onSubmit={handleSearch} className="flex gap-2">
             <Input
               type="text"
@@ -90,11 +90,11 @@ const Home = () => {
         </CardContent>
       </Card>
 
-      {/* Loading state stays the same */}
       {loading && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {Array.from({ length: 6 }).map((_, i) => (
-            <Card key={i} className="overflow-hidden h-full">
+            // eslint-disable-next-line react-x/no-array-index-key
+            <Card key={`skeleton-${i}`} className="overflow-hidden h-full">
               <div className="aspect-video">
                 <Skeleton className="h-full w-full" />
               </div>
@@ -110,12 +110,9 @@ const Home = () => {
         </div>
       )}
 
-      {/* Updated search results with Load More */}
       {!loading && searchResults.length > 0 && (
         <div className="mb-8">
-          <h2 className="text-2xl font-bold mb-4">
-            Search Results ({searchResults.length})
-          </h2>
+          <h2 className="text-2xl font-bold mb-4">Search Results:</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {searchResults.slice(0, displayedCount).map((meal) => (
@@ -142,14 +139,13 @@ const Home = () => {
                   )
                 }
               >
-                Load More ({searchResults.length - displayedCount} more recipes)
+                Load More
               </Button>
             </div>
           )}
         </div>
       )}
 
-      {/* Empty state stays the same */}
       {!loading && searchResults.length === 0 && !error && !queryParam && (
         <div className="text-center py-16">
           <p className="text-muted-foreground text-lg">

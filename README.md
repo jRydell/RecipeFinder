@@ -1,10 +1,14 @@
 # RecipeFinder
 
-RecipeFinder is developed by Johan Rydell as a final project for the Frontend Developer program at Yrkeshögskolan Borås. This full-stack application demonstrates knowledge in modern web development technologies, CI/CD practices, and deployment strategies.
+RecipeFinder is developed by Johan Rydell as a final project for
+the Frontend Developer program at Yrkeshögskolan Borås. This
+full-stack application demonstrates modern web
+development technologies, CI/CD practices, and deployment
+strategies.
 
 > **Note:** This project is currently under active development.
 
-RecipeFinder helps users find, save and rate recipes. The app lets you search and browse recipes from The MealDB API, save favorites to a MySQL database, and share your opinions through ratings and comments. Built with React and Node.js.
+RecipeFinder lets users find, save and rate recipes. The app lets you search and browse recipes from The MealDB API, save favorites to a MySQL database, and share your opinions through ratings and comments. Built with React and Node.js.
 
 ## Project Features
 

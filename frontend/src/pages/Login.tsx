@@ -29,7 +29,7 @@ const Login = () => {
     const result = await login(email, password);
 
     if (result.success) {
-      navigate("/");
+      void navigate("/");
     } else {
       setError(result.error || "Login failed");
     }
@@ -44,7 +44,7 @@ const Login = () => {
             Enter your credentials to access your account
           </CardDescription>
         </CardHeader>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(e) => void handleSubmit(e)}>
           <CardContent className="space-y-4">
             {error && (
               <Alert variant="destructive">
@@ -83,7 +83,7 @@ const Login = () => {
               <Button
                 variant="link"
                 className="p-0"
-                onClick={() => navigate("/register")}
+                onClick={() => void navigate("/register")}
               >
                 Sign up
               </Button>

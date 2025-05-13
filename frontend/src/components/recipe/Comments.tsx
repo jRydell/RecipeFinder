@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
-import { useAuthStore } from "../stores/auth.store";
-import { recipeService, RecipeComment } from "../services/recipe-service";
-import { Button } from "./ui/button";
-import { Textarea } from "./ui/textarea";
 import { formatDistanceToNow } from "date-fns";
 import { Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { RecipeComment, recipeService } from "@/services/recipe-service";
+import { useAuthStore } from "@/stores/auth.store";
+import { Button } from "../ui/button";
+import { Textarea } from "../ui/textarea";
 
-interface RecipeCommentsProps {
+type RecipeCommentsProps = {
   mealId: string;
-}
+};
 
-const RecipeComments = ({ mealId }: RecipeCommentsProps) => {
+export const Comments = ({ mealId }: RecipeCommentsProps) => {
   const [comments, setComments] = useState<RecipeComment[]>([]);
   const [newComment, setNewComment] = useState("");
   const [loading, setLoading] = useState(true);
@@ -20,7 +20,7 @@ const RecipeComments = ({ mealId }: RecipeCommentsProps) => {
   const { isAuthenticated, user } = useAuthStore();
 
   useEffect(() => {
-    fetchComments();
+    void fetchComments();
   }, [mealId]);
 
   const fetchComments = async () => {
@@ -52,7 +52,7 @@ const RecipeComments = ({ mealId }: RecipeCommentsProps) => {
       setError(error);
     } else {
       setNewComment("");
-      fetchComments();
+      void fetchComments();
     }
 
     setSubmitting(false);
@@ -68,7 +68,7 @@ const RecipeComments = ({ mealId }: RecipeCommentsProps) => {
     if (error) {
       setError(error);
     } else {
-      fetchComments();
+      void fetchComments();
     }
   };
 
@@ -91,7 +91,7 @@ const RecipeComments = ({ mealId }: RecipeCommentsProps) => {
       )}
 
       {isAuthenticated ? (
-        <form onSubmit={handleSubmitComment} className="mb-6">
+        <form onSubmit={(e) => void handleSubmitComment(e)} className="mb-6">
           <Textarea
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
@@ -135,7 +135,7 @@ const RecipeComments = ({ mealId }: RecipeCommentsProps) => {
                         variant="ghost"
                         size="sm"
                         className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                        onClick={() => handleDeleteComment(comment.id)}
+                        onClick={() => void handleDeleteComment(comment.id)}
                       >
                         <Trash2 className="h-4 w-4 text-red-500" />
                         <span className="sr-only">Delete</span>
@@ -156,5 +156,3 @@ const RecipeComments = ({ mealId }: RecipeCommentsProps) => {
     </div>
   );
 };
-
-export default RecipeComments;

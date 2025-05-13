@@ -54,6 +54,14 @@ export type Meal = {
   strMeasure20?: string;
 };
 
+type MealDBResponse = {
+  meals: Meal[] | null;
+};
+
+type MealDbCategoryResponse = {
+  categories: Category[] | null;
+};
+
 export type Category = {
   idCategory: string;
   strCategory: string;
@@ -69,7 +77,9 @@ export type ServiceResponse<T> = {
 export const mealDbService = {
   searchByName: async (name: string): Promise<ServiceResponse<Meal[]>> => {
     try {
-      const response = await axios.get(`${API_BASE}/search.php?s=${name}`);
+      const response = await axios.get<MealDBResponse>(
+        `${API_BASE}/search.php?s=${name}`
+      );
       return {
         data: response.data.meals || [],
         error: null,
@@ -85,7 +95,9 @@ export const mealDbService = {
 
   getById: async (id: string): Promise<ServiceResponse<Meal>> => {
     try {
-      const response = await axios.get(`${API_BASE}/lookup.php?i=${id}`);
+      const response = await axios.get<MealDBResponse>(
+        `${API_BASE}/lookup.php?i=${id}`
+      );
       const meal = response.data.meals?.[0] || null;
       return {
         data: meal,
@@ -102,7 +114,9 @@ export const mealDbService = {
 
   getCategories: async (): Promise<ServiceResponse<Category[]>> => {
     try {
-      const response = await axios.get(`${API_BASE}/categories.php`);
+      const response = await axios.get<MealDbCategoryResponse>(
+        `${API_BASE}/categories.php`
+      );
       return {
         data: response.data.categories || [],
         error: null,
@@ -120,7 +134,9 @@ export const mealDbService = {
     category: string
   ): Promise<ServiceResponse<Meal[]>> => {
     try {
-      const response = await axios.get(`${API_BASE}/filter.php?c=${category}`);
+      const response = await axios.get<MealDBResponse>(
+        `${API_BASE}/filter.php?c=${category}`
+      );
       return {
         data: response.data.meals || [],
         error: null,
@@ -136,7 +152,9 @@ export const mealDbService = {
 
   getRandomMeal: async (): Promise<ServiceResponse<Meal>> => {
     try {
-      const response = await axios.get(`${API_BASE}/random.php`);
+      const response = await axios.get<MealDBResponse>(
+        `${API_BASE}/random.php`
+      );
       return {
         data: response.data.meals?.[0] || null,
         error: null,

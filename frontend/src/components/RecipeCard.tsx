@@ -2,7 +2,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -86,12 +85,6 @@ const RecipeCard = ({
             </div>
           )}
         </CardContent>
-
-        <CardFooter className="mt-auto">
-          <span className="text-primary font-medium w-full text-center hover:underline">
-            View Recipe
-          </span>
-        </CardFooter>
       </a>
     </Card>
   );

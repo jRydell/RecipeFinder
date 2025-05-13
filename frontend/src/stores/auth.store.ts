@@ -76,9 +76,14 @@ export const useAuthStore = create<AuthState>()(
             });
             return { success: true, error: null };
           }
-          return { success: false, error: "Registration failed" };
+
+          return {
+            success: false,
+            error: response.error || "Registration failed",
+          };
         } catch (error) {
-          return { success: false, error: "Registration failed" };
+          console.error("Unexpected registration error:", error);
+          return { success: false, error: "An unexpected error occurred" };
         } finally {
           set({ isLoading: false });
         }
