@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { RecipeComment, recipeService } from "@/services/recipe-service";
+import { RecipeComment, recipeService } from "@/api/services/recipe-service";
 import { useAuthStore } from "@/stores/auth.store";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";

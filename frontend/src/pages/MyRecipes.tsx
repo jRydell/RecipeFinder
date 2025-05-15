@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { recipeService, SavedRecipe } from "../services/recipe-service";
+import { recipeService, SavedRecipe } from "../api/services/recipe-service";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";

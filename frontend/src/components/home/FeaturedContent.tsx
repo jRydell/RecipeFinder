@@ -1,4 +1,4 @@
-import { Meal, mealDbService } from "@/services/mealdb-service";
+import { Meal, mealDbService } from "@/api/services/mealdb-service";
 import { useState, useEffect } from "react";
 import { SearchSkeletons } from "./SearchSkeletons";
 

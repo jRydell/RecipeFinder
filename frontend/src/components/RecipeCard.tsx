@@ -8,7 +8,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Meal } from "@/services/mealdb-service";
+import { Meal } from "@/api/services/mealdb-service";
 
 type RecipeCardProps = {
   recipe: Meal;

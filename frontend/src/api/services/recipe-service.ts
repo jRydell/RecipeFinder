@@ -1,4 +1,4 @@
-import { api, ENDPOINTS } from "../api-config/api-config";
+import { api, ENDPOINTS } from "../config/api-config";
 
 export type SavedRecipe = {
   id: number;

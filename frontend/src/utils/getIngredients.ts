@@ -1,4 +1,4 @@
-import { Meal } from "../services/mealdb-service";
+import { Meal } from "../api/services/mealdb-service";
 
 /**
  * Extracts ingredients and their measurements from a meal object

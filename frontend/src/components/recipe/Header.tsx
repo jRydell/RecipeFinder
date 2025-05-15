@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuthStore } from "@/stores/auth.store";
-import { recipeService } from "@/services/recipe-service";
+import { recipeService } from "@/api/services/recipe-service";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";

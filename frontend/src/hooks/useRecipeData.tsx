@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Meal, mealDbService } from "../services/mealdb-service";
+import { Meal, mealDbService } from "../api/services/mealdb-service";
 import { useParams } from "react-router-dom";
 
 export const useRecipeData = () => {
