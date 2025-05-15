@@ -6,7 +6,7 @@ import { useSearchRecipe } from "@/hooks/useSearchRecipe";
 
 const Search = () => {
   const [displayedCount, setDisplayedCount] = useState(6);
-  const { searchResults, searchQuery, loading, error } = useSearchRecipe();
+  const { searchResults, queryParam, loading, error } = useSearchRecipe();
 
   if (!searchResults) {
     return null;
@@ -22,28 +22,21 @@ const Search = () => {
         </Link>
 
         <h1 className="text-2xl font-bold mt-4">
-          Search Results for "{searchQuery}"
+          Search Results for "{queryParam}"
         </h1>
       </div>
 
       {loading && <SearchSkeletons />}
 
-      {!loading && error && (
-        <div className="p-4 bg-red-50 text-red-700 rounded-md">{error}</div>
-      )}
-
-      {!loading && searchResults.length > 0 && (
-        <SearchResults
-          searchResults={searchResults}
-          displayedCount={displayedCount}
-          setDisplayedCount={setDisplayedCount}
-        />
-      )}
+      <SearchResults
+        displayedCount={displayedCount}
+        setDisplayedCount={setDisplayedCount}
+      />
 
       {!loading && searchResults.length === 0 && !error && (
         <div className="text-center py-12">
           <p className="text-gray-600">
-            No recipes found matching "{searchQuery}"
+            No recipes found matching "{queryParam}"
           </p>
           <Link
             to="/"

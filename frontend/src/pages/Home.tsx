@@ -5,7 +5,7 @@ import { FeaturedContent } from "@/components/home/FeaturedContent";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [loading, setLoading] = useState(false);
+
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
@@ -20,12 +20,11 @@ const Home = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-4">
+      {error && <p className="text-red-500 mb-4">{error}</p>}
       <SearchForm
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         onSubmit={handleSearch}
-        loading={loading}
-        error={error}
       />
 
       <FeaturedContent />

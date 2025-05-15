@@ -7,16 +7,16 @@ export const useSearchRecipe = () => {
   const [error, setError] = useState<string | null>(null);
   const [searchResults, setSearchResults] = useState<Meal[] | null>([]);
   const [searchParams] = useSearchParams();
-  const searchQuery = searchParams.get("q") || "";
+  const queryParam = searchParams.get("q") || "";
 
   useEffect(() => {
-    if (searchQuery) {
+    if (queryParam) {
       const performSearch = async () => {
-        if (!searchQuery.trim()) return;
+        if (!queryParam.trim()) return;
         setLoading(true);
         setError(null);
 
-        const { data, error } = await mealDbService.searchByName(searchQuery);
+        const { data, error } = await mealDbService.searchByName(queryParam);
 
         setSearchResults(data);
         setError(error);
@@ -25,6 +25,6 @@ export const useSearchRecipe = () => {
 
       void performSearch();
     }
-  }, [searchQuery]);
-  return { searchResults, loading, error, searchQuery };
+  }, [queryParam]);
+  return { searchResults, loading, error, queryParam };
 };

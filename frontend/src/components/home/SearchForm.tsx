@@ -1,3 +1,4 @@
+import { useSearchRecipe } from "@/hooks/useSearchRecipe";
 import { Alert, AlertDescription } from "../ui/alert";
 import { Button } from "../ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
@@ -7,15 +8,12 @@ export const SearchForm = ({
   searchQuery,
   setSearchQuery,
   onSubmit,
-  loading,
-  error,
 }: {
   searchQuery: string;
-  setSearchQuery: (v: string) => void;
-  onSubmit: (e: React.FormEvent) => void;
-  loading: boolean;
-  error: string | null;
+  setSearchQuery: (value: string) => void;
+  onSubmit: (event: React.FormEvent) => void;
 }) => {
+  const { error, loading } = useSearchRecipe();
   return (
     <Card className="mb-8">
       <CardHeader>
