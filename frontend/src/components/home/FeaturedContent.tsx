@@ -33,25 +33,25 @@ export const FeaturedContent = () => {
     <div className="space-y-12">
       {/* Categories Section */}
       <section>
-        <h2 className="text-2xl font-bold mb-4">Browse Categories</h2>
+        <h2 className="text-2xl font-bold mb-4">Popular Categories</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {categories.map((category) => (
             <div
               key={category.strCategory}
-              className="relative overflow-hidden rounded-lg h-40 bg-gradient-to-br from-amber-100 to-amber-200 hover:shadow-lg transition-shadow"
+              className="relative overflow-hidden rounded-lg h-60 hover:shadow-lg transition-shadow"
             >
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-xl font-semibold">
-                  {category.strCategory}
-                </span>
+              <div className="flex flex-row items-center justify-center">
+                {category.strCategoryThumb && (
+                  <img
+                    src={category.strCategoryThumb}
+                    alt={category.strCategory}
+                    className="object-cover w-full h-full "
+                  />
+                )}
               </div>
-              {category.strCategoryThumb && (
-                <img
-                  src={category.strCategoryThumb}
-                  alt={category.strCategory}
-                  className="object-cover w-full h-full opacity-30"
-                />
-              )}
+              <div className="mt-1.5 text-center font-medium">
+                {category.strCategory}
+              </div>
             </div>
           ))}
         </div>
