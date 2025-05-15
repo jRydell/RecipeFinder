@@ -170,7 +170,7 @@ export const mealDbService = {
 
   getRandomMeals: async (count: number): Promise<ServiceResponse<Meal[]>> => {
     try {
-      // Create an array of promises for multiple random meal requests
+      // array of promises for multiple random meal requests
       const requests = Array(count)
         .fill(0)
         .map(() => axios.get<MealDBResponse>(`${API_BASE}/random.php`));

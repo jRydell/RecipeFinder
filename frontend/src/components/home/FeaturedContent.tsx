@@ -10,13 +10,12 @@ export const FeaturedContent = () => {
   useEffect(() => {
     const fetchInitialContent = async () => {
       setLoading(true);
-      // Fetch categories
+
       const categoriesResponse = await mealDbService.getCategories();
       if (categoriesResponse.data) {
         setCategories(categoriesResponse.data.slice(0, 6));
       }
 
-      // Fetch popular meals (you might need to add this method to your service)
       const popularResponse = await mealDbService.getRandomMeals(6);
       if (popularResponse.data) {
         setPopularMeals(popularResponse.data);
