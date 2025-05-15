@@ -8,30 +8,19 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Meal } from "@/services/mealdb-service";
 
 type RecipeCardProps = {
-  id: string;
-  title: string;
-  image: string;
-  category: string;
-  area: string;
-  tags?: string;
+  recipe: Meal;
 };
 
-const RecipeCard = ({
-  id,
-  title,
-  image,
-  category,
-  area,
-  tags,
-}: RecipeCardProps) => {
+const RecipeCard = ({ recipe }: RecipeCardProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
 
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow h-full flex flex-col">
-      <a href={`/recipe/${id}`} className="flex-1 flex flex-col">
+      <a href={`/recipe/${recipe.idMeal}`} className="flex-1 flex flex-col">
         <div className="aspect-video relative overflow-hidden">
           {!imageLoaded && !imageError && (
             <div className="absolute inset-0 w-full h-full pointer-events-none">
@@ -39,8 +28,8 @@ const RecipeCard = ({
             </div>
           )}
           <img
-            src={image}
-            alt={title}
+            src={recipe.strMealThumb}
+            alt={recipe.strMeal}
             className={`w-full h-full object-cover transition-transform duration-300 ${
               imageLoaded ? "hover:scale-105" : "opacity-0"
             } ${imageError ? "hidden" : ""}`}
@@ -55,20 +44,24 @@ const RecipeCard = ({
         </div>
 
         <CardHeader className="pb-2">
-          <CardTitle className="line-clamp-1">{title}</CardTitle>
+          <CardTitle className="line-clamp-1">{recipe.strMeal}</CardTitle>
           <CardDescription className="flex flex-wrap gap-2">
-            {category && <Badge variant="secondary">{category}</Badge>}
-            {area && <Badge variant="outline">{area} Cuisine</Badge>}
+            {recipe.strCategory && (
+              <Badge variant="secondary">{recipe.strCategory}</Badge>
+            )}
+            {recipe.strArea && (
+              <Badge variant="outline">{recipe.strArea} Cuisine</Badge>
+            )}
           </CardDescription>
         </CardHeader>
 
         <CardContent className="pt-0 flex-1">
-          {tags && (
+          {recipe.strTags && (
             <div className="flex flex-wrap gap-1 mt-2">
-              {tags
+              {recipe.strTags
                 .split(",")
                 .slice(0, 3)
-                .map((tag) => (
+                .map((tag: string) => (
                   <Badge
                     key={tag}
                     variant="outline"
@@ -77,9 +70,9 @@ const RecipeCard = ({
                     {tag.trim()}
                   </Badge>
                 ))}
-              {tags.split(",").length > 3 && (
+              {recipe.strTags.split(",").length > 3 && (
                 <Badge variant="outline" className="text-xs">
-                  +{tags.split(",").length - 3}
+                  +{recipe.strTags.split(",").length - 3}
                 </Badge>
               )}
             </div>

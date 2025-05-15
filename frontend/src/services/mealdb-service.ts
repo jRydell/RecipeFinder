@@ -167,4 +167,32 @@ export const mealDbService = {
       };
     }
   },
+
+  getRandomMeals: async (count: number): Promise<ServiceResponse<Meal[]>> => {
+    try {
+      // array of promises for multiple random meal requests
+      const requests = Array(count)
+        .fill(0)
+        .map(() => axios.get<MealDBResponse>(`${API_BASE}/random.php`));
+
+      // Execute all requests in parallel
+      const responses = await Promise.all(requests);
+
+      // Extract the meals from each response and filter out any nulls
+      const meals = responses
+        .map((response) => response.data.meals?.[0])
+        .filter((meal): meal is Meal => meal !== undefined && meal !== null);
+
+      return {
+        data: meals,
+        error: null,
+      };
+    } catch (error) {
+      console.error("Error fetching random meals:", error);
+      return {
+        data: [],
+        error: "Failed to load random recipes. Please try again.",
+      };
+    }
+  },
 };
