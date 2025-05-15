@@ -14,6 +14,7 @@ import Terms from "./pages/Terms";
 import Contact from "./pages/Contact";
 import Recipe from "./pages/Recipe";
 import Layout from "./components/layout/Layout";
+import Search from "./pages/Search";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "recipe/:id",
         element: <Recipe />,
+      },
+      {
+        path: "/search",
+        element: <Search />,
       },
 
       {

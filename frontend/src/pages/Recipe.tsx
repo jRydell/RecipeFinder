@@ -54,7 +54,7 @@ const Recipe = () => {
         <IngredientList ingredients={ingredients} />
       </div>
 
-      <RatingCard recipe={recipe} />
+      <RatingCard />
       <Separator className="my-8" />
       <Comments mealId={recipe.idMeal} />
       <Separator className="my-8" />
