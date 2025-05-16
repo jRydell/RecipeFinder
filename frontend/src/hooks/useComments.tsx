@@ -43,14 +43,21 @@ export const useComments = () => {
       return { success: false, error };
     }
 
-    // Refetch comments after adding
-    const { data } = await recipeService.getComments(recipe.idMeal);
-    if (data) setComments(data);
+    // refetch comments after adding
+    const { data, error: refetchError } = await recipeService.getComments(
+      recipe.idMeal
+    );
+    if (refetchError) {
+      setError(refetchError);
+      setIsAddingComment(false);
 
-    setIsAddingComment(false);
-    return { success: true };
+      return { success: true, warning: refetchError };
+    } else if (data) {
+      setComments(data);
+      setIsAddingComment(false);
+      return { success: true };
+    }
   };
-
   return {
     comments,
     isLoadingComments,
