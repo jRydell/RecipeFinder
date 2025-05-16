@@ -15,9 +15,12 @@ export const useRecipeData = () => {
       setError(null);
 
       const { data, error } = await mealDbService.getById(id);
-
-      setRecipe(data);
-      setError(error);
+      if (error) {
+        setError(error);
+        setRecipe(null);
+      } else if (data) {
+        setRecipe(data);
+      }
       setLoading(false);
     };
 

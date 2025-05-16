@@ -6,37 +6,16 @@ import { RecipeComment, recipeService } from "@/api/services/recipe-service";
 import { useAuthStore } from "@/stores/auth.store";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
+import { CommentSkeletons } from "./CommentSkeletons";
+import { Separator } from "@radix-ui/react-separator";
+import { useRecipeData } from "@/hooks/useRecipeData";
 
-type RecipeCommentsProps = {
-  mealId: string;
-};
+export const Comments = () => {
 
-export const Comments = ({ mealId }: RecipeCommentsProps) => {
-  const [comments, setComments] = useState<RecipeComment[]>([]);
-  const [newComment, setNewComment] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const { isAuthenticated, user } = useAuthStore();
+  const { recipe } = useRecipeData();
 
-  useEffect(() => {
-    void fetchComments();
-  }, [mealId]);
 
-  const fetchComments = async () => {
-    setLoading(true);
-    setError(null);
-
-    const { data, error } = await recipeService.getComments(mealId);
-
-    if (error) {
-      setError(error);
-    } else if (data) {
-      setComments(data);
-    }
-
-    setLoading(false);
-  };
 
   const handleSubmitComment = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -75,7 +54,8 @@ export const Comments = ({ mealId }: RecipeCommentsProps) => {
   const formatTimestamp = (timestamp: string) => {
     try {
       return formatDistanceToNow(new Date(timestamp), { addSuffix: true });
-    } catch (e) {
+    } catch (error) {
+      console.log("time stamp error: ", error);
       return "some time ago";
     }
   };
@@ -117,7 +97,7 @@ export const Comments = ({ mealId }: RecipeCommentsProps) => {
 
       {loading ? (
         <div className="flex items-center justify-center py-8">
-          <p>Loading comments...</p>
+          <CommentSkeletons />
         </div>
       ) : comments.length > 0 ? (
         <div className="space-y-6">
@@ -144,6 +124,7 @@ export const Comments = ({ mealId }: RecipeCommentsProps) => {
                   </div>
                 </div>
                 <p className="mt-1">{comment.comment}</p>
+                <Separator />
               </div>
             </div>
           ))}

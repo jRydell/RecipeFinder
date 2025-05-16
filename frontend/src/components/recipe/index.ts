@@ -5,3 +5,4 @@ export { Instructions } from "./Instructions";
 export { Comments } from "./Comments";
 export { RatingCard } from "./RatingCard";
 export { FoodImage } from "./FoodImage";
+export { RecipeSkeletons } from "./RecipeSkeletons";
