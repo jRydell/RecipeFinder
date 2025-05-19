@@ -4,8 +4,11 @@ import { useRecipeData } from "./useRecipeData";
 
 export const useComments = () => {
   const [comments, setComments] = useState<RecipeComment[]>([]);
-  const [isLoadingComments, setIsLoadingComments] = useState<boolean>(false);
-  const [isAddingComment, setIsAddingComment] = useState<boolean>(false);
+  const [loadingComments, setLoadingComments] = useState<boolean>(false);
+  const [addingComment, setAddingComment] = useState<boolean>(false);
+  const [deletingCommentId, setDeletingCommentId] = useState<number | null>(
+    null
+  );
   const [error, setError] = useState<string | null>(null);
   const { recipe } = useRecipeData();
 
@@ -14,7 +17,7 @@ export const useComments = () => {
     if (!recipe) return;
 
     const getComments = async () => {
-      setIsLoadingComments(true);
+      setLoadingComments(true);
       setError(null);
       const { data, error } = await recipeService.getComments(recipe.idMeal);
       if (error) {
@@ -23,46 +26,93 @@ export const useComments = () => {
       } else if (data) {
         setComments(data);
       }
-      setIsLoadingComments(false);
+      setLoadingComments(false);
     };
 
     void getComments();
   }, [recipe]);
-
   // add comment function
   const addComment = async (newComment: string) => {
     if (!recipe) return { success: false, error: "No recipe selected" };
 
-    setIsAddingComment(true);
-
-    const { error } = await recipeService.addComment(recipe.idMeal, newComment);
+    setAddingComment(true);
+    const { error, message } = await recipeService.addComment(
+      recipe.idMeal,
+      newComment
+    );
 
     if (error) {
       setError(error);
-      setIsAddingComment(false);
+      setAddingComment(false);
       return { success: false, error };
     }
 
-    // refetch comments after adding
-    const { data, error: refetchError } = await recipeService.getComments(
+    // refresh after add
+    const { data, error: refreshError } = await recipeService.getComments(
       recipe.idMeal
     );
-    if (refetchError) {
-      setError(refetchError);
-      setIsAddingComment(false);
 
-      return { success: true, warning: refetchError };
+    setAddingComment(false);
+
+    if (refreshError) {
+      console.warn("Failed to refresh comments:", refreshError);
+      return {
+        success: true,
+        message,
+      };
+    }
+
+    if (data) {
+      setComments(data);
+    }
+
+    return { success: true, message };
+  };
+  const deleteComment = async (commentId: number) => {
+    setDeletingCommentId(commentId);
+    setError(null);
+
+    if (!recipe) {
+      setDeletingCommentId(null);
+      return { success: false, error: "No recipe selected" };
+    }
+
+    const { error, message } = await recipeService.deleteComment(commentId);
+
+    if (error) {
+      setError(error);
+      setDeletingCommentId(null);
+      return { success: false, error };
+    } // refetch comments after deleting
+
+    const { data, error: refreshError } = await recipeService.getComments(
+      recipe.idMeal
+    );
+
+    if (refreshError) {
+      console.warn("Failed to refresh comments:", refreshError);
+      setDeletingCommentId(null);
+      return {
+        success: true,
+        message,
+      };
     } else if (data) {
       setComments(data);
-      setIsAddingComment(false);
-      return { success: true };
     }
+
+    setDeletingCommentId(null);
+    return {
+      success: true,
+      message,
+    };
   };
   return {
     comments,
-    isLoadingComments,
-    isAddingComment,
+    loadingComments,
+    addingComment,
     error,
     addComment,
+    deleteComment,
+    deletingCommentId,
   };
 };

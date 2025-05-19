@@ -1,53 +1,42 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { RecipeComment, recipeService } from "@/api/services/recipe-service";
 import { useAuthStore } from "@/stores/auth.store";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { CommentSkeletons } from "./CommentSkeletons";
 import { Separator } from "@radix-ui/react-separator";
-import { useRecipeData } from "@/hooks/useRecipeData";
+import { useComments } from "@/hooks/useComments";
 
 export const Comments = () => {
-
   const { isAuthenticated, user } = useAuthStore();
-  const { recipe } = useRecipeData();
+  const [newComment, setNewComment] = useState("");
+  const {
+    comments,
+    loadingComments,
+    error,
+    addComment,
+    addingComment,
+    deleteComment,
+    deletingCommentId,
+  } = useComments();
 
-
-
-  const handleSubmitComment = async (e: React.FormEvent) => {
+  const handleAddComment = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!newComment.trim()) return;
 
-    setSubmitting(true);
-    setError(null);
+    const response = await addComment(newComment);
 
-    const { error } = await recipeService.addComment(mealId, newComment);
-
-    if (error) {
-      setError(error);
-    } else {
+    if (response?.success) {
       setNewComment("");
-      void fetchComments();
     }
-
-    setSubmitting(false);
   };
-
   const handleDeleteComment = async (commentId: number) => {
-    if (!confirm("Are you sure you want to delete this comment?")) {
-      return;
-    }
+    const response = await deleteComment(commentId);
 
-    const { error } = await recipeService.deleteComment(commentId);
-
-    if (error) {
-      setError(error);
-    } else {
-      void fetchComments();
+    if (!response || !response.success) {
+      console.error(response?.error);
     }
   };
 
@@ -55,7 +44,7 @@ export const Comments = () => {
     try {
       return formatDistanceToNow(new Date(timestamp), { addSuffix: true });
     } catch (error) {
-      console.log("time stamp error: ", error);
+      console.error("error:", error);
       return "some time ago";
     }
   };
@@ -71,7 +60,7 @@ export const Comments = () => {
       )}
 
       {isAuthenticated ? (
-        <form onSubmit={(e) => void handleSubmitComment(e)} className="mb-6">
+        <form onSubmit={(e) => void handleAddComment(e)} className="mb-6">
           <Textarea
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
@@ -79,8 +68,8 @@ export const Comments = () => {
             className="mb-2"
             rows={3}
           />
-          <Button type="submit" disabled={submitting || !newComment.trim()}>
-            {submitting ? "Posting..." : "Post Comment"}
+          <Button type="submit" disabled={addingComment || !newComment.trim()}>
+            {addingComment ? "Posting..." : "Post Comment"}
           </Button>
         </form>
       ) : (
@@ -89,13 +78,13 @@ export const Comments = () => {
             Please{" "}
             <Link to="/login" className="text-blue-600 hover:underline">
               sign in
-            </Link>
+            </Link>{" "}
             to leave a comment.
           </p>
         </div>
       )}
 
-      {loading ? (
+      {loadingComments ? (
         <div className="flex items-center justify-center py-8">
           <CommentSkeletons />
         </div>
@@ -109,15 +98,20 @@ export const Comments = () => {
                   <div className="flex items-center space-x-2">
                     <time className="text-xs text-muted-foreground">
                       {formatTimestamp(comment.created_at)}
-                    </time>
+                    </time>{" "}
                     {user && user.id === comment.user_id && (
                       <Button
                         variant="ghost"
                         size="sm"
                         className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
                         onClick={() => void handleDeleteComment(comment.id)}
+                        disabled={deletingCommentId === comment.id}
                       >
-                        <Trash2 className="h-4 w-4 text-red-500" />
+                        {deletingCommentId === comment.id ? (
+                          <span className="animate-spin">...</span>
+                        ) : (
+                          <Trash2 className="h-4 w-4 text-red-500" />
+                        )}
                         <span className="sr-only">Delete</span>
                       </Button>
                     )}

@@ -14,6 +14,7 @@ const apiClient = axios.create({
 export type ApiResponse<T = unknown> = {
   data: T | null;
   error: string | null;
+  message?: string;
 };
 
 type ApiRequestData = Record<string, unknown>;

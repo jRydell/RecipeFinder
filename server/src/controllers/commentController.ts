@@ -64,13 +64,12 @@ export const deleteComment = async (req: Request, res: Response) => {
       parseInt(commentId, 10),
       userId
     );
-
     if (!success) {
       return res.status(404).json({
         message: "Comment not found or you don't have permission to delete it",
       });
     }
-    res.json({ message: "Comment deleted successfully" });
+    res.status(200).json({ message: "Comment deleted successfully" });
   } catch (error) {
     console.error("Error deleting comment:", error);
     res.status(500).json({ message: "Failed to delete comment" });
