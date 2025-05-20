@@ -4,8 +4,8 @@ import { authenticateToken } from "../middleware/auth";
 
 const router = Router();
 
-// Upsert (create or update) a review (auth)
-router.post("/", authenticateToken, reviewController.upsertReview);
+// create a review a review (auth)
+router.post("/", authenticateToken, reviewController.addReview);
 
 // Get all reviews for a meal (noAuth)
 router.get("/meal/:meal_id", reviewController.getReviewsByMealId);

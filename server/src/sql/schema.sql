@@ -29,7 +29,6 @@ CREATE TABLE reviews (
     rating TINYINT NOT NULL CHECK (rating BETWEEN 1 AND 5),
     comment TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     UNIQUE (user_id, meal_id),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     INDEX (meal_id)

@@ -1,45 +1,42 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { Link, useParams } from "react-router-dom";
 import { useAuthStore } from "@/stores/auth.store";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { ReviewSkeletons } from "./ReviewSkeletons";
-import { Separator } from "@radix-ui/react-separator";
+import { Trash2 } from "lucide-react";
 
 import { useReviews } from "@/hooks/useReviews";
 
 export const Reviews = () => {
   const { isAuthenticated, user } = useAuthStore();
   const { mealId } = useParams();
-  const { reviews, userReview, loading, error, upsertReview, deleteReview } =
+  const { reviews, userReview, loading, error, addReview, deleteReview } =
     useReviews(mealId);
-  const [comment, setComment] = useState(userReview?.comment || "");
-  const [rating, setRating] = useState(userReview?.rating || 0);
+  const [comment, setComment] = useState<string>("");
+  const [rating, setRating] = useState<number>(0);
   const [submitting, setSubmitting] = useState(false);
-
-  useEffect(() => {
-    setComment(userReview?.comment || "");
-    setRating(userReview?.rating || 0);
-  }, [userReview]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!rating) return;
     setSubmitting(true);
     try {
-      await upsertReview(rating, comment);
+      await addReview(rating, comment);
     } finally {
+      setComment("");
       setSubmitting(false);
     }
   };
-
   const handleDelete = async () => {
     setSubmitting(true);
     try {
-      await deleteReview();
-      setComment("");
-      setRating(0);
+      const result = await deleteReview();
+      if (result.success) {
+        setComment("");
+        setRating(0);
+      }
     } finally {
       setSubmitting(false);
     }
@@ -61,52 +58,41 @@ export const Reviews = () => {
           {error}
         </div>
       )}
-      {isAuthenticated ? (
-        <form onSubmit={(e) => void handleSubmit(e)} className="mb-6 space-y-2">
-          <div className="flex items-center gap-2">
-            <span>Rating:</span>
-            {[1, 2, 3, 4, 5].map((star) => (
-              <button
-                type="button"
-                key={star}
-                className={star <= rating ? "text-yellow-400" : "text-gray-300"}
-                onClick={() => setRating(star)}
-                aria-label={`Set rating to ${star}`}
-                disabled={submitting}
-              >
-                ★
-              </button>
-            ))}
-          </div>
-          <Textarea
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            placeholder="Add your review..."
-            className="mb-2"
-            rows={3}
-            disabled={submitting}
-          />
-          <div className="flex gap-2">
-            <Button type="submit" disabled={submitting || !rating}>
-              {submitting
-                ? "Submitting..."
-                : userReview
-                ? "Update Review"
-                : "Post Review"}
-            </Button>
-            {userReview && (
-              <Button
-                type="button"
-                variant="destructive"
-                onClick={() => void handleDelete()}
-                disabled={submitting}
-              >
-                Delete
-              </Button>
-            )}
-          </div>
-        </form>
-      ) : (
+
+      <form onSubmit={(e) => void handleSubmit(e)} className="mb-6 space-y-2">
+        <div className="flex items-center gap-2">
+          <span>Rating:</span>
+          {[1, 2, 3, 4, 5].map((star) => (
+            <button
+              type="button"
+              key={star}
+              className={star <= rating ? "text-yellow-400" : "text-gray-300"}
+              onClick={() => setRating(star)}
+              aria-label={`Set rating to ${star}`}
+              disabled={submitting}
+            >
+              ★
+            </button>
+          ))}
+        </div>
+        <Textarea
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          placeholder="Add your review..."
+          className="mb-2"
+          rows={3}
+          disabled={submitting || !!userReview}
+        />
+        <div className="flex gap-2">
+          <Button
+            type="submit"
+            disabled={submitting || !rating || !!userReview || !isAuthenticated}
+          >
+            {submitting ? "Submitting..." : "Post Review"}
+          </Button>{" "}
+        </div>
+      </form>
+      {!isAuthenticated && (
         <div className="p-4 mb-6 bg-gray-100 dark:bg-gray-800 rounded-md">
           <p className="text-muted-foreground">
             Please{" "}
@@ -117,6 +103,7 @@ export const Reviews = () => {
           </p>
         </div>
       )}
+
       {loading ? (
         <div className="flex items-center justify-center py-8">
           <ReviewSkeletons />
@@ -124,13 +111,14 @@ export const Reviews = () => {
       ) : reviews.length > 0 ? (
         <div className="space-y-6">
           {reviews.map((review) => (
-            <div key={review.id} className="group flex gap-3">
+            <div
+              key={review.id}
+              className="group flex gap-3 relative  p-3 rounded-lg transition-colors"
+            >
               <div className="flex-1">
                 <div className="flex justify-between items-center">
                   <h3 className="font-medium">
-                    {review.user_id === user?.id
-                      ? "You"
-                      : `User #${review.user_id}`}
+                    {review.user_id === user?.id ? "You" : review.username}
                   </h3>
                   <div className="flex items-center space-x-2">
                     <span className="text-yellow-400">
@@ -144,11 +132,25 @@ export const Reviews = () => {
                     </span>
                     <time className="text-xs text-muted-foreground">
                       {formatTimestamp(review.created_at)}
-                    </time>
+                    </time>{" "}
+                    {review.user_id === user?.id && (
+                      <Button
+                        variant="ghost"
+                        onClick={() => {
+                          if (confirm(`Delete your review for this recipe?`)) {
+                            void handleDelete();
+                          }
+                        }}
+                        disabled={submitting}
+                        aria-label="Delete review"
+                      >
+                        <Trash2 size={16} />
+                      </Button>
+                    )}
                   </div>
-                </div>
+                </div>{" "}
                 {review.comment && <p className="mt-1">{review.comment}</p>}
-                <Separator />
+                <div className="mt-3 border-b border-gray-200 dark:border-gray-700"></div>
               </div>
             </div>
           ))}

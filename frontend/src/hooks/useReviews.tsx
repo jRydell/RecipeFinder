@@ -1,7 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
 import { recipeService, Review } from "@/api/services/recipe-service";
+import { useAuthStore } from "@/stores/auth.store";
 
 export const useReviews = (mealId: string | undefined) => {
+  const { isAuthenticated } = useAuthStore();
   const [reviews, setReviews] = useState<Review[]>([]);
   const [userReview, setUserReview] = useState<Review | null>(null);
   const [loading, setLoading] = useState(false);
@@ -18,17 +20,17 @@ export const useReviews = (mealId: string | undefined) => {
   }, [mealId]);
 
   const fetchUserReview = useCallback(async () => {
-    if (!mealId) return;
+    if (!mealId || !isAuthenticated) return;
     setError(null);
     const { data, error } = await recipeService.getUserReview(mealId);
     if (error) setError(error);
     setUserReview(data ?? null);
-  }, [mealId]);
+  }, [mealId, isAuthenticated]);
 
-  const upsertReview = async (rating: number, comment?: string) => {
+  const addReview = async (rating: number, comment?: string) => {
     if (!mealId) return { success: false, error: "No recipe selected" };
     setError(null);
-    const { data, error } = await recipeService.upsertReview(
+    const { data, error } = await recipeService.addReview(
       mealId,
       rating,
       comment ?? ""
@@ -65,7 +67,7 @@ export const useReviews = (mealId: string | undefined) => {
     userReview,
     loading,
     error,
-    upsertReview,
+    addReview,
     deleteReview,
     fetchReviews,
     fetchUserReview,

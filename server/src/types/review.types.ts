@@ -14,3 +14,7 @@ export type ReviewDTO = {
   rating?: number;
   comment?: string;
 };
+
+export type ReviewResponse = Review & {
+  username: string;
+};

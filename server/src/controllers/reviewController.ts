@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
 import * as reviewQueries from "../queries/review.queries";
 
-export const upsertReview = async (req: Request, res: Response) => {
+export const addReview = async (req: Request, res: Response) => {
   try {
     const user_id = req.user?.id;
     const { meal_id, rating, comment } = req.body;
     if (!user_id) return res.status(401).json({ message: "Unauthorized" });
     if (!meal_id)
       return res.status(400).json({ message: "Meal ID is required" });
-    const review = await reviewQueries.upsertReview(
+    const review = await reviewQueries.addReview(
       user_id,
       meal_id,
       rating ?? null,
@@ -16,8 +16,8 @@ export const upsertReview = async (req: Request, res: Response) => {
     );
     res.status(200).json(review);
   } catch (error) {
-    console.error("Error upserting review:", error);
-    res.status(500).json({ message: "Failed to upsert review" });
+    console.error("Error adding review:", error);
+    res.status(500).json({ message: "Failed to ass review" });
   }
 };
 

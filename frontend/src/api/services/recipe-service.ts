@@ -13,6 +13,7 @@ export type Review = {
   id: number;
   meal_id: string;
   user_id: number;
+  username: string;
   rating: number;
   comment?: string;
   created_at: string;
@@ -42,7 +43,7 @@ export const recipeService = {
   getUserReview: async (mealId: string) => {
     return api.get<Review>(`${ENDPOINTS.REVIEWS}/user/meal/${mealId}`);
   },
-  upsertReview: async (mealId: string, rating: number, comment: string) => {
+  addReview: async (mealId: string, rating: number, comment: string) => {
     return api.post<Review>(`${ENDPOINTS.REVIEWS}`, {
       meal_id: mealId,
       rating,

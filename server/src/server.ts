@@ -5,8 +5,6 @@ import { createServer } from "http";
 import connection, { testConnection } from "./db";
 import authRoutes from "./routes/auth.routes";
 import savedRecipeRoutes from "./routes/savedRecipe.routes";
-import ratingRoutes from "./routes/rating.routes";
-import commentRoutes from "./routes/comment.routes";
 import reviewRoutes from "./routes/review.routes";
 import { setupLogging } from "./middleware/logging";
 import { healthRoutes } from "./routes/health.routes";
@@ -29,9 +27,6 @@ app.use(cors());
 // Routes
 app.use("/", healthRoutes(serverStartTime));
 app.use("/api/auth", authRoutes);
-app.use("/api/saved-recipes", savedRecipeRoutes);
-app.use("/api/ratings", ratingRoutes);
-app.use("/api/comments", commentRoutes);
 app.use("/api/reviews", reviewRoutes);
 
 // Error handling
