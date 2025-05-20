@@ -77,11 +77,9 @@ const MyRecipes = () => {
         {savedRecipes.map((recipe) => (
           <div key={recipe.id} className="relative group">
             <RecipeCard
-              id={recipe.meal_id}
-              title={recipe.meal_name}
-              image={recipe.meal_thumb}
-              category=""
-              area=""
+              idMeal={recipe.meal_id}
+              strMeal={recipe.meal_name}
+              strMealThumb={recipe.meal_thumb}
             />
             <Button
               variant="destructive"

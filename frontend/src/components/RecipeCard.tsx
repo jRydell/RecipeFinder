@@ -8,18 +8,29 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Meal } from "@/api/services/mealdb-service";
 
 type RecipeCardProps = {
-  recipe: Meal;
+  idMeal: string;
+  strMealThumb: string;
+  strMeal: string;
+  strCategory?: string;
+  strArea?: string;
+  strTags?: string;
 };
 
-const RecipeCard = ({ recipe }: RecipeCardProps) => {
+const RecipeCard = ({
+  idMeal,
+  strMealThumb,
+  strMeal,
+  strCategory,
+  strArea,
+  strTags,
+}: RecipeCardProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   return (
     <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 h-full flex flex-col p-0">
-      <a href={`/recipe/${recipe.idMeal}`} className="flex-1 flex flex-col">
+      <a href={`/recipe/${idMeal}`} className="flex-1 flex flex-col">
         <div className="relative overflow-hidden h-48 w-full">
           {" "}
           {!imageLoaded && !imageError && (
@@ -28,8 +39,8 @@ const RecipeCard = ({ recipe }: RecipeCardProps) => {
             </div>
           )}
           <img
-            src={recipe.strMealThumb}
-            alt={recipe.strMeal}
+            src={strMealThumb}
+            alt={strMeal}
             className={`absolute inset-0 w-full h-full object-cover transition-all duration-300 ${
               imageLoaded ? "" : "opacity-0"
             } ${imageError ? "hidden" : ""}`}
@@ -44,27 +55,27 @@ const RecipeCard = ({ recipe }: RecipeCardProps) => {
         </div>
         <CardHeader className="px-4 py-3">
           <CardTitle className="line-clamp-1 font-semibold text-lg">
-            {recipe.strMeal}
+            {strMeal}
           </CardTitle>
           <CardDescription className="flex flex-wrap gap-2 mt-1">
-            {recipe.strCategory && (
+            {strCategory && (
               <Badge className="bg-amber-100 px-2 py-1 rounded text-amber-800 text-sm font-normal">
-                {recipe.strCategory}
+                {strCategory}
               </Badge>
             )}
-            {recipe.strArea && (
+            {strArea && (
               <Badge className="bg-blue-100 px-2 py-1 rounded text-blue-800 text-sm font-normal">
-                {recipe.strArea}
+                {strArea}
               </Badge>
             )}
           </CardDescription>
         </CardHeader>
         <CardContent className="pt-0 px-4 pb-4 flex-1">
           {" "}
-          {recipe.strTags && (
+          {strTags && (
             <div className="flex flex-wrap gap-1 mt-1">
               {" "}
-              {recipe.strTags
+              {strTags
                 .split(",")
                 .slice(0, 3)
                 .map((tag: string) => (
@@ -75,9 +86,9 @@ const RecipeCard = ({ recipe }: RecipeCardProps) => {
                     {tag.trim()}
                   </Badge>
                 ))}
-              {recipe.strTags.split(",").length > 3 && (
+              {strTags.split(",").length > 3 && (
                 <Badge className="bg-green-50 px-2 py-1 rounded text-green-700 text-sm font-normal">
-                  +{recipe.strTags.split(",").length - 3}
+                  +{strTags.split(",").length - 3}
                 </Badge>
               )}
             </div>
