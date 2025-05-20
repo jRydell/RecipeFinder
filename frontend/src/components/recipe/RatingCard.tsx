@@ -1,6 +1,6 @@
-import { Card, CardContent } from "@/components/ui/card";
+/* import { Card, CardContent } from "@/components/ui/card";
 import Rating from "./Rating";
-import { Comments } from "./Comments";
+import { Comments } from "./Reviews";
 
 export const RatingCard = () => {
   return (
@@ -8,8 +8,9 @@ export const RatingCard = () => {
       <CardContent className="flex flex-row items-center gap-4 justify-start pt-6">
         <h2 className="font-medium text-lg">Rating:</h2>
         <Rating />
-        <Comments />
+       
       </CardContent>
     </Card>
   );
 };
+ */

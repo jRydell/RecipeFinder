@@ -9,19 +9,14 @@ export type SavedRecipe = {
   saved_at: string;
 };
 
-export type RecipeRating = {
-  average: number;
-  count: number;
-  userRating: number | null;
-};
-
-export type RecipeComment = {
+export type Review = {
   id: number;
-  user_id: number;
   meal_id: string;
-  comment: string;
+  user_id: number;
+  rating: number;
+  comment?: string;
   created_at: string;
-  username: string;
+  updated_at: string;
 };
 
 export const recipeService = {
@@ -30,30 +25,32 @@ export const recipeService = {
   },
 
   saveRecipe: async (mealId: string, mealName: string, mealThumb: string) => {
-    return api.post(ENDPOINTS.SAVED_RECIPES, { mealId, mealName, mealThumb });
+    return api.post<SavedRecipe>(ENDPOINTS.SAVED_RECIPES, {
+      mealId,
+      mealName,
+      mealThumb,
+    });
   },
-
   deleteSavedRecipe: async (mealId: string) => {
-    return api.delete(`${ENDPOINTS.SAVED_RECIPES}/${mealId}`);
+    return api.delete<SavedRecipe>(`${ENDPOINTS.SAVED_RECIPES}/${mealId}`);
   },
 
-  getRating: async (mealId: string) => {
-    return api.get<RecipeRating>(`${ENDPOINTS.RATINGS}/${mealId}`);
+  getReviews: async (mealId: string) => {
+    return api.get<Review[]>(`${ENDPOINTS.REVIEWS}/meal/${mealId}`);
   },
 
-  rateRecipe: async (mealId: string, rating: number) => {
-    return api.post(ENDPOINTS.RATINGS, { mealId, rating });
+  getUserReview: async (mealId: string) => {
+    return api.get<Review>(`${ENDPOINTS.REVIEWS}/user/meal/${mealId}`);
+  },
+  upsertReview: async (mealId: string, rating: number, comment: string) => {
+    return api.post<Review>(`${ENDPOINTS.REVIEWS}`, {
+      meal_id: mealId,
+      rating,
+      comment,
+    });
   },
 
-  getComments: async (mealId: string) => {
-    return api.get<RecipeComment[]>(`${ENDPOINTS.COMMENTS}/${mealId}`);
-  },
-
-  addComment: async (mealId: string, comment: string) => {
-    return api.post(ENDPOINTS.COMMENTS, { mealId, comment });
-  },
-
-  deleteComment: async (commentId: number) => {
-    return api.delete(`${ENDPOINTS.COMMENTS}/${commentId}`);
+  deleteReview: async (mealId: string) => {
+    return api.delete(`${ENDPOINTS.REVIEWS}/meal/${mealId}`);
   },
 };

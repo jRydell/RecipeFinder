@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export const CommentSkeletons = () => {
+export const ReviewSkeletons = () => {
   return (
     <div className="space-y-6">
       {Array.from({ length: 3 }).map((_, i) => (

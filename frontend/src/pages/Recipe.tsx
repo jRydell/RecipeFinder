@@ -1,21 +1,21 @@
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
-
 import { Separator } from "@/components/ui/separator";
 import { getIngredients } from "@/utils/getIngredients";
 import { useRecipeData } from "../hooks/useRecipeData";
 import {
-  Comments,
   FoodImage,
   Header,
   IngredientList,
   Instructions,
-  RatingCard,
   RecipeSkeletons,
+  Reviews,
   YoutubeVideo,
 } from "@/components/recipe";
+import { useParams } from "react-router-dom";
 
 const Recipe = () => {
-  const { recipe, loading, error } = useRecipeData();
+  const { mealId } = useParams();
+  const { recipe, loading, error } = useRecipeData(mealId);
 
   if (loading) {
     return <RecipeSkeletons />;
@@ -54,8 +54,7 @@ const Recipe = () => {
         <FoodImage />
         <IngredientList ingredients={ingredients} />
       </div>
-
-      <RatingCard />
+      <Reviews />
       <Separator className="my-8" />
 
       <Instructions />

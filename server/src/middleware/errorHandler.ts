@@ -7,5 +7,5 @@ export function errorHandler(
   next: NextFunction
 ) {
   console.error(err.stack);
-  res.status(500).send("Something went wrong!");
+  res.status(500).json({ message: "Something went wrong!" });
 }

@@ -22,23 +22,15 @@ CREATE TABLE saved_recipes (
   UNIQUE KEY unique_user_meal (user_id, meal_id) -- Prevent duplicate saves
 );
 
--- Ratings table
-CREATE TABLE ratings (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id INT NOT NULL,
-  meal_id VARCHAR(50) NOT NULL,
-  rating TINYINT NOT NULL CHECK (rating BETWEEN 1 AND 5),
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-  UNIQUE KEY unique_user_rating (user_id, meal_id) -- One rating per user per recipe
-);
-
--- Comments table
-CREATE TABLE comments (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id INT NOT NULL,
-  meal_id VARCHAR(50) NOT NULL,
-  comment TEXT NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+CREATE TABLE reviews (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    meal_id VARCHAR(64) NOT NULL,
+    rating TINYINT NOT NULL CHECK (rating BETWEEN 1 AND 5),
+    comment TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE (user_id, meal_id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX (meal_id)
 );
