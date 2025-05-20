@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuthStore } from "@/stores/auth.store";
-import { recipeService } from "@/services/recipe-service";
-import { useNavigate } from "react-router-dom";
+import { recipeService } from "@/api/services/recipe-service";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { useRecipeData } from "@/hooks/useRecipeData";
@@ -10,7 +10,8 @@ export const Header = () => {
   const [isSaved, setIsSaved] = useState<boolean>();
   const [saveLoading, setSaveLoading] = useState(false);
   const { isAuthenticated } = useAuthStore();
-  const { recipe } = useRecipeData();
+  const { mealId } = useParams();
+  const { recipe } = useRecipeData(mealId);
 
   const navigate = useNavigate();
 

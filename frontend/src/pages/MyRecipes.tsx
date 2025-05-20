@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { recipeService, SavedRecipe } from "../services/recipe-service";
+import { recipeService, SavedRecipe } from "../api/services/recipe-service";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -77,11 +77,9 @@ const MyRecipes = () => {
         {savedRecipes.map((recipe) => (
           <div key={recipe.id} className="relative group">
             <RecipeCard
-              id={recipe.meal_id}
-              title={recipe.meal_name}
-              image={recipe.meal_thumb}
-              category=""
-              area=""
+              idMeal={recipe.meal_id}
+              strMeal={recipe.meal_name}
+              strMealThumb={recipe.meal_thumb}
             />
             <Button
               variant="destructive"

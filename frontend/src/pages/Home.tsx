@@ -9,10 +9,15 @@ const Home = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const handleSearch = (e: React.FormEvent) => {
+  const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+      try {
+        await navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+      } catch (error) {
+        console.error("Navigation error:", error);
+        setError("Navigation failed");
+      }
     } else {
       setError("Please enter a search term");
     }
@@ -24,7 +29,9 @@ const Home = () => {
       <SearchForm
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
-        onSubmit={handleSearch}
+        onSubmit={(e) => {
+          void handleSearch(e);
+        }}
       />
 
       <FeaturedContent />

@@ -8,30 +8,41 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Meal } from "@/services/mealdb-service";
 
 type RecipeCardProps = {
-  recipe: Meal;
+  idMeal: string;
+  strMealThumb: string;
+  strMeal: string;
+  strCategory?: string;
+  strArea?: string;
+  strTags?: string;
 };
 
-const RecipeCard = ({ recipe }: RecipeCardProps) => {
+const RecipeCard = ({
+  idMeal,
+  strMealThumb,
+  strMeal,
+  strCategory,
+  strArea,
+  strTags,
+}: RecipeCardProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
-
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-shadow h-full flex flex-col">
-      <a href={`/recipe/${recipe.idMeal}`} className="flex-1 flex flex-col">
-        <div className="aspect-video relative overflow-hidden">
+    <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 h-full flex flex-col p-0">
+      <a href={`/recipe/${idMeal}`} className="flex-1 flex flex-col">
+        <div className="relative overflow-hidden h-48 w-full">
+          {" "}
           {!imageLoaded && !imageError && (
             <div className="absolute inset-0 w-full h-full pointer-events-none">
               <Skeleton className="w-full h-full" />
             </div>
           )}
           <img
-            src={recipe.strMealThumb}
-            alt={recipe.strMeal}
-            className={`w-full h-full object-cover transition-transform duration-300 ${
-              imageLoaded ? "hover:scale-105" : "opacity-0"
+            src={strMealThumb}
+            alt={strMeal}
+            className={`absolute inset-0 w-full h-full object-cover transition-all duration-300 ${
+              imageLoaded ? "" : "opacity-0"
             } ${imageError ? "hidden" : ""}`}
             onLoad={() => setImageLoaded(true)}
             onError={() => setImageError(true)}
@@ -42,37 +53,42 @@ const RecipeCard = ({ recipe }: RecipeCardProps) => {
             </div>
           )}
         </div>
-
-        <CardHeader className="pb-2">
-          <CardTitle className="line-clamp-1">{recipe.strMeal}</CardTitle>
-          <CardDescription className="flex flex-wrap gap-2">
-            {recipe.strCategory && (
-              <Badge variant="secondary">{recipe.strCategory}</Badge>
+        <CardHeader className="px-4 py-3">
+          <CardTitle className="line-clamp-1 font-semibold text-lg">
+            {strMeal}
+          </CardTitle>
+          <CardDescription className="flex flex-wrap gap-2 mt-1">
+            {strCategory && (
+              <Badge className="bg-amber-100 px-2 py-1 rounded text-amber-800 text-sm font-normal">
+                {strCategory}
+              </Badge>
             )}
-            {recipe.strArea && (
-              <Badge variant="outline">{recipe.strArea} Cuisine</Badge>
+            {strArea && (
+              <Badge className="bg-blue-100 px-2 py-1 rounded text-blue-800 text-sm font-normal">
+                {strArea}
+              </Badge>
             )}
           </CardDescription>
         </CardHeader>
-
-        <CardContent className="pt-0 flex-1">
-          {recipe.strTags && (
-            <div className="flex flex-wrap gap-1 mt-2">
-              {recipe.strTags
+        <CardContent className="pt-0 px-4 pb-4 flex-1">
+          {" "}
+          {strTags && (
+            <div className="flex flex-wrap gap-1 mt-1">
+              {" "}
+              {strTags
                 .split(",")
                 .slice(0, 3)
                 .map((tag: string) => (
                   <Badge
                     key={tag}
-                    variant="outline"
-                    className="text-xs bg-muted"
+                    className="bg-green-50 px-2 py-1 rounded text-green-700 text-sm font-normal"
                   >
                     {tag.trim()}
                   </Badge>
                 ))}
-              {recipe.strTags.split(",").length > 3 && (
-                <Badge variant="outline" className="text-xs">
-                  +{recipe.strTags.split(",").length - 3}
+              {strTags.split(",").length > 3 && (
+                <Badge className="bg-green-50 px-2 py-1 rounded text-green-700 text-sm font-normal">
+                  +{strTags.split(",").length - 3}
                 </Badge>
               )}
             </div>
