@@ -28,7 +28,7 @@ app.use(cors());
 app.use("/", healthRoutes(serverStartTime));
 app.use("/api/auth", authRoutes);
 app.use("/api/reviews", reviewRoutes);
-
+app.use("/api/my-recipes", savedRecipeRoutes);
 // Error handling
 app.use(errorHandler);
 
