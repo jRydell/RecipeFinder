@@ -1,9 +1,17 @@
 import { Meal, mealDbService } from "@/api/services/mealdb-service";
 import { useState, useEffect } from "react";
 import { SearchSkeletons } from "./SearchSkeletons";
+import RecipeCard from "../RecipeCard";
+import { CategoryCard } from "./CategoryCard";
+
+export type Category = {
+  strCategory: string;
+  strCategoryThumb: string;
+  strCategoryDescription: string;
+};
 
 export const FeaturedContent = () => {
-  const [categories, setCategories] = useState<any[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [popularMeals, setPopularMeals] = useState<Meal[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -36,23 +44,7 @@ export const FeaturedContent = () => {
         <h2 className="text-2xl font-bold mb-4">Popular Categories</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {categories.map((category) => (
-            <div
-              key={category.strCategory}
-              className="relative overflow-hidden rounded-lg h-60 hover:shadow-lg transition-shadow"
-            >
-              <div className="flex flex-row items-center justify-center">
-                {category.strCategoryThumb && (
-                  <img
-                    src={category.strCategoryThumb}
-                    alt={category.strCategory}
-                    className="object-cover w-full h-full "
-                  />
-                )}
-              </div>
-              <div className="mt-1.5 text-center font-medium">
-                {category.strCategory}
-              </div>
-            </div>
+            <CategoryCard key={category.strCategory} category={category} />
           ))}
         </div>
       </section>
@@ -62,29 +54,12 @@ export const FeaturedContent = () => {
         <h2 className="text-2xl font-bold mb-4">Popular Recipes</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {popularMeals.map((meal) => (
-            <div
+            <RecipeCard
               key={meal.idMeal}
-              className="rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
-            >
-              <img
-                src={meal.strMealThumb}
-                alt={meal.strMeal}
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-4">
-                <h3 className="font-semibold text-lg">{meal.strMeal}</h3>
-                <div className="flex gap-2 mt-2 text-sm">
-                  <span className="bg-amber-100 px-2 py-1 rounded">
-                    {meal.strCategory}
-                  </span>
-                  {meal.strArea && (
-                    <span className="bg-blue-100 px-2 py-1 rounded">
-                      {meal.strArea}
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
+              idMeal={meal.idMeal}
+              strMealThumb={meal.strMealThumb}
+              strMeal={meal.strMeal}
+            />
           ))}
         </div>
       </section>
