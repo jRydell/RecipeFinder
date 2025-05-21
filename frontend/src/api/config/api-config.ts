@@ -22,7 +22,7 @@ type ApiRequestData = Record<string, unknown>;
 export const ENDPOINTS = {
   REGISTER: "/api/auth/register",
   LOGIN: "/api/auth/login",
-  SAVED_RECIPES: "/api/saved-recipes",
+  SAVED_RECIPES: "/api/my-recipes",
   REVIEWS: "/api/reviews",
 };
 

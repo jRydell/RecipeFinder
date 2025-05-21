@@ -15,7 +15,10 @@ dotenv.config();
 
 // Create server
 const app = express();
-const port = parseInt(process.env.PORT || "3000");
+if (!process.env.PORT) {
+  throw new Error("PORT environment variable is not defined.");
+}
+const port = parseInt(process.env.PORT);
 const server = createServer(app);
 const serverStartTime = new Date();
 
@@ -28,7 +31,7 @@ app.use(cors());
 app.use("/", healthRoutes(serverStartTime));
 app.use("/api/auth", authRoutes);
 app.use("/api/reviews", reviewRoutes);
-
+app.use("/api/my-recipes", savedRecipeRoutes);
 // Error handling
 app.use(errorHandler);
 
