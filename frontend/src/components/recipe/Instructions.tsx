@@ -1,8 +1,10 @@
 import { useRecipeData } from "@/hooks/useRecipeData";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
+import { useParams } from "react-router-dom";
 
 export const Instructions = () => {
-  const { recipe } = useRecipeData();
+  const { mealId } = useParams();
+  const { recipe } = useRecipeData(mealId);
 
   if (!recipe) {
     return null;
@@ -19,7 +21,6 @@ export const Instructions = () => {
             .split("\r\n")
             .filter(Boolean)
             .map((paragraph, index) => (
-              // Static lits inndex is safe to use as key here
               // eslint-disable-next-line react-x/no-array-index-key
               <p key={index} className="text-left">
                 {paragraph}

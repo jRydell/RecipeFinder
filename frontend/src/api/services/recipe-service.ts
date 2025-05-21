@@ -20,6 +20,11 @@ export type Review = {
   updated_at: string;
 };
 
+export type Rating = {
+  averageRating: number;
+  count: number;
+};
+
 export const recipeService = {
   getSavedRecipes: async () => {
     return api.get<SavedRecipe[]>(ENDPOINTS.SAVED_RECIPES);
@@ -53,5 +58,10 @@ export const recipeService = {
 
   deleteReview: async (mealId: string) => {
     return api.delete(`${ENDPOINTS.REVIEWS}/meal/${mealId}`);
+  },
+  getAverageRating: async (mealId: string) => {
+    return api.get<Rating>(
+      `${ENDPOINTS.REVIEWS}/average-rating?meal_id=${mealId}`
+    );
   },
 };

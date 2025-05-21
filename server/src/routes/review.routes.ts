@@ -17,6 +17,9 @@ router.get(
   reviewController.getReviewByUserAndMeal
 );
 
+// get average rating per meal id (no auth)
+router.get("/average-rating", reviewController.getAverageRating);
+
 // Delete a review (auth)
 router.delete(
   "/meal/:meal_id",
