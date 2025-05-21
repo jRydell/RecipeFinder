@@ -1,5 +1,4 @@
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
-import { Separator } from "@/components/ui/separator";
 import { getIngredients } from "@/utils/getIngredients";
 import { useRecipeData } from "../hooks/useRecipeData";
 import {
@@ -54,16 +53,16 @@ const Recipe = () => {
         <FoodImage />
         <IngredientList ingredients={ingredients} />
       </div>
-      <Reviews />
-      <Separator className="my-8" />
 
       <Instructions />
+
       {recipe.strYoutube && (
         <>
-          <Separator className="my-8" />
           <YoutubeVideo />
         </>
       )}
+
+      <Reviews />
     </div>
   );
 };
