@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useAuthStore } from "../stores/auth.store";
+import { useAuthStore } from "../../stores/auth.store";
 
 // Environment detection
 const isDevelopment = import.meta.env.DEV;
@@ -14,6 +14,7 @@ const apiClient = axios.create({
 export type ApiResponse<T = unknown> = {
   data: T | null;
   error: string | null;
+  message?: string;
 };
 
 type ApiRequestData = Record<string, unknown>;
@@ -21,9 +22,8 @@ type ApiRequestData = Record<string, unknown>;
 export const ENDPOINTS = {
   REGISTER: "/api/auth/register",
   LOGIN: "/api/auth/login",
-  SAVED_RECIPES: "/api/saved-recipes",
-  RATINGS: "/api/ratings",
-  COMMENTS: "/api/comments",
+  SAVED_RECIPES: "/api/my-recipes",
+  REVIEWS: "/api/reviews",
 };
 
 // Auth token
@@ -37,12 +37,17 @@ type ErrorResponse = {
 };
 
 const handleError = (error: unknown): string => {
+  // For Axios errors with response
   if (axios.isAxiosError(error) && error.response) {
     const errorData = error.response.data as ErrorResponse;
     return errorData.message || `Error: ${error.response.status}`;
   }
-
-  return error instanceof Error ? error.message : "Unknown error";
+  // For standard JS errors
+  if (error instanceof Error) {
+    return error.message;
+  }
+  // Fallback for unknown error types
+  return "Unknown error";
 };
 
 export const api = {
@@ -53,11 +58,12 @@ export const api = {
       });
       return { data: response.data, error: null };
     } catch (error) {
-      console.error(`API Error:`, error);
+      if (import.meta.env.DEV) {
+        console.error(`API GET Error (${endpoint}):`, error);
+      }
       return { data: null, error: handleError(error) };
     }
   },
-
   post: async <T>(
     endpoint: string,
     data: ApiRequestData
@@ -68,11 +74,12 @@ export const api = {
       });
       return { data: response.data, error: null };
     } catch (error) {
-      console.error(`API Error:`, error);
+      if (import.meta.env.DEV) {
+        console.error(`API POST Error (${endpoint}):`, error);
+      }
       return { data: null, error: handleError(error) };
     }
   },
-
   put: async <T>(
     endpoint: string,
     data: ApiRequestData
@@ -83,11 +90,12 @@ export const api = {
       });
       return { data: response.data, error: null };
     } catch (error) {
-      console.error(`API Error:`, error);
+      if (import.meta.env.DEV) {
+        console.error(`API PUT Error (${endpoint}):`, error);
+      }
       return { data: null, error: handleError(error) };
     }
   },
-
   delete: async <T>(endpoint: string): Promise<ApiResponse<T>> => {
     try {
       const response = await apiClient.delete<T>(endpoint, {
@@ -95,7 +103,9 @@ export const api = {
       });
       return { data: response.data, error: null };
     } catch (error) {
-      console.error(`API Error:`, error);
+      if (import.meta.env.DEV) {
+        console.error(`API DELETE Error (${endpoint}):`, error);
+      }
       return { data: null, error: handleError(error) };
     }
   },

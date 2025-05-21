@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { api, ENDPOINTS } from "../api-config/api-config";
+import { api, ENDPOINTS } from "../api/config/api-config";
 
 type AuthResponse = {
   user: User;

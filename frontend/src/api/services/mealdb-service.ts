@@ -93,10 +93,10 @@ export const mealDbService = {
     }
   },
 
-  getById: async (id: string): Promise<ServiceResponse<Meal>> => {
+  getById: async (mealId: string): Promise<ServiceResponse<Meal>> => {
     try {
       const response = await axios.get<MealDBResponse>(
-        `${API_BASE}/lookup.php?i=${id}`
+        `${API_BASE}/lookup.php?i=${mealId}`
       );
       const meal = response.data.meals?.[0] || null;
       return {
@@ -104,7 +104,7 @@ export const mealDbService = {
         error: meal ? null : "Recipe not found",
       };
     } catch (error) {
-      console.error(`Error fetching recipe ${id}:`, error);
+      console.error(`Error fetching recipe ${mealId}:`, error);
       return {
         data: null,
         error: "Failed to load recipe details. Please try again.",

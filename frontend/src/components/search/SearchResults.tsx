@@ -19,12 +19,20 @@ export const SearchResults = ({
 
   return (
     <div className="space-y-6">
+      {" "}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {searchResults.slice(0, displayedCount).map((meal) => (
-          <RecipeCard key={meal.idMeal} recipe={meal} />
+          <RecipeCard
+            key={meal.idMeal}
+            idMeal={meal.idMeal}
+            strMealThumb={meal.strMealThumb}
+            strMeal={meal.strMeal}
+            strCategory={meal.strCategory}
+            strArea={meal.strArea}
+            strTags={meal.strTags}
+          />
         ))}
       </div>
-
       {displayedCount < searchResults.length && (
         <div className="flex justify-center mt-8">
           <Button
