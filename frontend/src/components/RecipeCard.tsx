@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { AverageRating } from "./AverageRating";
 
 type RecipeCardProps = {
   idMeal: string;
@@ -10,13 +11,7 @@ type RecipeCardProps = {
   strArea?: string;
 };
 
-const RecipeCard = ({
-  idMeal,
-  strMealThumb,
-  strMeal,
-  strCategory,
-  strArea,
-}: RecipeCardProps) => {
+const RecipeCard = ({ idMeal, strMealThumb, strMeal }: RecipeCardProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   return (
@@ -46,16 +41,7 @@ const RecipeCard = ({
         <div className="p-4 flex-1 flex flex-col">
           <h3 className="font-semibold text-lg line-clamp-1 mb-2">{strMeal}</h3>
           <div className="flex gap-2 mt-2 text-sm">
-            {strCategory && (
-              <span className="bg-amber-100 px-2 py-1 rounded text-black font-normal">
-                {strCategory}
-              </span>
-            )}
-            {strArea && (
-              <span className="bg-blue-100 px-2 py-1 rounded text-black font-normal">
-                {strArea}
-              </span>
-            )}
+            <AverageRating mealId={idMeal} />
           </div>
         </div>
       </a>

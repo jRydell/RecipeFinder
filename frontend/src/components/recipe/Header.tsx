@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { useRecipeData } from "@/hooks/useRecipeData";
+import { AverageRating } from "../AverageRating";
 
 export const Header = () => {
   const [isSaved, setIsSaved] = useState<boolean>();
@@ -61,11 +62,15 @@ export const Header = () => {
   if (!recipe) {
     return;
   }
-
   return (
     <header className="max-w-4xl mx-auto py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2 text-left">{recipe.strMeal}</h1>
+        <div className="flex flex-col mb-2">
+          <h1 className="text-3xl font-bold text-left">{recipe.strMeal}</h1>
+          <div className="mt-1 mb-2">
+            <AverageRating mealId={mealId} />
+          </div>
+        </div>
         <div className="flex flex-wrap gap-2 mb-4">
           {recipe.strCategory && (
             <Badge className="bg-amber-100 px-2 py-1 rounded text-black font-normal text-sm">

@@ -53,15 +53,12 @@ const Recipe = () => {
         <FoodImage />
         <IngredientList ingredients={ingredients} />
       </div>
-
       <Instructions />
-
       {recipe.strYoutube && (
         <>
           <YoutubeVideo />
         </>
       )}
-
       <Reviews />
     </div>
   );

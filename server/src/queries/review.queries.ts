@@ -1,5 +1,5 @@
 import connection from "../db";
-import { Review, ReviewResponse, ReviewDTO } from "../types/review.types";
+import { Review, ReviewResponse } from "../types/review.types";
 
 export async function addReview(
   user_id: number,
@@ -33,6 +33,23 @@ export async function getReviewsByMealId(
     [meal_id]
   );
   return rows as ReviewResponse[];
+}
+
+type Rating = {
+  rating: number;
+};
+
+export async function getAllRatingsByMealid(
+  meal_id: string
+): Promise<number[]> {
+  const [result] = await connection.query(
+    `SELECT rating
+    FROM reviews 
+    Where meal_id = ?`,
+    [meal_id]
+  );
+
+  return (result as Rating[]).map((r) => r.rating);
 }
 
 export async function getReviewByUserAndMeal(
