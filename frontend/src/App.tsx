@@ -1,10 +1,9 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
 import Home from "./pages/Home";
 import "./App.css";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
-import Categories from "./pages/Categories";
+
 import MyRecipes from "./pages/MyRecipes";
 import Register from "./pages/Register";
 import ProtectedRoute from "./components/ProtectedRoutes";
@@ -15,6 +14,8 @@ import Contact from "./pages/Contact";
 import Recipe from "./pages/Recipe";
 import Layout from "./components/layout/Layout";
 import Search from "./pages/Search";
+import Categories from "./pages/Categories";
+import Category from "./pages/Category";
 
 const router = createBrowserRouter([
   {
@@ -31,13 +32,17 @@ const router = createBrowserRouter([
         element: <Recipe />,
       },
       {
-        path: "/search",
+        path: "search",
         element: <Search />,
       },
 
       {
         path: "categories",
         element: <Categories />,
+      },
+      {
+        path: "categories/:strCategory",
+        element: <Category />,
       },
       {
         path: "login",
