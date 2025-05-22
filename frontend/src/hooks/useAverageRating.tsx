@@ -25,16 +25,12 @@ export const useAverageRating = (mealId: string | undefined) => {
           const cachedData = JSON.parse(cachedDataString) as CachedRating;
           const now = Date.now();
 
-          // if cache is still fresh
           if (now - cachedData.timestamp < CACHE_DURATION) {
-            console.log(`🔄 CACHE HIT: Using cached rating for meal ${mealId}`);
             setRating(cachedData.data);
             return;
           }
         }
 
-        // not in cache or cache expired, make the API call
-        console.log(`📡 CACHE MISS: Fetching rating for meal ${mealId}`);
         setLoading(true);
         setError(null);
 
@@ -43,7 +39,6 @@ export const useAverageRating = (mealId: string | undefined) => {
           setError(error);
           setRating(null);
         } else if (data) {
-          // tore  new data in the cache
           const cacheData = {
             data,
             timestamp: Date.now(),

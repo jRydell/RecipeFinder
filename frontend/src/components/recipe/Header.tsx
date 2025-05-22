@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 import { useAuthStore } from "@/stores/auth.store";
 import { recipeService } from "@/api/services/recipe-service";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
-import { useRecipeData } from "@/hooks/useRecipeData";
-import { AverageRating } from "../AverageRating";
 
-export const Header = () => {
+import { AverageRating } from "../AverageRating";
+import { Meal } from "@/api/services/mealdb-service";
+
+export const Header = ({ recipe }: { recipe: Meal }) => {
   const [isSaved, setIsSaved] = useState<boolean>();
   const [saveLoading, setSaveLoading] = useState(false);
   const { isAuthenticated } = useAuthStore();
-  const { mealId } = useParams();
-  const { recipe } = useRecipeData(mealId);
 
   const navigate = useNavigate();
 
@@ -68,7 +67,7 @@ export const Header = () => {
         <div className="flex flex-col mb-2">
           <h1 className="text-3xl font-bold text-left">{recipe.strMeal}</h1>
           <div className="mt-1 mb-2">
-            <AverageRating mealId={mealId} />
+            <AverageRating mealId={recipe.idMeal} />
           </div>
         </div>
         <div className="flex flex-wrap gap-2 mb-4">

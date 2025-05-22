@@ -1,9 +1,11 @@
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 import { AspectRatio } from "../ui/aspect-ratio";
 import { useRecipeData } from "@/hooks/useRecipeData";
+import { useParams } from "react-router-dom";
 
 export const YoutubeVideo = () => {
-  const { recipe } = useRecipeData();
+  const { mealId } = useParams();
+  const { recipe } = useRecipeData(mealId);
 
   const getVideoId = () => {
     if (!recipe?.strYoutube) return "";
@@ -17,7 +19,7 @@ export const YoutubeVideo = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Video Instructions:</CardTitle>
+        <CardTitle>Video Instructions</CardTitle>
       </CardHeader>
       <CardContent>
         <AspectRatio ratio={16 / 9} className="overflow-hidden rounded-md">

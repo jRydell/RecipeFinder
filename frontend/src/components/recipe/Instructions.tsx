@@ -1,11 +1,8 @@
-import { useRecipeData } from "@/hooks/useRecipeData";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
-import { useParams } from "react-router-dom";
 
-export const Instructions = () => {
-  const { mealId } = useParams();
-  const { recipe } = useRecipeData(mealId);
+import { Meal } from "@/api/services/mealdb-service";
 
+export const Instructions = ({ recipe }: { recipe: Meal }) => {
   if (!recipe) {
     return null;
   }

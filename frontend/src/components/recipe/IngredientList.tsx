@@ -5,11 +5,11 @@ type Ingredient = {
   ingredient: string;
 };
 
-type IngredientListProps = {
+export const IngredientList = ({
+  ingredients,
+}: {
   ingredients: Ingredient[];
-};
-
-export const IngredientList = ({ ingredients }: IngredientListProps) => {
+}) => {
   return (
     <Card>
       <CardHeader>

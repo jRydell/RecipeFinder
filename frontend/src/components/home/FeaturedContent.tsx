@@ -1,9 +1,17 @@
 import { Meal, mealDbService } from "@/api/services/mealdb-service";
 import { useState, useEffect } from "react";
 import { SearchSkeletons } from "./SearchSkeletons";
+import RecipeCard from "../RecipeCard";
+import { CategoryCard } from "./CategoryCard";
+
+export type Category = {
+  strCategory: string;
+  strCategoryThumb: string;
+  strCategoryDescription: string;
+};
 
 export const FeaturedContent = () => {
-  const [categories, setCategories] = useState<any[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [popularMeals, setPopularMeals] = useState<Meal[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -33,26 +41,10 @@ export const FeaturedContent = () => {
     <div className="space-y-12">
       {/* Categories Section */}
       <section>
-        <h2 className="text-2xl font-bold mb-4">Browse Categories</h2>
+        <h2 className="text-2xl font-bold mb-4">Popular Categories</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {categories.map((category) => (
-            <div
-              key={category.strCategory}
-              className="relative overflow-hidden rounded-lg h-40 bg-gradient-to-br from-amber-100 to-amber-200 hover:shadow-lg transition-shadow"
-            >
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-xl font-semibold">
-                  {category.strCategory}
-                </span>
-              </div>
-              {category.strCategoryThumb && (
-                <img
-                  src={category.strCategoryThumb}
-                  alt={category.strCategory}
-                  className="object-cover w-full h-full opacity-30"
-                />
-              )}
-            </div>
+            <CategoryCard key={category.strCategory} category={category} />
           ))}
         </div>
       </section>
@@ -62,29 +54,12 @@ export const FeaturedContent = () => {
         <h2 className="text-2xl font-bold mb-4">Popular Recipes</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {popularMeals.map((meal) => (
-            <div
+            <RecipeCard
               key={meal.idMeal}
-              className="rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
-            >
-              <img
-                src={meal.strMealThumb}
-                alt={meal.strMeal}
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-4">
-                <h3 className="font-semibold text-lg">{meal.strMeal}</h3>
-                <div className="flex gap-2 mt-2 text-sm">
-                  <span className="bg-amber-100 px-2 py-1 rounded">
-                    {meal.strCategory}
-                  </span>
-                  {meal.strArea && (
-                    <span className="bg-blue-100 px-2 py-1 rounded">
-                      {meal.strArea}
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
+              idMeal={meal.idMeal}
+              strMealThumb={meal.strMealThumb}
+              strMeal={meal.strMeal}
+            />
           ))}
         </div>
       </section>
