@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { formatDistanceToNow } from "date-fns";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuthStore } from "@/stores/auth.store";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
@@ -8,13 +8,13 @@ import { ReviewSkeletons } from "./ReviewSkeletons";
 import { Trash2 } from "lucide-react";
 
 import { useReviews } from "@/hooks/useReviews";
-import { Card } from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Meal } from "@/api/services/mealdb-service";
 
-export const Reviews = () => {
+export const Reviews = ({ recipe }: { recipe: Meal }) => {
   const { isAuthenticated, user } = useAuthStore();
-  const { mealId } = useParams();
   const { reviews, userReview, loading, error, addReview, deleteReview } =
-    useReviews(mealId);
+    useReviews(recipe.idMeal);
   const [comment, setComment] = useState<string>("");
   const [rating, setRating] = useState<number>(0);
   const [submitting, setSubmitting] = useState(false);
@@ -53,50 +53,62 @@ export const Reviews = () => {
 
   return (
     <Card className="mt-8">
-      <div className="p-6">
-        <h2 className="text-2xl font-bold mb-4">Reviews</h2>
+      <CardHeader>
+        <CardTitle>Reviews</CardTitle>
+      </CardHeader>
+      <CardContent>
         {error && (
           <div className="p-4 mb-4 text-red-700 bg-red-100 rounded-md">
             {error}
           </div>
         )}
-        <form onSubmit={(e) => void handleSubmit(e)} className="mb-6 space-y-2">
-          <div className="flex items-center gap-2">
-            <span>Rating:</span>
-            {[1, 2, 3, 4, 5].map((star) => (
-              <button
-                type="button"
-                key={star}
-                className={star <= rating ? "text-yellow-400" : "text-gray-300"}
-                onClick={() => setRating(star)}
-                aria-label={`Set rating to ${star}`}
-                disabled={submitting}
-              >
-                ★
-              </button>
-            ))}
+
+        {/* Review Form */}
+        <form onSubmit={(e) => void handleSubmit(e)} className="mb-6 space-y-4">
+          <div>
+            <span className="block text-sm font-medium mb-1">Rating:</span>
+            <div className="flex space-x-1">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  type="button"
+                  key={star}
+                  className={`text-xl ${
+                    star <= rating ? "text-yellow-400" : "text-gray-300"
+                  } hover:text-yellow-400 transition-colors`}
+                  onClick={() => setRating(star)}
+                  aria-label={`Set rating to ${star}`}
+                  disabled={submitting}
+                >
+                  ★
+                </button>
+              ))}
+            </div>
           </div>
+
           <Textarea
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             placeholder="Add your review..."
-            className="mb-2"
-            rows={3}
+            className="min-h-[100px]"
             disabled={submitting || !!userReview}
           />
-          <div className="flex gap-2">
+
+          <div>
             <Button
               type="submit"
+              className="w-full sm:w-auto"
               disabled={
                 submitting || !rating || !!userReview || !isAuthenticated
               }
             >
               {submitting ? "Submitting..." : "Post Review"}
-            </Button>{" "}
+            </Button>
           </div>
         </form>
+
+        {/* Sign in message */}
         {!isAuthenticated && (
-          <div className="p-4 mb-6 bg-gray-100 dark:bg-gray-800 rounded-md">
+          <div className="p-4 mb-6 bg-gray-100 dark:bg-gray-800 rounded-lg">
             <p className="text-muted-foreground">
               Please{" "}
               <Link to="/login" className="text-blue-600 hover:underline">
@@ -106,16 +118,18 @@ export const Reviews = () => {
             </p>
           </div>
         )}
+
+        {/* Reviews List */}
         {loading ? (
           <div className="flex items-center justify-center py-8">
             <ReviewSkeletons />
           </div>
         ) : reviews.length > 0 ? (
-          <div className="space-y-6">
+          <div className="space-y-6 mt-6">
             {reviews.map((review) => (
               <div
                 key={review.id}
-                className="group flex gap-3 relative p-3 rounded-lg transition-colors"
+                className="p-4 border border-gray-100 dark:border-gray-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
               >
                 <div className="flex-1">
                   <div className="flex justify-between items-center">
@@ -124,20 +138,22 @@ export const Reviews = () => {
                     </h3>
                     <div className="flex items-center space-x-2">
                       <span className="text-yellow-400">
-                        {Array.from({ length: review.rating }, () => "★").join(
-                          ""
-                        )}
-                        {Array.from(
-                          { length: 5 - review.rating },
-                          () => "☆"
-                        ).join("")}
+                        {Array.from({ length: review.rating }, (_, i) => (
+                          <span key={i}>★</span>
+                        ))}
+                        {Array.from({ length: 5 - review.rating }, (_, i) => (
+                          <span key={i} className="text-gray-300">
+                            ☆
+                          </span>
+                        ))}
                       </span>
                       <time className="text-xs text-muted-foreground">
                         {formatTimestamp(review.created_at)}
-                      </time>{" "}
+                      </time>
                       {review.user_id === user?.id && (
                         <Button
                           variant="ghost"
+                          size="icon"
                           onClick={() => {
                             if (
                               confirm(`Delete your review for this recipe?`)
@@ -146,25 +162,30 @@ export const Reviews = () => {
                             }
                           }}
                           disabled={submitting}
-                          aria-label="Delete review"
                         >
                           <Trash2 size={16} />
+                          <span className="sr-only">Delete review</span>
                         </Button>
                       )}
                     </div>
-                  </div>{" "}
-                  {review.comment && <p className="mt-1">{review.comment}</p>}
-                  <div className="mt-3 border-b border-gray-200 dark:border-gray-700"></div>
+                  </div>
+                  {review.comment && (
+                    <p className="mt-2 text-gray-700 dark:text-gray-300">
+                      {review.comment}
+                    </p>
+                  )}
                 </div>
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-center py-8 text-muted-foreground">
-            No reviews yet.
-          </p>
+          <div className="text-center py-10">
+            <p className="text-muted-foreground">
+              No reviews yet. Be the first to review!
+            </p>
+          </div>
         )}
-      </div>
+      </CardContent>
     </Card>
   );
 };

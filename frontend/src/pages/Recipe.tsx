@@ -48,18 +48,18 @@ const Recipe = () => {
 
   return (
     <div className="max-w-4xl mx-auto py-8">
-      <Header />
+      <Header recipe={recipe} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
         <FoodImage />
         <IngredientList ingredients={ingredients} />
       </div>
-      <Instructions />
+      <Instructions recipe={recipe} />
       {recipe.strYoutube && (
         <>
           <YoutubeVideo />
         </>
       )}
-      <Reviews />
+      <Reviews recipe={recipe} />
     </div>
   );
 };
