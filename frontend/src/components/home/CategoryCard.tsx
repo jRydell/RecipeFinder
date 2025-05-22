@@ -11,11 +11,11 @@ export const CategoryCard = ({ category, className }: CategoryCardProps) => {
   return (
     <Link to={`/search?category=${category.strCategory}`}>
       <Card
-        className={`overflow-hidden h-60 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${
+        className={`overflow-hidden h-auto transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${
           className || ""
         }`}
       >
-        <CardContent className="p-0 h-[80%]">
+        <CardContent className="p-0 h-full">
           {category.strCategoryThumb && (
             <img
               src={category.strCategoryThumb}

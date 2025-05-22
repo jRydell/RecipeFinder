@@ -1,10 +1,9 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
 import Home from "./pages/Home";
 import "./App.css";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
-import Categories from "./pages/Categories";
+
 import MyRecipes from "./pages/MyRecipes";
 import Register from "./pages/Register";
 import ProtectedRoute from "./components/ProtectedRoutes";
@@ -15,6 +14,7 @@ import Contact from "./pages/Contact";
 import Recipe from "./pages/Recipe";
 import Layout from "./components/layout/Layout";
 import Search from "./pages/Search";
+import Categories from "./pages/Categories";
 
 const router = createBrowserRouter([
   {

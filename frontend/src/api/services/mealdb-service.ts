@@ -58,8 +58,9 @@ type MealDBResponse = {
   meals: Meal[] | null;
 };
 
-type MealDbCategoryResponse = {
+export type MealDbCategoryResponse = {
   categories: Category[] | null;
+  error: string | null;
 };
 
 export type Category = {
