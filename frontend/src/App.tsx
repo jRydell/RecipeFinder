@@ -15,6 +15,7 @@ import Recipe from "./pages/Recipe";
 import Layout from "./components/layout/Layout";
 import Search from "./pages/Search";
 import Categories from "./pages/Categories";
+import Category from "./pages/Category";
 
 const router = createBrowserRouter([
   {
@@ -31,13 +32,17 @@ const router = createBrowserRouter([
         element: <Recipe />,
       },
       {
-        path: "/search",
+        path: "search",
         element: <Search />,
       },
 
       {
         path: "categories",
         element: <Categories />,
+      },
+      {
+        path: "categories/:strCategory",
+        element: <Category />,
       },
       {
         path: "login",

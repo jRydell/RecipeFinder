@@ -54,12 +54,18 @@ export type Meal = {
   strMeasure20?: string;
 };
 
-type MealDBResponse = {
+export type MealDBResponse = {
   meals: Meal[] | null;
+  error: string | null;
 };
 
 export type MealDbCategoryResponse = {
   categories: Category[] | null;
+  error: string | null;
+};
+
+export type MealDbFilterResponse = {
+  meals: Meal[] | null;
   error: string | null;
 };
 
@@ -132,10 +138,10 @@ export const mealDbService = {
   },
 
   filterByCategory: async (
-    category: string
+    category: string | undefined
   ): Promise<ServiceResponse<Meal[]>> => {
     try {
-      const response = await axios.get<MealDBResponse>(
+      const response = await axios.get<MealDbFilterResponse>(
         `${API_BASE}/filter.php?c=${category}`
       );
       return {

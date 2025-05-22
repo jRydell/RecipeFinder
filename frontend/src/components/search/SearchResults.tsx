@@ -29,7 +29,6 @@ export const SearchResults = ({
             strMeal={meal.strMeal}
             strCategory={meal.strCategory}
             strArea={meal.strArea}
-            strTags={meal.strTags}
           />
         ))}
       </div>

@@ -1,6 +1,6 @@
 import { Category } from "@/api/services/mealdb-service";
 import { mealDbService } from "@/api/services/mealdb-service";
-import { CategoryCard } from "@/components/home/CategoryCard";
+import { CategoryCard } from "@/components/CategoryCard";
 import { useEffect, useState } from "react";
 
 const Categories = () => {
