@@ -30,7 +30,7 @@ const Register = () => {
     const result = await register(username, email, password);
 
     if (result.success) {
-      navigate("/");
+      void navigate("/");
     } else {
       setError(result.error || "Registration failed");
     }
@@ -45,7 +45,12 @@ const Register = () => {
             Sign up to save recipes and leave comments
           </CardDescription>
         </CardHeader>
-        <form onSubmit={handleSubmit}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            void handleSubmit(e);
+          }}
+        >
           <CardContent className="space-y-4">
             {error && (
               <Alert variant="destructive">
@@ -86,7 +91,7 @@ const Register = () => {
               />
             </div>
           </CardContent>
-          <CardFooter className="flex flex-col space-y-4">
+          <CardFooter className="flex flex-col space-y-4 mt-10">
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? "Creating Account..." : "Create Account"}
             </Button>
@@ -95,7 +100,7 @@ const Register = () => {
               <Button
                 variant="link"
                 className="p-0"
-                onClick={() => navigate("/login")}
+                onClick={() => void navigate("/login")}
               >
                 Sign in
               </Button>

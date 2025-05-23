@@ -1,32 +1,24 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { api, ENDPOINTS } from "../api/config/api-config";
-
-type AuthResponse = {
-  user: User;
-  token: string;
-};
-
-type User = {
-  id: number;
-  username: string;
-  email: string;
-};
+import { authService, User } from "../api/services/auth-service";
 
 type AuthState = {
   user: User | null;
   token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+
   login: (
     email: string,
     password: string
   ) => Promise<{ success: boolean; error: string | null }>;
+
   register: (
     username: string,
     email: string,
     password: string
   ) => Promise<{ success: boolean; error: string | null }>;
+
   logout: () => void;
 };
 
@@ -39,54 +31,41 @@ export const useAuthStore = create<AuthState>()(
       isLoading: false,
       login: async (email: string, password: string) => {
         set({ isLoading: true });
-        try {
-          const response = await api.post<AuthResponse>(ENDPOINTS.LOGIN, {
-            email,
-            password,
+        const response = await authService.login(email, password);
+
+        if (response.data) {
+          set({
+            user: response.data.user,
+            token: response.data.token,
+            isAuthenticated: true,
           });
-          if (response.data) {
-            set({
-              user: response.data.user,
-              token: response.data.token,
-              isAuthenticated: true,
-            });
-            return { success: true, error: null };
-          }
-          return { success: false, error: response.error || "Login failed" };
-        } catch (error) {
-          console.error("Unexpected login error:", error);
-          return { success: false, error: "An unexpected error occurred" };
-        } finally {
           set({ isLoading: false });
+          return { success: true, error: null };
         }
+
+        set({ isLoading: false });
+        return { success: false, error: response.error };
       },
       register: async (username: string, email: string, password: string) => {
         set({ isLoading: true });
-        try {
-          const response = await api.post<AuthResponse>(ENDPOINTS.REGISTER, {
-            username,
-            email,
-            password,
-          });
-          if (response.data) {
-            set({
-              user: response.data.user,
-              token: response.data.token,
-              isAuthenticated: true,
-            });
-            return { success: true, error: null };
-          }
 
-          return {
-            success: false,
-            error: response.error || "Registration failed",
-          };
-        } catch (error) {
-          console.error("Unexpected registration error:", error);
-          return { success: false, error: "An unexpected error occurred" };
-        } finally {
+        const response = await authService.register(username, email, password);
+
+        if (response.data) {
+          set({
+            user: response.data.user,
+            token: response.data.token,
+            isAuthenticated: true,
+          });
           set({ isLoading: false });
+          return { success: true, error: null };
         }
+
+        set({ isLoading: false });
+        return {
+          success: false,
+          error: response.error,
+        };
       },
       logout: () => {
         set({ user: null, token: null, isAuthenticated: false });
