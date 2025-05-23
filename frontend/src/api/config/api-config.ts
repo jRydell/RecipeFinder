@@ -36,17 +36,31 @@ type ErrorResponse = {
   message?: string;
 };
 
+//Only logs the errors in development
 const handleError = (error: unknown): string => {
-  // For Axios errors with response
+  // axios errors with response
   if (axios.isAxiosError(error) && error.response) {
     const errorData = error.response.data as ErrorResponse;
+    if (import.meta.env.DEV) {
+      console.error("API Error Response:", {
+        status: error.response.status,
+        statusText: error.response.statusText,
+        data: errorData,
+      });
+    }
     return errorData.message || `Error: ${error.response.status}`;
   }
-  // For standard JS errors
+  // standard JS errors
   if (error instanceof Error) {
+    if (import.meta.env.DEV) {
+      console.error("JS Error:", error.message, error.stack);
+    }
     return error.message;
   }
-  // Fallback for unknown error types
+  // fallback for unknown error types
+  if (import.meta.env.DEV) {
+    console.error("Unknown error type:", error);
+  }
   return "Unknown error";
 };
 

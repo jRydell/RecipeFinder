@@ -108,7 +108,7 @@ export const Reviews = ({ recipe }: { recipe: Meal }) => {
 
         {/* Sign in message */}
         {!isAuthenticated && (
-          <div className="p-4 mb-6 bg-gray-100 dark:bg-gray-800 rounded-lg">
+          <aside className="p-4 mb-6 bg-gray-100 dark:bg-gray-800 rounded-lg">
             <p className="text-muted-foreground">
               Please{" "}
               <Link to="/login" className="text-blue-600 hover:underline">
@@ -116,23 +116,21 @@ export const Reviews = ({ recipe }: { recipe: Meal }) => {
               </Link>{" "}
               to leave a review.
             </p>
-          </div>
+          </aside>
         )}
 
         {/* Reviews List */}
         {loading ? (
-          <div className="flex items-center justify-center py-8">
-            <ReviewSkeletons />
-          </div>
+          <ReviewSkeletons />
         ) : reviews.length > 0 ? (
-          <div className="space-y-6 mt-6">
+          <ul className="space-y-6 mt-6">
             {reviews.map((review) => (
-              <div
+              <li
                 key={review.id}
                 className="p-4 border border-gray-100 dark:border-gray-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
               >
-                <div className="flex-1">
-                  <div className="flex justify-between items-center">
+                <article>
+                  <header className="flex justify-between items-center">
                     <h3 className="font-medium">
                       {review.user_id === user?.id ? "You" : review.username}
                     </h3>
@@ -168,22 +166,20 @@ export const Reviews = ({ recipe }: { recipe: Meal }) => {
                         </Button>
                       )}
                     </div>
-                  </div>
+                  </header>
                   {review.comment && (
                     <p className="mt-2 text-gray-700 dark:text-gray-300">
                       {review.comment}
                     </p>
                   )}
-                </div>
-              </div>
+                </article>
+              </li>
             ))}
-          </div>
+          </ul>
         ) : (
-          <div className="text-center py-10">
-            <p className="text-muted-foreground">
-              No reviews yet. Be the first to review!
-            </p>
-          </div>
+          <p className="text-center py-10 text-muted-foreground">
+            No reviews yet. Be the first to review!
+          </p>
         )}
       </CardContent>
     </Card>
