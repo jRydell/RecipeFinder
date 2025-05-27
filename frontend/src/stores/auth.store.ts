@@ -31,12 +31,12 @@ export const useAuthStore = create<AuthState>()(
       isLoading: false,
       login: async (email: string, password: string) => {
         set({ isLoading: true });
-        const response = await authService.login(email, password);
+        const { data, error } = await authService.login(email, password);
 
-        if (response.data) {
+        if (data) {
           set({
-            user: response.data.user,
-            token: response.data.token,
+            user: data.user,
+            token: data.token,
             isAuthenticated: true,
           });
           set({ isLoading: false });
@@ -44,27 +44,31 @@ export const useAuthStore = create<AuthState>()(
         }
 
         set({ isLoading: false });
-        return { success: false, error: response.error };
+        return { success: false, error };
       },
       register: async (username: string, email: string, password: string) => {
         set({ isLoading: true });
 
-        const response = await authService.register(username, email, password);
+        const { data, error } = await authService.register(
+          username,
+          email,
+          password
+        );
 
-        if (response.data) {
+        if (data) {
           set({
-            user: response.data.user,
-            token: response.data.token,
+            user: data.user,
+            token: data.token,
             isAuthenticated: true,
           });
           set({ isLoading: false });
-          return { success: true, error: null };
+          return { success: true, error };
         }
 
         set({ isLoading: false });
         return {
           success: false,
-          error: response.error,
+          error: error,
         };
       },
       logout: () => {
