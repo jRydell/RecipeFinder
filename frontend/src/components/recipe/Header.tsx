@@ -59,12 +59,11 @@ export const Header = ({ recipe }: { recipe: Meal }) => {
   };
   if (!recipe) {
     return;
-  }
-  return (
+  }  return (
     <header className="max-w-4xl mb-8">
-      <h1 className="text-3xl font-bold mb-1">{recipe.strMeal}</h1>
+      <h1 className="text-3xl font-bold mb-3">{recipe.strMeal}</h1>
       <AverageRating mealId={recipe.idMeal} />
-      <div className="flex flex-wrap gap-2 my-4">
+      <div className="flex flex-wrap gap-2 my-6">
         {recipe.strCategory && (
           <Badge className="bg-amber-100 px-2 py-1 rounded text-black font-normal text-sm">
             {recipe.strCategory}

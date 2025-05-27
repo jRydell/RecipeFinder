@@ -12,7 +12,7 @@ const Layout = () => {
       <Header />
       <Banner />
       <main className="flex-grow" aria-label="Main content">
-        <div className="container max-w-4xl mx-auto px-4 py-6">
+        <div className="container max-w-4xl mx-auto px-4 py-8">
           <Outlet />
         </div>
       </main>
