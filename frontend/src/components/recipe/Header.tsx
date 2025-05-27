@@ -57,53 +57,47 @@ export const Header = ({ recipe }: { recipe: Meal }) => {
 
     setSaveLoading(false);
   };
-
   if (!recipe) {
     return;
   }
   return (
-    <header className="max-w-4xl mx-auto py-8">
-      <div className="mb-8">
-        <div className="flex flex-col mb-2">
-          <h1 className="text-3xl font-bold text-left">{recipe.strMeal}</h1>
-          <div className="mt-1 mb-2">
-            <AverageRating mealId={recipe.idMeal} />
-          </div>
-        </div>
-        <div className="flex flex-wrap gap-2 mb-4">
-          {recipe.strCategory && (
-            <Badge className="bg-amber-100 px-2 py-1 rounded text-black font-normal text-sm">
-              {recipe.strCategory}
+    <header className="max-w-4xl mb-8">
+      <h1 className="text-3xl font-bold mb-1">{recipe.strMeal}</h1>
+      <AverageRating mealId={recipe.idMeal} />
+      <div className="flex flex-wrap gap-2 my-4">
+        {recipe.strCategory && (
+          <Badge className="bg-amber-100 px-2 py-1 rounded text-black font-normal text-sm">
+            {recipe.strCategory}
+          </Badge>
+        )}
+        {recipe.strArea && (
+          <Badge className="bg-blue-100 px-2 py-1 rounded text-black font-normal text-sm">
+            {recipe.strArea} Cuisine
+          </Badge>
+        )}
+        {recipe.strTags &&
+          recipe.strTags.split(",").map((tag) => (
+            <Badge
+              key={tag}
+              className="bg-green-50 px-2 py-1 rounded text-black font-normal text-sm"
+            >
+              {tag.trim()}
             </Badge>
-          )}
-          {recipe.strArea && (
-            <Badge className="bg-blue-100 px-2 py-1 rounded text-black font-normal text-sm">
-              {recipe.strArea} Cuisine
-            </Badge>
-          )}
-          {recipe.strTags &&
-            recipe.strTags.split(",").map((tag) => (
-              <Badge
-                key={tag}
-                className="bg-green-50 px-2 py-1 rounded text-black font-normal text-sm"
-              >
-                {tag.trim()}
-              </Badge>
-            ))}
-        </div>
-        <Button
-          variant={isSaved ? "outline" : "default"}
-          onClick={() => void handleSaveRecipe()}
-          disabled={saveLoading}
-          className="whitespace-nowrap"
-        >
-          {saveLoading
-            ? "Processing..."
-            : isSaved
-            ? "Remove from My Recipes"
-            : "Save Recipe"}
-        </Button>
+          ))}
       </div>
+
+      <Button
+        variant={isSaved ? "outline" : "default"}
+        onClick={() => void handleSaveRecipe()}
+        disabled={saveLoading}
+        className="whitespace-nowrap"
+      >
+        {saveLoading
+          ? "Processing..."
+          : isSaved
+          ? "Remove from My Recipes"
+          : "Save Recipe"}
+      </Button>
     </header>
   );
 };

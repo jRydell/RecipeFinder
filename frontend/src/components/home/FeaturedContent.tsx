@@ -19,14 +19,14 @@ export const FeaturedContent = () => {
     const fetchInitialContent = async () => {
       setLoading(true);
 
-      const categoriesResponse = await mealDbService.getCategories();
-      if (categoriesResponse.data) {
-        setCategories(categoriesResponse.data.slice(0, 6));
+      const { data: categoriesData } = await mealDbService.getCategories();
+      if (categoriesData) {
+        setCategories(categoriesData.slice(0, 6));
       }
 
-      const popularResponse = await mealDbService.getRandomMeals(6);
-      if (popularResponse.data) {
-        setPopularMeals(popularResponse.data);
+      const { data: popularData } = await mealDbService.getRandomMeals(6);
+      if (popularData) {
+        setPopularMeals(popularData);
       }
 
       setLoading(false);
