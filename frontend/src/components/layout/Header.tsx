@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useAuthStore } from "@/stores/auth.store";
-import { ThemeToggle } from "../ThemeToggle";
+import { ThemeToggle } from "./ThemeToggle";
 import Navigation from "./Navigation";
 import MobileMenu from "./MobileNavigation";
 

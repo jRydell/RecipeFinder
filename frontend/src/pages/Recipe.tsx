@@ -11,6 +11,7 @@ import {
   YoutubeVideo,
 } from "@/components/recipe";
 import { useParams } from "react-router-dom";
+import { Separator } from "@/components/ui/separator";
 
 const Recipe = () => {
   const { mealId } = useParams();
@@ -49,6 +50,7 @@ const Recipe = () => {
   return (
     <div className="max-w-4xl mx-auto py-8">
       <Header recipe={recipe} />
+      <Separator className="mb-8" />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
         <FoodImage />
         <IngredientList ingredients={ingredients} />
