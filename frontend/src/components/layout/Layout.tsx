@@ -10,9 +10,9 @@ const Layout = () => {
     <div className="min-h-screen flex flex-col">
       <ScrollToTop />
       <Header />
-      <Banner />
+      <Banner />{" "}
       <main className="flex-grow" aria-label="Main content">
-        <div className="container max-w-4xl mx-auto px-4 py-8">
+        <div className="container max-w-4xl mx-auto">
           <Outlet />
         </div>
       </main>

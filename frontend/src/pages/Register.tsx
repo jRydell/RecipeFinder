@@ -35,9 +35,8 @@ const Register = () => {
       setError(result.error || "Registration failed");
     }
   };
-
   return (
-    <div className="flex justify-center items-center py-10">
+    <div className="flex justify-center p-6">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>Create Account</CardTitle>
