@@ -20,10 +20,9 @@ const Recipe = () => {
   if (loading) {
     return <RecipeSkeletons />;
   }
-
   if (error) {
     return (
-      <div className="max-w-4xl mx-auto py-8">
+      <div className="p-6">
         <Alert variant="destructive">
           <AlertTitle>Error loading recipe</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
@@ -34,7 +33,7 @@ const Recipe = () => {
 
   if (!recipe) {
     return (
-      <div className="max-w-4xl mx-auto py-8">
+      <div className="p-6">
         <Alert>
           <AlertTitle>Recipe not found</AlertTitle>
           <AlertDescription>
@@ -46,9 +45,8 @@ const Recipe = () => {
   }
 
   const ingredients = getIngredients(recipe);
-
   return (
-    <div className="max-w-4xl mx-auto py-8">
+    <div className="p-6">
       <Header recipe={recipe} />
       <Separator className="mb-8" />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">

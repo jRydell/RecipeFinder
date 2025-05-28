@@ -38,10 +38,9 @@ const MyRecipes = () => {
   useEffect(() => {
     void fetchSavedRecipes();
   }, []);
-
   if (isLoading) {
     return (
-      <div className="space-y-6">
+      <div className="p-6 space-y-6">
         <h1 className="text-3xl font-bold">My Saved Recipes</h1>
         <p>Loading your recipes...</p>
       </div>
@@ -50,7 +49,7 @@ const MyRecipes = () => {
 
   if (error) {
     return (
-      <div className="space-y-6">
+      <div className="p-6 space-y-6">
         <h1 className="text-3xl font-bold">My Saved Recipes</h1>
         <Alert variant="destructive">
           <AlertDescription>{error}</AlertDescription>
@@ -61,7 +60,7 @@ const MyRecipes = () => {
 
   if (savedRecipes.length === 0) {
     return (
-      <div className="space-y-6">
+      <div className="p-6 space-y-6">
         <h1 className="text-3xl font-bold">My Saved Recipes</h1>
         <p>You haven't saved any recipes yet.</p>
       </div>
@@ -69,7 +68,7 @@ const MyRecipes = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="p-6 space-y-6">
       <h1 className="text-3xl font-bold">My Saved Recipes</h1>
       <Separator />
 

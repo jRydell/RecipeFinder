@@ -34,9 +34,8 @@ const Login = () => {
       setError(result.error || "Login failed");
     }
   };
-
   return (
-    <div className="flex justify-center items-center py-10">
+    <div className="flex justify-center p-6">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>Sign In</CardTitle>
