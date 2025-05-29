@@ -25,7 +25,7 @@ const Categories = () => {
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <p>Deployen funka</p>;
   }
   return (
     <section className="p-6">
