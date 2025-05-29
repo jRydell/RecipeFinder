@@ -1,10 +1,12 @@
-/** Converts a timestamp string to a human-readable local date and time string.
- *   Falls back to a generic message if parsing fails.
+/** Converts a timestamp string to a human-readable relative time string.
+ *   Shows "just now", "2 minutes ago", etc. Falls back to a generic message if parsing fails.
  */
-export function formatTimestamp(timestamp: string) {
+import { formatDistanceToNow } from "date-fns";
+
+export const formatTimestamp = (timestamp: string) => {
   try {
-    return new Date(timestamp).toLocaleString();
+    return formatDistanceToNow(new Date(timestamp), { addSuffix: true });
   } catch {
     return "some time ago";
   }
-}
+};
