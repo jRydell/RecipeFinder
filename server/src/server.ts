@@ -4,7 +4,7 @@ import cors from "cors";
 import { createServer } from "http";
 import connection, { testConnection } from "./db";
 import authRoutes from "./routes/auth.routes";
-import savedRecipeRoutes from "./routes/savedRecipe.routes";
+import savedRecipeRoutes from "./routes/saved.recipe.routes";
 import reviewRoutes from "./routes/review.routes";
 import { setupLogging } from "./middleware/logging";
 import { healthRoutes } from "./routes/health.routes";

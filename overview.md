@@ -58,3 +58,6 @@
 > **Note:** DTOs are used for API requests and responses to ensure consistent property naming and data transfer between frontend and backend.
 
 TODO: FIX DTO/TYPES AND THEY ARE EVERYWHERE
+TODO: REFACTOR REVIEWS, FRONTEND VALIDATION, MOBILE MENU STYLING, HEADER POSITIONING.
+TODO: CHECK STRUCTURE IN useREVIEWS
+TODO: BACKEND VALIDATION, ZOD?
