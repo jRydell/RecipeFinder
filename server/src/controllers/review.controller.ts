@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { reviewService } from "../services/reviewService";
+import { reviewService } from "../services/review.service";
 
 export const addReview = async (req: Request, res: Response) => {
   const userId = req.user?.id;

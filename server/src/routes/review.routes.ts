@@ -1,5 +1,5 @@
 import { Router } from "express";
-import * as reviewController from "../controllers/reviewController";
+import * as reviewController from "../controllers/review.controller";
 import { authenticateToken } from "../middleware/auth";
 
 const router = Router();

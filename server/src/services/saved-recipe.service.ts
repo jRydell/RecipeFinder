@@ -1,4 +1,4 @@
-import * as savedRecipeQueries from "../queries/savedRecipe.queries";
+import * as savedRecipeQueries from "../queries/saved-recipe.queries";
 
 export const savedRecipeService = {
   async saveRecipe(

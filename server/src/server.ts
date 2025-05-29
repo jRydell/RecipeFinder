@@ -8,7 +8,7 @@ import savedRecipeRoutes from "./routes/savedRecipe.routes";
 import reviewRoutes from "./routes/review.routes";
 import { setupLogging } from "./middleware/logging";
 import { healthRoutes } from "./routes/health.routes";
-import { errorHandler } from "./middleware/errorHandler";
+import { errorHandler } from "./middleware/error.handler";
 
 // Load environment variables
 dotenv.config();

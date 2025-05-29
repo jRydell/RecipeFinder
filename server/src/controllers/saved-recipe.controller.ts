@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { savedRecipeService } from "../services/savedRecipeService";
+import { savedRecipeService } from "../services/saved-recipe.service";
 
 export const saveRecipe = async (req: Request, res: Response) => {
   const { mealId, mealName, mealThumb } = req.body;

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import * as savedRecipeController from "../controllers/savedRecipeController";
+import * as savedRecipeController from "../controllers/saved-recipe.controller";
 import { authenticateToken } from "../middleware/auth";
 
 const router = Router();
