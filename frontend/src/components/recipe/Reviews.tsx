@@ -23,24 +23,23 @@ export const Reviews = ({ recipe }: { recipe: Meal }) => {
     e.preventDefault();
     if (!rating) return;
     setSubmitting(true);
-    try {
-      await addReview(rating, comment);
-    } finally {
+    const result = await addReview(rating, comment);
+    if (result.success) {
       setComment("");
-      setSubmitting(false);
+      setRating(0);
     }
+    //TODO: Toast on error? (maybe)
+    setSubmitting(false);
   };
   const handleDelete = async () => {
     setSubmitting(true);
-    try {
-      const result = await deleteReview();
-      if (result.success) {
-        setComment("");
-        setRating(0);
-      }
-    } finally {
-      setSubmitting(false);
+    const result = await deleteReview();
+    if (result.success) {
+      setComment("");
+      setRating(0);
     }
+    //TODO: Toast on error? (maybe)
+    setSubmitting(false);
   };
 
   const formatTimestamp = (timestamp: string) => {

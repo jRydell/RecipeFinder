@@ -6,7 +6,7 @@ export const useReviews = (mealId: string | undefined) => {
   const { isAuthenticated } = useAuthStore();
   const [reviews, setReviews] = useState<Review[]>([]);
   const [userReview, setUserReview] = useState<Review | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const fetchReviews = useCallback(async () => {

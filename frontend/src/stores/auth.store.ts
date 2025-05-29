@@ -62,7 +62,7 @@ export const useAuthStore = create<AuthState>()(
             isAuthenticated: true,
           });
           set({ isLoading: false });
-          return { success: true, error };
+          return { success: true, error: null };
         }
 
         set({ isLoading: false });
@@ -83,7 +83,7 @@ export const useAuthStore = create<AuthState>()(
       }),
       storage: createJSONStorage(() => sessionStorage),
       onRehydrateStorage: () => (state) => {
-        // When store is rehydrated from localStorage, set isAuthenticated based on token
+        // When store is rehydrated from sessionStorage, set isAuthenticated based on token
         if (state && state.token) {
           state.isAuthenticated = true;
         }
