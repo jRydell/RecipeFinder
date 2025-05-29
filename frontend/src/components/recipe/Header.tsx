@@ -4,9 +4,10 @@ import { recipeService } from "@/api/services/recipe-service";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
-
 import { AverageRating } from "../AverageRating";
 import { Meal } from "@/api/services/mealdb-service";
+
+//TODO: REFACTOR, CUSTOM HOOK
 
 export const Header = ({ recipe }: { recipe: Meal }) => {
   const [isSaved, setIsSaved] = useState<boolean>();
@@ -59,7 +60,8 @@ export const Header = ({ recipe }: { recipe: Meal }) => {
   };
   if (!recipe) {
     return;
-  }  return (
+  }
+  return (
     <header className="max-w-4xl mb-8">
       <h1 className="text-3xl font-bold mb-3">{recipe.strMeal}</h1>
       <AverageRating mealId={recipe.idMeal} />
