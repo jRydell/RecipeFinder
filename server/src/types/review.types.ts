@@ -9,9 +9,8 @@ export type Review = {
 };
 
 export type ReviewDTO = {
-  user_id: number;
-  meal_id: string;
-  rating?: number;
+  mealId: string;
+  rating: number;
   comment?: string;
 };
 

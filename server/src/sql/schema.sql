@@ -6,7 +6,7 @@ CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(50) NOT NULL UNIQUE,
   email VARCHAR(100) NOT NULL UNIQUE,
-  password VARCHAR(255) NOT NULL, -- Will store hashed passwords
+  password VARCHAR(255) NOT NULL, --  hashed passwords
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -19,7 +19,7 @@ CREATE TABLE saved_recipes (
   meal_thumb VARCHAR(255),
   saved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-  UNIQUE KEY unique_user_meal (user_id, meal_id) -- Prevent duplicate saves
+  UNIQUE KEY unique_user_meal (user_id, meal_id) -- prevent duplicate saves
 );
 
 CREATE TABLE reviews (
