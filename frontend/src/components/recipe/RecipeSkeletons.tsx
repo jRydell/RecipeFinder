@@ -24,8 +24,8 @@ export const RecipeSkeletons = () => (
       <Skeleton className="h-8 w-1/2 mb-4 bg-gray-200" />
 
       {Array.from({ length: 5 }).map((_, i) => (
-        // eslint-disable-next-line react-x/no-array-index-key
         <Skeleton
+          // eslint-disable-next-line react-x/no-array-index-key
           key={`instruction-${i}`}
           className="h-6 w-full mb-2 bg-gray-200"
         />
