@@ -10,18 +10,18 @@
 │ │
 │ ├── middleware\
 │ │ ├── auth.ts # Authentication middleware
-│ │ ├── errorHandler.ts # Global error handling middleware
+│ │ ├── error.handler.ts # Global error handling middleware
 │ │ └── logging.ts # Request logging middleware
 │ │
 │ ├── services\ # Business logic layer
-│ │ ├── authService.ts # Authentication business logic
-│ │ ├── reviewService.ts # Review operations (ratings and comments)
-│ │ └── savedRecipeService.ts # Saved recipe opre logic
+│ │ ├── auth.service.ts # Authentication business logic
+│ │ ├── review.service.ts # Review operations (ratings and comments)
+│ │ └── saved-recipe.service.ts # Saved recipe operations
 │ │
 │ ├── controllers\
-│ │ ├── authController.ts # User registration and login
-│ │ ├── reviewController.ts # Review management (ratings and comments)
-│ │ └── savedRecipeController.ts # Saved recipes management
+│ │ ├── auth.controller.ts # User registration and login
+│ │ ├── review.controller.ts # Review management (ratings and comments)
+│ │ └── saved-recipe.controller.ts # Saved recipes management
 │ │
 │ ├── routes\
 │ │ ├── auth.routes.ts # Auth routes
@@ -32,7 +32,7 @@
 │ ├── queries\ # Database operations layer
 │ │ ├── user.queries.ts # User-related database queries
 │ │ ├── review.queries.ts # Review-related database queries
-│ │ └── savedRecipe.queries.ts # Saved recipe database queries
+│ │ └── saved-recipe.queries.ts # Saved recipe database queries
 │ │
 │ └── validation\ # Input validation schemas
 │
@@ -45,3 +45,16 @@
 ├── package.json # Project metadata and dependencies
 ├── package-lock.json # Dependency lock file
 └── tsconfig.json # TypeScript configuration
+
+---
+
+### Naming Conventions & DTOs
+
+- **API & DTOs:** Use camelCase (e.g., `mealId`, `userId`) for all API endpoints, request/response DTOs, and route parameters.
+- **Database & SQL:** Use snake_case (e.g., `meal_id`, `user_id`) for all database fields and SQL queries.
+- **Backend Types:** Types representing DB rows use snake_case; DTOs for API use camelCase.
+- **Frontend:** Expects and uses snake_case for review and saved recipe objects, matching backend responses directly.
+
+> **Note:** DTOs are used for API requests and responses to ensure consistent property naming and data transfer between frontend and backend.
+
+TODO: FIX DTO/TYPES AND THEY ARE EVERYWHERE
