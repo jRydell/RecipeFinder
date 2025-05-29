@@ -50,7 +50,7 @@ export const recipeService = {
   },
   addReview: async (mealId: string, rating: number, comment: string) => {
     return api.post<Review>(`${ENDPOINTS.REVIEWS}`, {
-      meal_id: mealId,
+      mealId,
       rating,
       comment,
     });
@@ -61,7 +61,7 @@ export const recipeService = {
   },
   getAverageRating: async (mealId: string) => {
     return api.get<Rating>(
-      `${ENDPOINTS.REVIEWS}/average-rating?meal_id=${mealId}`
+      `${ENDPOINTS.REVIEWS}/average-rating?mealId=${mealId}`
     );
   },
 };

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import * as reviewController from "../controllers/reviewController";
+import * as reviewController from "../controllers/review.controller";
 import { authenticateToken } from "../middleware/auth";
 
 const router = Router();
@@ -8,11 +8,11 @@ const router = Router();
 router.post("/", authenticateToken, reviewController.addReview);
 
 // Get all reviews for a meal (noAuth)
-router.get("/meal/:meal_id", reviewController.getReviewsByMealId);
+router.get("/meal/:mealId", reviewController.getReviewsByMealId);
 
 // Get a review by user and meal (auth)
 router.get(
-  "/user/meal/:meal_id",
+  "/user/meal/:mealId",
   authenticateToken,
   reviewController.getReviewByUserAndMeal
 );
@@ -22,7 +22,7 @@ router.get("/average-rating", reviewController.getAverageRating);
 
 // Delete a review (auth)
 router.delete(
-  "/meal/:meal_id",
+  "/meal/:mealId",
   authenticateToken,
   reviewController.deleteReview
 );

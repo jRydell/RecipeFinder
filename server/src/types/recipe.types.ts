@@ -8,8 +8,8 @@ export type SavedRecipe = {
 };
 
 export type SavedRecipeDTO = {
-  user_id: number;
-  meal_id: string;
-  meal_name: string;
-  meal_thumb: string;
+  userId: number;
+  mealId: string;
+  mealName: string;
+  mealThumb: string;
 };
