@@ -8,22 +8,14 @@ const About = () => {
       <h1 className="text-3xl font-bold mb-6">About RecipeFinder</h1>
 
       <section className="mb-8">
-        <div className="bg-muted p-5 rounded-lg mb-5 border border-muted-foreground/20">
-          <p className="font-medium">
-            RecipeFinder is developed by Johan Rydell as a final project for the
-            Frontend Developer program at Yrkeshögskolan Borås. This full-stack
-            application demonstrates modern web development technologies, CI/CD
-            practices, and deployment strategies.
-          </p>
-          <br />
-          <p> **Note:** This project is currently under active development.</p>
-        </div>
-
+        {" "}
         <p className="mb-4 text-lg">
-          RecipeFinder lets users find, save and rate recipes. The app lets you
-          search and browse recipes from The MealDB API, save favorites to a
-          MySQL database, and share your opinions through ratings and comments.
-          Built with React and Node.js.
+          RecipeFinder lets users find, save and review recipes. The user can
+          search and browse recipes from The MealDB API, save favorites and
+          share your opinions through reviews/rating. Favorite recipes, reviews
+          and users are stored in a MySQL database. Built with React and
+          Node.js. This web application is Johan Rydell's final project for the
+          Frontend Developer program at Yrkeshögskolan Borås.
         </p>
       </section>
 
