@@ -1,28 +1,19 @@
 # RecipeFinder
 
-RecipeFinder is developed by Johan Rydell as a final project for
-the Frontend Developer program at Yrkeshögskolan Borås. This
-full-stack application demonstrates modern web
-development technologies, CI/CD practices, and deployment
-strategies.
-
-> **Note:** This project is currently under active development.
-
-RecipeFinder lets users find, save and rate recipes. The app lets you search and browse recipes from The MealDB API, save favorites to a MySQL database, and share your opinions through ratings and comments. Built with React and Node.js.
+RecipeFinder lets users find, save and review recipes. The app lets you search and browse recipes from The MealDB API, save favorites to a MySQL database, and share your opinions through reviews. Built with React and Node.js.
 
 ## Project Features
 
 - User authentication with JWT
 - Recipe search and discovery powered by The MealDB API
 - Personal recipe collection management
-- Recipe rating system
-- Comments functionality
+- Reviews with rating and comments.
 - Responsive design for mobile and desktop
 - Dark/light theme support
 
 ## Frontend Technologies
 
-- React 19 with TypeScript 5.7
+- React 19 with TypeScript
 - React Router 7 for navigation
 - Shadcn UI for themeable, accessible component library
 - Tailwind CSS 4 for styling
@@ -33,8 +24,8 @@ RecipeFinder lets users find, save and rate recipes. The app lets you search and
 
 ## Backend Technologies
 
-- Node.js with Express 4.21
-- TypeScript 5.6 for type safety
+- Node.js with Express
+- TypeScript for type safety
 - MySQL database with mysql2 driver
 - JWT authentication
 - BCrypt for password hashing
@@ -138,8 +129,3 @@ RecipeFinder lets users find, save and rate recipes. The app lets you search and
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Contact
-
-Johan Rydell – [GitHub Profile](https://github.com/jRydell)  
-Project Link: [https://github.com/jRydell/projectunknown](https://github.com/jRydell/projectunknown)

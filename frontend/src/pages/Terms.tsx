@@ -14,7 +14,18 @@ const Terms = () => {
   return (
     <div className="max-w-2xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">Terms and Conditions</h1>
-
+      <section className="mb-6">
+        <h2 className="text-xl font-semibold mb-3 flex items-center gap-2">
+          <Info className="h-5 w-5 text-primary" />
+          Educational Project Notice
+        </h2>
+        <p className="mb-2">
+          This application is a student project created for educational purposes
+          as part of a Frontend Developer program. It is currently under active
+          development and provided "as-is" without warranties or guarantees of
+          continued support, maintenance, or availability.
+        </p>
+      </section>
       <section className="mb-6">
         <h2 className="text-xl font-semibold mb-3 flex items-center gap-2">
           <CheckCircle className="h-5 w-5 text-primary" />
@@ -26,7 +37,6 @@ const Terms = () => {
           these terms, you may not use our service.
         </p>
       </section>
-
       <section className="mb-6">
         <h2 className="text-xl font-semibold mb-3 flex items-center gap-2">
           <UserCircle className="h-5 w-5 text-primary" />
@@ -44,7 +54,6 @@ const Terms = () => {
           and current.
         </p>
       </section>
-
       <section className="mb-6">
         <h2 className="text-xl font-semibold mb-3 flex items-center gap-2">
           <MessageSquare className="h-5 w-5 text-primary" />
@@ -61,7 +70,6 @@ const Terms = () => {
           rights.
         </p>
       </section>
-
       <section className="mb-6">
         <h2 className="text-xl font-semibold mb-3 flex items-center gap-2">
           <ExternalLink className="h-5 w-5 text-primary" />
@@ -73,7 +81,6 @@ const Terms = () => {
           where required.
         </p>
       </section>
-
       <section className="mb-6">
         <h2 className="text-xl font-semibold mb-3 flex items-center gap-2">
           <ShieldAlert className="h-5 w-5 text-primary" />
@@ -87,47 +94,85 @@ const Terms = () => {
           <li>Use automated methods to scrape or extract data</li>
           <li>Interfere with the proper functioning of the service</li>
         </ul>
-      </section>
-
+      </section>{" "}
       <section className="mb-6">
         <h2 className="text-xl font-semibold mb-3 flex items-center gap-2">
           <ShieldX className="h-5 w-5 text-primary" />
-          6. Limitation of Liability
+          6. Service Availability & Educational Nature
         </h2>
+        <p className="mb-2">
+          <strong>No Service Guarantees:</strong> This is an educational project
+          with no guaranteed uptime, availability, or continued operation. The
+          service may be discontinued, modified, or become unavailable at any
+          time without notice.
+        </p>
+        <p className="mb-2">
+          <strong>Development Status:</strong> This application is under active
+          development. Features may change, data may be lost, and functionality
+          may be interrupted as part of the development process.
+        </p>
+        <p className="mb-2">
+          <strong>No Commercial Use:</strong> This service is provided for
+          educational demonstration purposes only and is not intended for
+          commercial or production use.
+        </p>
+      </section>
+      <section className="mb-6">
+        <h2 className="text-xl font-semibold mb-3 flex items-center gap-2">
+          <ShieldX className="h-5 w-5 text-primary" />
+          7. Limitation of Liability
+        </h2>{" "}
         <p className="mb-2">
           To the maximum extent permitted by law, we shall not be liable for any
           indirect, incidental, special, consequential, or punitive damages
-          resulting from your use or inability to use our service.
+          resulting from your use or inability to use our service. Given the
+          educational and developmental nature of this project, you acknowledge
+          that data loss, service interruptions, and functionality changes may
+          occur without warning.
         </p>
       </section>
-
       <section className="mb-6">
         <h2 className="text-xl font-semibold mb-3 flex items-center gap-2">
           <FileText className="h-5 w-5 text-primary" />
-          7. Modifications to Terms
+          8. Data and Privacy Notice
+        </h2>
+        <p className="mb-2">
+          <strong>Educational Environment:</strong> Any data you provide may be
+          used for educational purposes and demonstration. Do not submit
+          sensitive or personal information beyond what is necessary for account
+          creation.
+        </p>
+        <p className="mb-2">
+          <strong>Data Retention:</strong> We make no guarantees about data
+          retention. Your account data, saved recipes, and reviews may be
+          deleted as part of development, testing, or project conclusion.
+        </p>
+      </section>
+      <section className="mb-6">
+        <h2 className="text-xl font-semibold mb-3 flex items-center gap-2">
+          <FileText className="h-5 w-5 text-primary" />
+          9. Modifications to Terms
         </h2>
         <p className="mb-2">
           We reserve the right to modify these Terms and Conditions at any time.
           Continued use of the service after such modifications constitutes your
           acceptance of the revised terms.
         </p>
-      </section>
-
+      </section>{" "}
       <section className="mb-6">
         <h2 className="text-xl font-semibold mb-3 flex items-center gap-2">
           <Globe className="h-5 w-5 text-primary" />
-          8. Governing Law
+          10. Governing Law
         </h2>
         <p className="mb-2">
           These Terms shall be governed by and construed in accordance with the
           laws of Sweden, without regard to its conflict of law provisions.
         </p>
       </section>
-
       <div className="flex items-center gap-2 mt-8 justify-center">
         <Info className="h-4 w-4 text-muted-foreground" />
         <p className="text-sm text-muted-foreground">
-          Last updated: May 7, 2025
+          Last updated: May 30, 2025
         </p>
       </div>
     </div>

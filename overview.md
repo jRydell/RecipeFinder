@@ -48,16 +48,7 @@
 
 ---
 
-### Naming Conventions & DTOs
-
-- **API & DTOs:** Use camelCase (e.g., `mealId`, `userId`) for all API endpoints, request/response DTOs, and route parameters.
-- **Database & SQL:** Use snake_case (e.g., `meal_id`, `user_id`) for all database fields and SQL queries.
-- **Backend Types:** Types representing DB rows use snake_case; DTOs for API use camelCase.
-- **Frontend:** Expects and uses snake_case for review and saved recipe objects, matching backend responses directly.
-
-> **Note:** DTOs are used for API requests and responses to ensure consistent property naming and data transfer between frontend and backend.
-
-TODO: FIX DTO/TYPES AND THEY ARE EVERYWHERE
-TODO: REFACTOR REVIEWS, FRONTEND VALIDATION, MOBILE MENU STYLING, HEADER POSITIONING.
+TODO: FIX TYPES THEY ARE EVERYWHERE
+TODO: FRONTEND VALIDATION, MOBILE MENU STYLING, HEADER POSITIONING.
 TODO: CHECK STRUCTURE IN useREVIEWS
 TODO: BACKEND VALIDATION, ZOD?

@@ -14,7 +14,6 @@ const Privacy = () => {
   return (
     <div className="max-w-2xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">Privacy Policy</h1>
-
       <section className="mb-6">
         <h2 className="text-xl font-semibold mb-3 flex items-center gap-2">
           <Database className="h-5 w-5 text-primary" />
@@ -46,7 +45,6 @@ const Privacy = () => {
           activity within the application.
         </p>
       </section>
-
       <section className="mb-6">
         <h2 className="text-xl font-semibold mb-3 flex items-center gap-2">
           <ShieldCheck className="h-5 w-5 text-primary" />
@@ -64,8 +62,7 @@ const Privacy = () => {
           </li>
           <li>To keep track of which recipes you've saved for easy access</li>
         </ul>
-      </section>
-
+      </section>{" "}
       <section className="mb-6">
         <h2 className="text-xl font-semibold mb-3 flex items-center gap-2">
           <Server className="h-5 w-5 text-primary" />
@@ -81,15 +78,42 @@ const Privacy = () => {
           <li>Regular security updates are applied to all systems</li>
         </ul>
         <p className="mb-2">
-          While we strive to protect your information, no method of transmission
-          over the internet or electronic storage is 100% secure.
+          <strong>Educational Environment Disclaimer:</strong> While we
+          implement security best practices as part of this learning project,
+          this system may not meet enterprise-level security standards. No
+          method of transmission over the internet or electronic storage is 100%
+          secure.
         </p>
       </section>
-
+      <section className="mb-6">
+        <h2 className="text-xl font-semibold mb-3 flex items-center gap-2">
+          <Database className="h-5 w-5 text-primary" />
+          4. Educational Use and Data Sharing
+        </h2>
+        <p className="mb-2">
+          <strong>Academic Context:</strong> As this is an educational project:
+        </p>
+        <ul className="list-disc pl-6 mb-2">
+          <li>
+            Your data may be reviewed by instructors or evaluators for
+            educational assessment
+          </li>
+          <li>
+            Anonymized usage patterns may be analyzed for learning purposes
+          </li>
+          <li>
+            Code and database structure may be shared in academic contexts
+          </li>
+          <li>
+            Personal identifying information will not be shared outside the
+            educational context
+          </li>
+        </ul>
+      </section>
       <section className="mb-6">
         <h2 className="text-xl font-semibold mb-3 flex items-center gap-2">
           <ExternalLink className="h-5 w-5 text-primary" />
-          4. Third-Party Services
+          5. Third-Party Services
         </h2>
         <p className="mb-2">
           Our application uses a third-party recipe database (TheMealDB API) to
@@ -100,24 +124,22 @@ const Privacy = () => {
         <p className="mb-2">
           We do not sell or rent your personal information to third parties.
         </p>
-      </section>
-
+      </section>{" "}
       <section className="mb-6">
         <h2 className="text-xl font-semibold mb-3 flex items-center gap-2">
           <HardDrive className="h-5 w-5 text-primary" />
-          5. Local Storage
+          6. Local Storage
         </h2>
         <p className="mb-2">
           We use your browser's local storage capability to store authentication
           tokens. This allows you to remain logged in between sessions. This
           data remains on your device and is not transmitted to our servers.
         </p>
-      </section>
-
+      </section>{" "}
       <section className="mb-6">
         <h2 className="text-xl font-semibold mb-3 flex items-center gap-2">
           <UserCog className="h-5 w-5 text-primary" />
-          6. User Rights
+          7. User Rights
         </h2>
         <p className="mb-2">You have the right to:</p>
         <ul className="list-disc pl-6 mb-2">
@@ -128,41 +150,48 @@ const Privacy = () => {
             recipes, ratings, and comments)
           </li>
           <li>Request a copy of your data</li>
-        </ul>
+        </ul>{" "}
         <p className="mb-2">
           To exercise these rights, please contact us at the email address
           provided in our Contact page.
         </p>
       </section>
-
       <section className="mb-6">
         <h2 className="text-xl font-semibold mb-3 flex items-center gap-2">
           <Clock className="h-5 w-5 text-primary" />
-          7. Data Retention
+          8. Data Retention and Project Lifecycle
         </h2>
         <p className="mb-2">
-          We retain your personal information for as long as your account is
-          active. When you delete your account, all associated data (including
-          saved recipes, ratings, and comments) will be permanently removed from
-          our database.
+          <strong>During Active Development:</strong> We retain your personal
+          information for as long as your account is active and the project is
+          being developed or evaluated.
+        </p>
+        <p className="mb-2">
+          <strong>Project Conclusion:</strong> When this educational project
+          concludes, all user data may be permanently deleted. We will make
+          reasonable efforts to notify active users before any planned data
+          deletion.
+        </p>
+        <p className="mb-2">
+          <strong>Account Deletion:</strong> When you delete your account, all
+          associated data (including saved recipes, ratings, and comments) will
+          be permanently removed from our database.
         </p>
       </section>
-
       <section className="mb-6">
         <h2 className="text-xl font-semibold mb-3 flex items-center gap-2">
           <RefreshCw className="h-5 w-5 text-primary" />
-          8. Privacy Policy Updates
+          9. Privacy Policy Updates
         </h2>
         <p className="mb-2">
           We may update this Privacy Policy from time to time. We will notify
           you of significant changes by posting the new policy on this page.
         </p>
-      </section>
-
+      </section>{" "}
       <div className="flex items-center gap-2 mt-8 justify-center">
         <Info className="h-4 w-4 text-muted-foreground" />
         <p className="text-sm text-muted-foreground">
-          Last updated: May 7, 2025
+          Last updated: May 30, 2025
         </p>
       </div>
     </div>
