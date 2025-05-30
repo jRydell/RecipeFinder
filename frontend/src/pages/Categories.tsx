@@ -1,6 +1,7 @@
 import { Category } from "@/api/services/mealdb-service";
 import { mealDbService } from "@/api/services/mealdb-service";
 import { CategoryCard } from "@/components/CategoryCard";
+import { Separator } from "@/components/ui/separator";
 import { useEffect, useState } from "react";
 
 const Categories = () => {
@@ -25,12 +26,13 @@ const Categories = () => {
   }, []);
 
   if (loading) {
-    return <p>Deployen funka</p>;
+    return <p>Loading...</p>;
   }
   return (
-    <section className="p-6">
+    <section className="p-6 space-y-6">
       {error && <p className="text-red-500 mb-4">{error}</p>}
       <h2 className="text-3xl font-bold mb-6">Categories</h2>
+      <Separator />
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {categories.map((category) => (
           <CategoryCard key={category.strCategory} category={category} />
