@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { recipeService, SavedRecipe } from "../api/services/recipe-service";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import ErrorMessage from "../components/ErrorMessage";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
@@ -51,9 +51,7 @@ const MyRecipes = () => {
     return (
       <div className="p-6 space-y-6">
         <h1 className="text-3xl font-bold">My Saved Recipes</h1>
-        <Alert variant="destructive">
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
+        <ErrorMessage error={error} />
       </div>
     );
   }

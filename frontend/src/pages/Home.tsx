@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SearchForm } from "../components/home";
 import { FeaturedContent } from "@/components/home/FeaturedContent";
+import ErrorMessage from "@/components/ErrorMessage";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -24,7 +25,7 @@ const Home = () => {
   };
   return (
     <div className="p-6">
-      {error && <p className="text-red-500 mb-4">{error}</p>}
+      {error && <ErrorMessage error={error} />}
       <SearchForm
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}

@@ -1,6 +1,7 @@
 import { Meal, mealDbService } from "@/api/services/mealdb-service";
 import RecipeCard from "@/components/RecipeCard";
 import { Button } from "@/components/ui/button";
+import ErrorMessage from "@/components/ErrorMessage";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -31,7 +32,7 @@ const Category = () => {
   }
   return (
     <section className="p-6 space-y-6">
-      {error && <p className="text-red-500 mb-4">{error}</p>}
+      {error && <ErrorMessage error={error} />}
       <h2 className="text-3xl font-bold mb-6">{strCategory}</h2>{" "}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {recipes.slice(0, displayedCount).map((recipe) => (

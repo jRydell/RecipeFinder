@@ -1,4 +1,5 @@
 import { useAverageRating } from "@/hooks/useAverageRating";
+import ErrorMessage from "@/components/ErrorMessage";
 
 export const AverageRating = ({ mealId }: { mealId: string | undefined }) => {
   const { rating, loading, error } = useAverageRating(mealId);
@@ -8,7 +9,7 @@ export const AverageRating = ({ mealId }: { mealId: string | undefined }) => {
   }
 
   if (error) {
-    return <div className="text-red-500">{error}</div>;
+    return <ErrorMessage error={error} />;
   }
 
   const renderStar = (position: number) => {

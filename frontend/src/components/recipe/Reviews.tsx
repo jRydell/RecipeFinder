@@ -7,11 +7,13 @@ import { Meal } from "@/api/services/mealdb-service";
 import { ReviewForm } from "./ReviewForm";
 import { ReviewList } from "./ReviewList";
 import { SignInPrompt } from "./SignInPrompt";
+import ErrorMessage from "../ErrorMessage";
 
 export const Reviews = ({ recipe }: { recipe: Meal }) => {
   const { isAuthenticated, user } = useAuthStore();
   const { reviews, userReview, loading, error, addReview, deleteReview } =
     useReviews(recipe.idMeal);
+
   const [comment, setComment] = useState<string>("");
   const [rating, setRating] = useState<number>(0);
   const [submitting, setSubmitting] = useState(false);
@@ -20,8 +22,8 @@ export const Reviews = ({ recipe }: { recipe: Meal }) => {
     e.preventDefault();
     if (!rating) return;
     setSubmitting(true);
-    const result = await addReview(rating, comment);
-    if (result.success) {
+    const { data } = await addReview(rating, comment);
+    if (data) {
       setComment("");
       setRating(0);
     }
@@ -29,11 +31,7 @@ export const Reviews = ({ recipe }: { recipe: Meal }) => {
   };
   const handleDelete = async () => {
     setSubmitting(true);
-    const result = await deleteReview();
-    if (result.success) {
-      setComment("");
-      setRating(0);
-    }
+    await deleteReview();
     setSubmitting(false);
   };
 
@@ -43,11 +41,8 @@ export const Reviews = ({ recipe }: { recipe: Meal }) => {
         <CardTitle>Reviews</CardTitle>
       </CardHeader>
       <CardContent>
-        {error && (
-          <div className="p-4 mb-4 text-red-700 bg-red-100 rounded-md">
-            {error}
-          </div>
-        )}
+        {" "}
+        {error && <ErrorMessage error={error} />}
         <ReviewForm
           comment={comment}
           setComment={setComment}
