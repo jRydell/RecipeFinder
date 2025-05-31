@@ -13,15 +13,17 @@ export const Reviews = ({ recipe }: { recipe: Meal }) => {
   const { isAuthenticated, user } = useAuthStore();
   const { reviews, userReview, loading, error, addReview, deleteReview } =
     useReviews(recipe.idMeal);
+
   const [comment, setComment] = useState<string>("");
   const [rating, setRating] = useState<number>(0);
   const [submitting, setSubmitting] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!rating) return;
     setSubmitting(true);
-    const result = await addReview(rating, comment);
-    if (result.data) {
+    const { data } = await addReview(rating, comment);
+    if (data) {
       setComment("");
       setRating(0);
     }
@@ -29,11 +31,7 @@ export const Reviews = ({ recipe }: { recipe: Meal }) => {
   };
   const handleDelete = async () => {
     setSubmitting(true);
-    const result = await deleteReview();
-    if (result.data) {
-      setComment("");
-      setRating(0);
-    }
+    await deleteReview();
     setSubmitting(false);
   };
 

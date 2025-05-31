@@ -1,13 +1,17 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { recipeService, Review } from "@/api/services/recipe-service";
 import { useAuthStore } from "@/stores/auth.store";
 
 export const useReviews = (mealId: string | undefined) => {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, user } = useAuthStore();
   const [reviews, setReviews] = useState<Review[]>([]);
-  const [userReview, setUserReview] = useState<Review | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const userReview = useMemo(() => {
+    if (!user?.username || !isAuthenticated) return null;
+    return reviews.find((review) => review.username === user.username) || null;
+  }, [reviews, user?.username, isAuthenticated]);
 
   const fetchReviews = useCallback(async () => {
     if (!mealId) return;
@@ -21,17 +25,6 @@ export const useReviews = (mealId: string | undefined) => {
     }
     setLoading(false);
   }, [mealId]);
-
-  const fetchUserReview = useCallback(async () => {
-    if (!mealId || !isAuthenticated) return;
-    setError(null);
-    const { data, error } = await recipeService.getUserReview(mealId);
-    if (error) {
-      setError(error);
-    } else {
-      setUserReview(data ?? null);
-    }
-  }, [mealId, isAuthenticated]);
 
   const addReview = async (rating: number, comment?: string) => {
     if (!mealId)
@@ -50,10 +43,8 @@ export const useReviews = (mealId: string | undefined) => {
       return { data: null, error };
     }
     await fetchReviews();
-    await fetchUserReview();
     return { data: data, error: null };
   };
-
   const deleteReview = async () => {
     if (!mealId)
       return {
@@ -61,21 +52,18 @@ export const useReviews = (mealId: string | undefined) => {
         error: "Unable to delete review. Please try refreshing the page.",
       };
     setError(null);
-    const { error } = await recipeService.deleteReview(mealId);
+    const { data, error } = await recipeService.deleteReview(mealId);
     if (error) {
       setError(error);
       return { data: null, error };
     }
     await fetchReviews();
-    setUserReview(null);
-    return { data: true, error: null };
+    return { data, error: null };
   };
 
   useEffect(() => {
     void fetchReviews();
-    void fetchUserReview();
-  }, [fetchReviews, fetchUserReview]);
-
+  }, [fetchReviews]);
   return {
     reviews,
     userReview,
@@ -84,6 +72,5 @@ export const useReviews = (mealId: string | undefined) => {
     addReview,
     deleteReview,
     fetchReviews,
-    fetchUserReview,
   };
 };
