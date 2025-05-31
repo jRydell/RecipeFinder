@@ -2,6 +2,7 @@ import { Category } from "@/api/services/mealdb-service";
 import { mealDbService } from "@/api/services/mealdb-service";
 import { CategoryCard } from "@/components/CategoryCard";
 import { Separator } from "@/components/ui/separator";
+import ErrorMessage from "@/components/ErrorMessage";
 import { useEffect, useState } from "react";
 
 const Categories = () => {
@@ -30,7 +31,7 @@ const Categories = () => {
   }
   return (
     <section className="p-6 space-y-6">
-      {error && <p className="text-red-500 mb-4">{error}</p>}
+      {error && <ErrorMessage error={error} />}
       <h2 className="text-3xl font-bold mb-6">Categories</h2>
       <Separator />
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">

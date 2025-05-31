@@ -1,5 +1,5 @@
 import { useSearchRecipe } from "@/hooks/useSearchRecipe";
-import { Alert, AlertDescription } from "../ui/alert";
+import ErrorMessage from "@/components/ErrorMessage";
 import { Button } from "../ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 import { Input } from "../ui/input";
@@ -32,11 +32,7 @@ export const SearchForm = ({
             {loading ? "Searching..." : "Search"}
           </Button>
         </form>
-        {error && (
-          <Alert variant="destructive" className="mt-4">
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
+        {error && <ErrorMessage error={error} />}
       </CardContent>
     </Card>
   );

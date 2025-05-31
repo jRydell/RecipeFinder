@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
+import ErrorMessage from "@/components/ErrorMessage";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -54,11 +55,9 @@ const Register = () => {
                     Terms and Conditions
                   </Link>
                 </label>
-              </div>
+              </div>{" "}
               {showError && !agreed && (
-                <p className="text-red-500 text-sm mt-2 text-center">
-                  You must agree to the terms and conditions to register.
-                </p>
+                <ErrorMessage error="You must agree to the terms and conditions to register." />
               )}
             </div>
           </form>

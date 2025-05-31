@@ -1,4 +1,4 @@
-import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import ErrorMessage from "@/components/ErrorMessage";
 import { getIngredients } from "@/utils/getIngredients";
 import { useRecipeData } from "../hooks/useRecipeData";
 import {
@@ -23,10 +23,7 @@ const Recipe = () => {
   if (error) {
     return (
       <div className="p-6">
-        <Alert variant="destructive">
-          <AlertTitle>Error loading recipe</AlertTitle>
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
+        <ErrorMessage error={error} />
       </div>
     );
   }
@@ -34,12 +31,7 @@ const Recipe = () => {
   if (!recipe) {
     return (
       <div className="p-6">
-        <Alert>
-          <AlertTitle>Recipe not found</AlertTitle>
-          <AlertDescription>
-            The requested recipe could not be found.
-          </AlertDescription>
-        </Alert>
+        <ErrorMessage error="The requested recipe could not be found." />
       </div>
     );
   }

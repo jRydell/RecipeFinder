@@ -14,8 +14,11 @@ export const useReviews = (mealId: string | undefined) => {
     setLoading(true);
     setError(null);
     const { data, error } = await recipeService.getReviews(mealId);
-    if (error) setError(error);
-    if (data) setReviews(data);
+    if (error) {
+      setError(error);
+    } else if (data) {
+      setReviews(data);
+    }
     setLoading(false);
   }, [mealId]);
 
@@ -23,12 +26,19 @@ export const useReviews = (mealId: string | undefined) => {
     if (!mealId || !isAuthenticated) return;
     setError(null);
     const { data, error } = await recipeService.getUserReview(mealId);
-    if (error) setError(error);
-    setUserReview(data ?? null);
+    if (error) {
+      setError(error);
+    } else {
+      setUserReview(data ?? null);
+    }
   }, [mealId, isAuthenticated]);
 
   const addReview = async (rating: number, comment?: string) => {
-    if (!mealId) return { success: false, error: "No recipe selected" };
+    if (!mealId)
+      return {
+        data: null,
+        error: "Unable to add review. Please try refreshing the page.",
+      };
     setError(null);
     const { data, error } = await recipeService.addReview(
       mealId,
@@ -37,24 +47,28 @@ export const useReviews = (mealId: string | undefined) => {
     );
     if (error) {
       setError(error);
-      return { success: false, error };
+      return { data: null, error };
     }
     await fetchReviews();
     await fetchUserReview();
-    return { success: true, review: data };
+    return { data: data, error: null };
   };
 
   const deleteReview = async () => {
-    if (!mealId) return { success: false, error: "No recipe selected" };
+    if (!mealId)
+      return {
+        data: null,
+        error: "Unable to delete review. Please try refreshing the page.",
+      };
     setError(null);
     const { error } = await recipeService.deleteReview(mealId);
     if (error) {
       setError(error);
-      return { success: false, error };
+      return { data: null, error };
     }
     await fetchReviews();
     setUserReview(null);
-    return { success: true };
+    return { data: true, error: null };
   };
 
   useEffect(() => {
