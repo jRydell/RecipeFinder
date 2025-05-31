@@ -1,23 +1,23 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { authService, User } from "../api/services/auth-service";
+import { authService, User, AuthResponse } from "../api/services/auth-service";
 
 type AuthState = {
   user: User | null;
   token: string | null;
   isAuthenticated: boolean;
-  isLoading: boolean;
+  loading: boolean;
 
   login: (
     email: string,
     password: string
-  ) => Promise<{ success: boolean; error: string | null }>;
+  ) => Promise<{ data: AuthResponse | null; error: string | null }>;
 
   register: (
     username: string,
     email: string,
     password: string
-  ) => Promise<{ success: boolean; error: string | null }>;
+  ) => Promise<{ data: AuthResponse | null; error: string | null }>;
 
   logout: () => void;
 };
@@ -28,9 +28,9 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       token: null,
       isAuthenticated: false,
-      isLoading: false,
+      loading: false,
       login: async (email: string, password: string) => {
-        set({ isLoading: true });
+        set({ loading: true });
         const { data, error } = await authService.login(email, password);
 
         if (data) {
@@ -39,15 +39,12 @@ export const useAuthStore = create<AuthState>()(
             token: data.token,
             isAuthenticated: true,
           });
-          set({ isLoading: false });
-          return { success: true, error: null };
         }
-
-        set({ isLoading: false });
-        return { success: false, error };
+        set({ loading: false });
+        return { data, error };
       },
       register: async (username: string, email: string, password: string) => {
-        set({ isLoading: true });
+        set({ loading: true });
 
         const { data, error } = await authService.register(
           username,
@@ -61,15 +58,9 @@ export const useAuthStore = create<AuthState>()(
             token: data.token,
             isAuthenticated: true,
           });
-          set({ isLoading: false });
-          return { success: true, error: null };
         }
-
-        set({ isLoading: false });
-        return {
-          success: false,
-          error: error,
-        };
+        set({ loading: false });
+        return { data, error };
       },
       logout: () => {
         set({ user: null, token: null, isAuthenticated: false });
