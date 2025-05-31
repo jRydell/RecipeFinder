@@ -1,6 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuthStore } from "../stores/auth.store";
+import { useNavigate, Link } from "react-router-dom";
+import { RegisterForm } from "@/components/register/RegisterForm";
 import {
   Card,
   CardContent,
@@ -9,103 +8,73 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useState } from "react";
 
 const Register = () => {
   const navigate = useNavigate();
-  const { register, isLoading } = useAuthStore();
+  const [agreed, setAgreed] = useState(false);
+  const [showError, setShowError] = useState(false);
 
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-
-    const result = await register(username, email, password);
-
-    if (result.success) {
-      void navigate("/");
+  const handleSubmit = (e: React.FormEvent) => {
+    if (!agreed) {
+      e.preventDefault();
+      setShowError(true);
     } else {
-      setError(result.error || "Registration failed");
+      setShowError(false);
     }
   };
+
   return (
-    <div className="flex justify-center p-6">
+    <div className="flex items-center justify-center min-h-[80vh] p-6">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>Create Account</CardTitle>
-          <CardDescription>
-            Sign up to save recipes and leave comments
-          </CardDescription>
+          <CardDescription>Sign up to save and review recipes</CardDescription>
         </CardHeader>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            void handleSubmit(e);
-          }}
-        >
-          <CardContent className="space-y-4">
-            {error && (
-              <Alert variant="destructive">
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            )}
-            <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
-              <Input
-                id="username"
-                type="text"
-                placeholder="johndoe"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
+        <CardContent>
+          <form onSubmit={handleSubmit}>
+            <RegisterForm disabled={!agreed} />
+            <div className="flex flex-col items-center gap-2 mt-6">
+              <div className="flex items-center gap-2">
+                <Checkbox
+                  id="terms"
+                  checked={agreed}
+                  onChange={(e) => setAgreed(e.target.checked)}
+                />
+                <label htmlFor="terms" className="text-sm">
+                  I agree to the{" "}
+                  <Link
+                    to="/terms-and-conditions"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline text-primary"
+                  >
+                    Terms and Conditions
+                  </Link>
+                </label>
+              </div>
+              {showError && !agreed && (
+                <p className="text-red-500 text-sm mt-2 text-center">
+                  You must agree to the terms and conditions to register.
+                </p>
+              )}
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="your@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-          </CardContent>
-          <CardFooter className="flex flex-col space-y-4 pt-6 mt-8">
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Creating Account..." : "Create Account"}
+          </form>
+        </CardContent>
+        <CardFooter className="flex flex-col space-y-4 pt-6 mt-8">
+          <p className="text-center text-sm">
+            Already have an account?{" "}
+            <Button
+              variant="link"
+              className="p-0"
+              onClick={() => void navigate("/login")}
+            >
+              Sign in
             </Button>
-            <p className="text-center text-sm">
-              Already have an account?{" "}
-              <Button
-                variant="link"
-                className="p-0"
-                onClick={() => void navigate("/login")}
-              >
-                Sign in
-              </Button>
-            </p>
-          </CardFooter>
-        </form>
+          </p>
+        </CardFooter>
       </Card>
     </div>
   );
