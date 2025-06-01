@@ -7,6 +7,7 @@ export const useReviews = (mealId: string | undefined) => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const userReview = useMemo(() => {
     if (!user?.username || !isAuthenticated) return null;
@@ -17,6 +18,7 @@ export const useReviews = (mealId: string | undefined) => {
     if (!mealId) return;
     setLoading(true);
     setError(null);
+
     const { data, error } = await recipeService.getReviews(mealId);
     if (error) {
       setError(error);
@@ -26,39 +28,46 @@ export const useReviews = (mealId: string | undefined) => {
     setLoading(false);
   }, [mealId]);
 
-  const addReview = async (rating: number, comment?: string) => {
-    if (!mealId)
-      return {
-        data: null,
-        error: "Unable to add review. Please try refreshing the page.",
-      };
+  const addReview = async (
+    rating: number,
+    comment?: string
+  ): Promise<boolean> => {
+    if (!mealId) {
+      setError("Unable to add review. Please try refreshing the page.");
+      return false;
+    }
     setError(null);
-    const { data, error } = await recipeService.addReview(
+    setSubmitting(true);
+
+    const { error } = await recipeService.addReview(
       mealId,
       rating,
       comment ?? ""
     );
+    setSubmitting(false);
     if (error) {
       setError(error);
-      return { data: null, error };
+      return false;
     }
     await fetchReviews();
-    return { data: data, error: null };
+    return true;
   };
-  const deleteReview = async () => {
-    if (!mealId)
-      return {
-        data: null,
-        error: "Unable to delete review. Please try refreshing the page.",
-      };
+
+  const deleteReview = async (): Promise<boolean> => {
+    if (!mealId) {
+      setError("Unable to delete review. Please try refreshing the page.");
+      return false;
+    }
     setError(null);
-    const { data, error } = await recipeService.deleteReview(mealId);
+    setSubmitting(true);
+    const { error } = await recipeService.deleteReview(mealId);
+    setSubmitting(false);
     if (error) {
       setError(error);
-      return { data: null, error };
+      return false;
     }
     await fetchReviews();
-    return { data, error: null };
+    return true;
   };
 
   useEffect(() => {
@@ -69,6 +78,7 @@ export const useReviews = (mealId: string | undefined) => {
     userReview,
     loading,
     error,
+    submitting,
     addReview,
     deleteReview,
     fetchReviews,

@@ -11,28 +11,30 @@ import ErrorMessage from "../ErrorMessage";
 
 export const Reviews = ({ recipe }: { recipe: Meal }) => {
   const { isAuthenticated, user } = useAuthStore();
-  const { reviews, userReview, loading, error, addReview, deleteReview } =
-    useReviews(recipe.idMeal);
+  const {
+    reviews,
+    userReview,
+    loading,
+    error,
+    addReview,
+    deleteReview,
+    submitting,
+  } = useReviews(recipe.idMeal);
 
   const [comment, setComment] = useState<string>("");
   const [rating, setRating] = useState<number>(0);
-  const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!rating) return;
-    setSubmitting(true);
-    const { data } = await addReview(rating, comment);
-    if (data) {
+    const success = await addReview(rating, comment);
+    if (success) {
       setComment("");
       setRating(0);
     }
-    setSubmitting(false);
   };
   const handleDelete = async () => {
-    setSubmitting(true);
     await deleteReview();
-    setSubmitting(false);
   };
 
   return (
@@ -41,7 +43,6 @@ export const Reviews = ({ recipe }: { recipe: Meal }) => {
         <CardTitle>Reviews</CardTitle>
       </CardHeader>
       <CardContent>
-        {" "}
         {error && <ErrorMessage error={error} />}
         <ReviewForm
           comment={comment}
