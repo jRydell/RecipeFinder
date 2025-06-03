@@ -1,38 +1,16 @@
-import { useEffect, useState } from "react";
 import { useAuthStore } from "@/stores/auth.store";
-import { recipeService } from "@/api/services/recipe-service";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { AverageRating } from "../AverageRating";
 import { Meal } from "@/api/services/mealdb-service";
-
-//TODO: REFACTOR, CUSTOM HOOK
+import { useSavedRecipesStore } from "@/stores/savedRecipes.store";
 
 export const Header = ({ recipe }: { recipe: Meal }) => {
-  const [isSaved, setIsSaved] = useState<boolean>();
-  const [saveLoading, setSaveLoading] = useState(false);
   const { isAuthenticated } = useAuthStore();
-
+  const { isSaved, saveRecipe, removeSavedRecipe, loading } =
+    useSavedRecipesStore();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!recipe) {
-      return;
-    }
-
-    const checkIfSaved = async () => {
-      if (!recipe || !isAuthenticated) return;
-
-      const { data } = await recipeService.getSavedRecipes();
-      if (data) {
-        const saved = data.some((item) => item.meal_id === recipe.idMeal);
-        setIsSaved(saved);
-      }
-    };
-
-    void checkIfSaved();
-  }, [recipe, isAuthenticated]);
 
   const handleSaveRecipe = async () => {
     if (!recipe) return;
@@ -42,25 +20,17 @@ export const Header = ({ recipe }: { recipe: Meal }) => {
       return;
     }
 
-    setSaveLoading(true);
-
-    if (isSaved) {
-      await recipeService.deleteSavedRecipe(recipe.idMeal);
-      setIsSaved(false);
+    if (isSaved(recipe.idMeal)) {
+      await removeSavedRecipe(recipe.idMeal);
     } else {
-      await recipeService.saveRecipe(
-        recipe.idMeal,
-        recipe.strMeal,
-        recipe.strMealThumb
-      );
-      setIsSaved(true);
+      await saveRecipe(recipe.idMeal, recipe.strMeal, recipe.strMealThumb);
     }
-
-    setSaveLoading(false);
   };
+
   if (!recipe) {
     return;
   }
+
   return (
     <header className="max-w-4xl mb-8">
       <h1 className="text-3xl font-bold mb-3">{recipe.strMeal}</h1>
@@ -85,17 +55,18 @@ export const Header = ({ recipe }: { recipe: Meal }) => {
               {tag.trim()}
             </Badge>
           ))}
-      </div>
-
+      </div>{" "}
       <Button
-        variant={isSaved ? "outline" : "default"}
+        variant={isSaved(recipe.idMeal) ? "outline" : "default"}
         onClick={() => void handleSaveRecipe()}
-        disabled={saveLoading}
+        disabled={loading}
         className="whitespace-nowrap"
       >
-        {saveLoading
+        {loading
           ? "Processing..."
-          : isSaved
+          : loading
+          ? "Loading..."
+          : isSaved(recipe.idMeal)
           ? "Remove from My Recipes"
           : "Save Recipe"}
       </Button>

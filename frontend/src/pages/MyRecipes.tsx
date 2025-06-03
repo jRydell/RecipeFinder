@@ -1,50 +1,27 @@
-import { useEffect, useState } from "react";
-import { recipeService, SavedRecipe } from "../api/services/recipe-service";
 import ErrorMessage from "../components/ErrorMessage";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import RecipeCard from "../components/RecipeCard";
+import { useSavedRecipesStore } from "@/stores/savedRecipes.store";
+import { useState } from "react";
 
 const MyRecipes = () => {
-  const [savedRecipes, setSavedRecipes] = useState<SavedRecipe[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchSavedRecipes = async () => {
-    setIsLoading(true);
-    const { data, error } = await recipeService.getSavedRecipes();
-
-    if (data) {
-      setSavedRecipes(data);
-    } else {
-      setError(error);
-    }
-    setIsLoading(false);
-  };
+  const { savedRecipes, loading, error, removeSavedRecipe } =
+    useSavedRecipesStore();
+  const [removingId, setRemovingId] = useState<string | null>(null);
 
   const handleRemoveRecipe = async (mealId: string) => {
-    const { error } = await recipeService.deleteSavedRecipe(mealId);
-
-    if (!error) {
-      setSavedRecipes((prev) =>
-        prev.filter((recipe) => recipe.meal_id !== mealId)
-      );
-    } else {
-      setError(error);
-    }
+    setRemovingId(mealId);
+    await removeSavedRecipe(mealId);
+    setRemovingId(null);
   };
-
-  useEffect(() => {
-    void fetchSavedRecipes();
-  }, []);
-  if (isLoading) {
-    return (
-      <div className="p-6 space-y-6">
-        <h1 className="text-3xl font-bold">My Saved Recipes</h1>
-        <p>Loading your recipes...</p>
-      </div>
-    );
+  if (loading) {
+    return;
+    /*  <div className="p-6 space-y-6">
+      <h1 className="text-3xl font-bold">My Saved Recipes</h1>
+      <p>Loading your recipes...</p>
+    </div>; */
   }
 
   if (error) {
@@ -83,8 +60,15 @@ const MyRecipes = () => {
               size="icon"
               className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
               onClick={() => void handleRemoveRecipe(recipe.meal_id)}
+              disabled={removingId === recipe.meal_id}
             >
-              <Trash2 className="h-4 w-4" />
+              {removingId === recipe.meal_id ? (
+                <span className="h-4 w-4 flex items-center justify-center">
+                  ...
+                </span>
+              ) : (
+                <Trash2 className="h-4 w-4" />
+              )}
             </Button>
           </div>
         ))}
