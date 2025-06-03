@@ -11,11 +11,7 @@ export type AuthResponse = {
   token: string;
 };
 
-// Handles authentication-related API requests
-
 export const authService = {
-  //Log in a user
-
   login: async (
     email: string,
     password: string
@@ -25,8 +21,6 @@ export const authService = {
       password,
     });
   },
-
-  // Register a new user
 
   register: async (
     username: string,
