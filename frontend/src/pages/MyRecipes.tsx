@@ -7,7 +7,7 @@ import { useSavedRecipesStore } from "@/stores/savedRecipes.store";
 import { useState } from "react";
 
 const MyRecipes = () => {
-  const { savedRecipes, loading, error, removeSavedRecipe } =
+  const { savedRecipes, error, initialLoad, removeSavedRecipe } =
     useSavedRecipesStore();
   const [removingId, setRemovingId] = useState<string | null>(null);
 
@@ -16,12 +16,13 @@ const MyRecipes = () => {
     await removeSavedRecipe(mealId);
     setRemovingId(null);
   };
-  if (loading) {
-    return;
-    /*  <div className="p-6 space-y-6">
-      <h1 className="text-3xl font-bold">My Saved Recipes</h1>
-      <p>Loading your recipes...</p>
-    </div>; */
+  if (initialLoad) {
+    return (
+      <div className="p-6 space-y-6">
+        <h1 className="text-3xl font-bold">My Saved Recipes</h1>
+        <p>Loading your recipes...</p>
+      </div>
+    );
   }
 
   if (error) {
@@ -38,6 +39,7 @@ const MyRecipes = () => {
       <div className="p-6 space-y-6">
         <h1 className="text-3xl font-bold">My Saved Recipes</h1>
         <p>You haven't saved any recipes yet.</p>
+        <Separator />
       </div>
     );
   }
@@ -46,7 +48,6 @@ const MyRecipes = () => {
     <div className="p-6 space-y-6">
       <h1 className="text-3xl font-bold">My Saved Recipes</h1>
       <Separator />
-
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {savedRecipes.map((recipe) => (
           <div key={recipe.id} className="relative group">
