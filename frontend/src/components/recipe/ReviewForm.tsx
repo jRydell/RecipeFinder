@@ -1,6 +1,7 @@
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import type { Review } from "@/api/services/recipe-service";
+import { useState } from "react";
 
 type ReviewFormProps = {
   comment: string;
@@ -23,19 +24,24 @@ export function ReviewForm({
   isAuthenticated,
   onSubmit,
 }: ReviewFormProps) {
+  const [hoverRating, setHoverRating] = useState<number>(0);
+
   return (
     <form onSubmit={onSubmit} className="mb-6 space-y-4">
       <div>
-        <span className="block text-sm font-medium mb-1">Rating:</span>
         <div className="flex space-x-1">
           {[1, 2, 3, 4, 5].map((star) => (
             <button
               type="button"
               key={star}
-              className={`text-xl ${
-                star <= rating ? "text-yellow-400" : "text-gray-300"
-              } hover:text-yellow-400 transition-colors`}
+              className={`text-xl transition-colors ${
+                star <= (hoverRating || rating)
+                  ? "text-yellow-400"
+                  : "text-gray-300"
+              }`}
               onClick={() => setRating(star)}
+              onMouseEnter={() => setHoverRating(star)}
+              onMouseLeave={() => setHoverRating(0)}
               aria-label={`Set rating to ${star}`}
               disabled={submitting}
             >

@@ -41,7 +41,6 @@ export const AverageRating = ({ mealId }: { mealId: string | undefined }) => {
 
   return (
     <div className="flex items-center gap-2">
-      <span>Rating:</span>
       {[1, 2, 3, 4, 5].map((star) => (
         <div
           key={star}

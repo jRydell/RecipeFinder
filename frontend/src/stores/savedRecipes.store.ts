@@ -6,6 +6,7 @@ type SavedRecipesState = {
   savedRecipes: SavedRecipe[];
   loading: boolean;
   error: string | null;
+  initialLoad: boolean;
 
   fetchSavedRecipes: () => Promise<void>;
   saveRecipe: (
@@ -15,6 +16,7 @@ type SavedRecipesState = {
   ) => Promise<void>;
   removeSavedRecipe: (mealId: string) => Promise<void>;
   isSaved: (mealId: string) => boolean;
+  setInitialLoad: (value: boolean) => void;
   setSavedRecipes: (recipes: SavedRecipe[]) => void;
   setError: (error: string | null) => void;
 };
@@ -25,9 +27,11 @@ export const useSavedRecipesStore = create<SavedRecipesState>()(
       savedRecipes: [],
       loading: false,
       error: null,
+      initialLoad: true,
 
       setSavedRecipes: (recipes) => set({ savedRecipes: recipes }),
       setError: (error) => set({ error }),
+      setInitialLoad: (value) => set({ initialLoad: value }),
 
       fetchSavedRecipes: async () => {
         set({ loading: true, error: null });
@@ -36,6 +40,7 @@ export const useSavedRecipesStore = create<SavedRecipesState>()(
           set({ error, loading: false });
         } else {
           set({ savedRecipes: data || [], error: null, loading: false });
+          set({ initialLoad: false });
         }
       },
 
@@ -70,6 +75,12 @@ export const useSavedRecipesStore = create<SavedRecipesState>()(
     {
       name: "saved-recipes-store",
       partialize: (state) => ({ savedRecipes: state.savedRecipes }),
+      onRehydrateStorage: () => (state) => {
+        // after localStorage is loaded, set initialLoad to false
+        if (state) {
+          state.setInitialLoad(false);
+        }
+      },
     }
   )
 );
