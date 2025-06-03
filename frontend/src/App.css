@@ -135,11 +135,15 @@
     background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
       url("https://www.transparenttextures.com/patterns/paper-fibers.png");
   }
-
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Prevent layout shift from scrollbar appearing/disappearing */
+  html {
+    overflow-y: scroll;
   }
 }
