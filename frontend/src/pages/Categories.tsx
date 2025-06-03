@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 const Categories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const Categories = () => {
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>;
+    //  return <p>Loading...</p>;
   }
   return (
     <section className="p-6 space-y-6">
