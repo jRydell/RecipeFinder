@@ -1,24 +1,22 @@
-import { Link } from "react-router-dom";
 import { ExternalLink, Code, Server, Github, Blocks } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const About = () => {
   return (
     <div className="max-w-2xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">About RecipeFinder</h1>
-
+      <h1 className="text-3xl font-bold mb-6">About RecipeFinder</h1>{" "}
       <section className="mb-8">
-        {" "}
-        <p className="mb-4 text-lg">
-          RecipeFinder lets users find, save and review recipes. The user can
-          search and browse recipes from The MealDB API, save favorites and
-          share your opinions through reviews/rating. Favorite recipes, reviews
-          and users are stored in a MySQL database. Built with React and
-          Node.js. This web application is Johan Rydell's final project for the
-          Frontend Developer program at Yrkeshögskolan Borås.
+        <p className="text-primary">
+          RecipeFinder helps you find and save recipes. You can search through
+          recipes from The MealDB API, save the ones you like, and leave reviews
+          for others to see.
+        </p>
+        <p className="text-primary">
+          It is built with React and Node.js with a MySQL database. It's my
+          final project for the Frontend Developer program at Yrkeshögskolan
+          Borås.
         </p>
       </section>
-
       <section className="mb-8">
         <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
           <Blocks className="h-5 w-5 text-primary" />
@@ -34,7 +32,6 @@ const About = () => {
           <li>Dark/light theme support</li>
         </ul>
       </section>
-
       <section className="mb-8">
         <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
           <Code className="h-5 w-5 text-primary" />
@@ -51,7 +48,6 @@ const About = () => {
           <li>Vite 6 as build tool</li>
         </ul>
       </section>
-
       <section className="mb-8">
         <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
           <Server className="h-5 w-5 text-primary" />
@@ -64,11 +60,8 @@ const About = () => {
           <li>JWT authentication</li>
           <li>BCrypt for password hashing</li>
           <li>RESTful API architecture</li>
-          <li>Environment configuration with dotenv</li>
-          <li>CORS handling for secure cross-origin requests</li>
         </ul>
       </section>
-
       <section className="mb-8">
         <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
           <Github className="h-5 w-5 text-primary" />
@@ -83,7 +76,6 @@ const About = () => {
           <li>PM2 process manager for Node.js backend</li>
         </ul>
       </section>
-
       <div className="flex flex-col sm:flex-row gap-4 justify-center my-10">
         <Button asChild>
           <a
@@ -96,11 +88,6 @@ const About = () => {
             View on GitHub
             <ExternalLink className="h-3 w-3" />
           </a>
-        </Button>
-        <Button variant="outline" asChild>
-          <Link to="/contact" className="flex items-center gap-2">
-            Contact Developer
-          </Link>
         </Button>
       </div>
     </div>
