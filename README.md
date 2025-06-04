@@ -1,6 +1,14 @@
 # RecipeFinder
 
-RecipeFinder lets users find, save and review recipes. The app lets you search and browse recipes from The MealDB API, save favorites to a MySQL database, and share your opinions through reviews. Built with React and Node.js.
+RecipeFinder helps you find and save recipes. You can search through
+recipes from The MealDB API, save the ones you like, and leave reviews
+for others to see.
+
+It is built with React and Node.js with a MySQL database. It's my
+final project for the Frontend Developer program at Yrkeshögskolan
+Borås.
+
+It is a work in progress.
 
 ## Project Features
 
