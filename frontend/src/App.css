@@ -1,9 +1,26 @@
-@import "tailwindcss";
+/* =============================================================================
+ * TAILWIND CSS v4 + SHADCN UI TEMPLATE
+ * =============================================================================
 
-@plugin "tailwindcss-animate";
+ * TEXT COLOR HIERARCHY:
+ * 1. text-foreground     → Primary text (body, headings, default content)
+ * 2. text-muted-foreground → Secondary text (captions, descriptions)
+ * 3. text-primary        → Brand text (links, CTAs, emphasized content)
+ * 4. text-secondary-foreground → Alternative emphasized text
+ * 5. text-destructive    → Error messages, warnings, danger text
+ * 6. text-accent-foreground → Special highlights, badges
+ * 
+ * BACKGROUND COLOR HIERARCHY:
+ * 1. bg-background       → Main app background
+ * 2. bg-card             → Elevated surfaces (cards, panels)
+ * 3. bg-muted            → Subtle backgrounds (sidebars, sections)
+ * 4. bg-primary          → Brand backgrounds (buttons, highlights)
+ * 5. bg-secondary        → Alternative brand backgrounds
+ * 6. bg-accent           → Special accent backgrounds
+ * 7. bg-destructive      → Error/warning backgrounds
+ */
 
-@custom-variant dark (&:is(.dark *));
-
+/* Root element base styling*/
 #root {
   width: 100%;
   min-height: 100vh;
@@ -13,51 +30,108 @@
   padding: 0;
 }
 
+@import "tailwindcss";
+@plugin "tailwindcss-animate";
+@custom-variant dark (&:is(.dark *));
+/* =============================================================================
+ * DESIGN SYSTEM COLOR PALETTE - LIGHT MODE
+ * =============================================================================
+ */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  /* =================================================================
+   * BACKGROUND & SURFACE COLORS
+   * =================================================================
+   * These colors establish the visual hierarchy of surfaces in your app.
+   * Use them to create depth and organize content visually.
+   */
+  --background: oklch(1 0 0); /* Main app background - lightest surface */
+  --foreground: oklch(0.145 0 0); /* Primary text color - highest contrast */
+  --card: oklch(1 0 0); /* Card/panel backgrounds - elevated surfaces */
+  --card-foreground: oklch(0.145 0 0); /* Text on cards - readable contrast */
+  --popover: oklch(1 0 0); /* Dropdown/modal backgrounds - temporary surfaces */
+  --popover-foreground: oklch(0.145 0 0); /* Text in dropdowns/modals */
+
+  /* =================================================================
+   * BRAND & ACCENT COLORS
+   * =================================================================
+   * Your brand identity colors. Use sparingly for maximum impact.
+   * Primary = main brand color, Secondary = supporting brand color
+   */
+  --primary: oklch(0.205 0 0); /* Main brand color - buttons, links, CTAs */
+  --primary-foreground: oklch(0.985 0 0); /* Text on primary - high contrast */
+  --secondary: oklch(0.97 0 0); /* Secondary brand - subtle highlights */
+  --secondary-foreground: oklch(0.205 0 0); /* Text on secondary backgrounds */
+  --accent: oklch(0.97 0 0); /* Special highlights - badges, notifications */
+  --accent-foreground: oklch(0.205 0 0); /* Text on accent backgrounds */
+
+  /* =================================================================
+   * MUTED & NEUTRAL COLORS
+   * =================================================================
+   * Subdued colors for less important content and backgrounds.
+   * Creates visual hierarchy without overwhelming the interface.
+   */
+  --muted: oklch(0.97 0 0); /* Muted backgrounds - sidebars, disabled states */
+  --muted-foreground: oklch(0.556 0 0); /* Secondary text - captions, labels */
+
+  /* =================================================================
+   * SEMANTIC COLORS
+   * =================================================================
+   * Colors that convey meaning and state to users.
+   * Follow web conventions for intuitive user experience.
+   */
+  --destructive: oklch(0.577 0.245 27.325); /* Error/danger - red family */
+  --destructive-foreground: oklch(0.577 0.245 27.325); /* Error text color */
+
+  /* =================================================================
+   * INTERFACE ELEMENTS
+   * =================================================================
+   * Functional colors for UI components and interactions.
+   * Ensure sufficient contrast for accessibility.
+   */
+  --border: oklch(0.922 0 0); /* Default borders - subtle separation */
+  --input: oklch(0.922 0 0); /* Input field backgrounds - form elements */
+  --ring: oklch(0.708 0 0); /* Focus rings - keyboard navigation indicator */
+  --radius: 0.625rem; /* Border radius - consistent rounded corners */
+
+  /* =================================================================
+   * DATA VISUALIZATION COLORS
+   * =================================================================
+   * Distinct colors for charts, graphs, and data representation.
+   * Chosen for accessibility and visual distinction.
+   */
+  --chart-1: oklch(0.646 0.222 41.116); /* Chart color 1 - primary data */
+  --chart-2: oklch(0.6 0.118 184.704); /* Chart color 2 - secondary data */
+  --chart-3: oklch(0.398 0.07 227.392); /* Chart color 3 - tertiary data */
+  --chart-4: oklch(0.828 0.189 84.429); /* Chart color 4 - quaternary data */
+  --chart-5: oklch(0.769 0.188 70.08); /* Chart color 5 - quinary data */
+
+  /* =================================================================
+   * SIDEBAR COMPONENT COLORS 
+   * =================================================================
+   */
+  --sidebar: oklch(0.985 0 0); /* Sidebar background */
+  --sidebar-foreground: oklch(0.145 0 0); /* Sidebar text */
+  --sidebar-primary: oklch(0.205 0 0); /* Sidebar active items */
+  --sidebar-primary-foreground: oklch(0.985 0 0); /* Text on active items */
+  --sidebar-accent: oklch(0.97 0 0); /* Sidebar hover states */
+  --sidebar-accent-foreground: oklch(0.205 0 0); /* Text on hover */
+  --sidebar-border: oklch(0.922 0 0); /* Sidebar borders */
+  --sidebar-ring: oklch(0.708 0 0); /* Sidebar focus rings */
 }
 
+/* =============================================================================
+ * DARK MODE COLOR OVERRIDES
+ * =============================================================================
+ */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
+  --background: oklch(0.145 0 0); /* Dark background */
+  --foreground: oklch(0.985 0 0); /* Light text */
   --card: oklch(0.145 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.145 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.205 0 0);
+  --primary: oklch(0.985 0 0); /* Light primary - opposite of light mode */
+  --primary-foreground: oklch(0.205 0 0); /* Dark text on light primary */
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
@@ -84,6 +158,11 @@
   --sidebar-ring: oklch(0.439 0 0);
 }
 
+/* =============================================================================
+ * TAILWIND CSS v4 THEME MAPPING
+ * =============================================================================
+ * 
+ */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -123,27 +202,79 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* =============================================================================
+ * BASE LAYER STYLES
+ * =============================================================================
+ * 
+ * @layer base - Applies styles at the base layer (lowest specificity)
+ * @apply - Uses Tailwind utility classes within CSS rules
+ * 
+ * This section sets up foundational styles that apply throughout your app:
+ * - Default background and text colors from your theme
+ * - Border and outline colors for consistent focus states
+ * - Layout fixes and browser-specific adjustments
+ * 
+
+ */
 @layer base {
+  /* =================================================================
+   * GLOBAL TEXT AND BACKGROUND DEFAULTS
+   * =================================================================
+    */
   body {
     @apply bg-background text-foreground;
+
     background-image: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
     background-repeat: repeat;
     background-size: auto;
   }
 
+  /* =================================================================
+   * DARK MODE TEXTURE OVERLAY
+   * =================================================================
+   */
   .dark body {
     background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
       url("https://www.transparenttextures.com/patterns/paper-fibers.png");
   }
+
+  /* =================================================================
+   * UNIVERSAL BORDER AND FOCUS STYLES  
+   * =================================================================
+   */
   * {
     @apply border-border outline-ring/50;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
-
-  /* Prevent layout shift from scrollbar appearing/disappearing */
+  /* =================================================================
+   * LAYOUT STABILITY FIX
+   * =================================================================
+   * Prevents layout shift when scrollbar appears/disappears during
+   * navigation by always reserving space for the scrollbar.
+   * This maintains consistent layout across all pages.
+   * 
+   * ALTERNATIVE APPROACHES:
+   * - Use scrollbar-gutter: stable; (modern browsers)
+   * - Apply to specific containers instead of html
+   * - Combine with smooth scrolling: scroll-behavior: smooth;
+   */
   html {
     overflow-y: scroll;
   }
 }
+
+/*
+  * SEMANTIC HIERARCHY EXAMPLE:
+ * 
+ * <article className="bg-card text-card-foreground p-6 rounded-lg">
+ *   <h1 className="text-foreground text-2xl font-bold">Main Heading</h1>
+ *   <p className="text-muted-foreground text-sm">Published on...</p>
+ *   <p className="text-foreground leading-relaxed">Body content...</p>
+ *   <a className="text-primary hover:text-primary/80">Read more</a>
+ * </article>
+ * 
+ * ACCESSIBILITY REMINDERS:
+ * - Always test color contrast ratios
+ * - Provide focus indicators for keyboard users  
+ * - Use semantic color names (destructive vs red)
+ * - Test with color blindness simulators
+ */
