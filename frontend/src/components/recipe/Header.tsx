@@ -34,24 +34,17 @@ export const Header = ({ recipe }: { recipe: Meal }) => {
   return (
     <header className="max-w-4xl mb-8">
       <h1 className="text-3xl font-bold mb-3">{recipe.strMeal}</h1>
-      <AverageRating mealId={recipe.idMeal} />
+      <AverageRating mealId={recipe.idMeal} />{" "}
       <div className="flex flex-wrap gap-2 my-6">
         {recipe.strCategory && (
-          <Badge className="bg-amber-100 px-2 py-1 rounded text-black font-normal text-sm">
-            {recipe.strCategory}
-          </Badge>
+          <Badge variant="secondary">{recipe.strCategory}</Badge>
         )}
         {recipe.strArea && (
-          <Badge className="bg-blue-100 px-2 py-1 rounded text-black font-normal text-sm">
-            {recipe.strArea} Cuisine
-          </Badge>
+          <Badge variant="secondary">{recipe.strArea} Cuisine</Badge>
         )}
         {recipe.strTags &&
           recipe.strTags.split(",").map((tag) => (
-            <Badge
-              key={tag}
-              className="bg-green-50 px-2 py-1 rounded text-black font-normal text-sm"
-            >
+            <Badge key={tag} variant="secondary">
               {tag.trim()}
             </Badge>
           ))}
