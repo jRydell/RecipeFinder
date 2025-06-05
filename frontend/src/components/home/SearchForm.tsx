@@ -16,8 +16,9 @@ export const SearchForm = ({
   const { error, loading } = useSearchRecipe();
   return (
     <Card>
+      {" "}
       <CardHeader>
-        <CardTitle className="text-3xl text-center">
+        <CardTitle className="text-lg sm:text-3xl text-center">
           Lets find something tasty!
         </CardTitle>
       </CardHeader>
