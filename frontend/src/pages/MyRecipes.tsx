@@ -5,6 +5,7 @@ import { Trash2 } from "lucide-react";
 import RecipeCard from "../components/RecipeCard";
 import { useSavedRecipesStore } from "@/stores/savedRecipes.store";
 import { useState } from "react";
+import { CardSkeletons } from "@/components/CardSkeletons";
 
 const MyRecipes = () => {
   const { savedRecipes, error, initialLoad, removeSavedRecipe } =
@@ -20,7 +21,7 @@ const MyRecipes = () => {
     return (
       <div className="p-6 space-y-6">
         <h1 className="text-3xl font-bold">My Saved Recipes</h1>
-        <p>Loading your recipes...</p>
+        <CardSkeletons />
       </div>
     );
   }
@@ -55,11 +56,11 @@ const MyRecipes = () => {
               idMeal={recipe.meal_id}
               strMeal={recipe.meal_name}
               strMealThumb={recipe.meal_thumb}
-            />
+            />{" "}
             <Button
               variant="destructive"
               size="icon"
-              className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute top-2 right-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity"
               onClick={() => void handleRemoveRecipe(recipe.meal_id)}
               disabled={removingId === recipe.meal_id}
             >

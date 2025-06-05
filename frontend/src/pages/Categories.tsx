@@ -4,6 +4,7 @@ import { CategoryCard } from "@/components/CategoryCard";
 import { Separator } from "@/components/ui/separator";
 import ErrorMessage from "@/components/ErrorMessage";
 import { useEffect, useState } from "react";
+import { CardSkeletons } from "@/components/CardSkeletons";
 
 const Categories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -27,7 +28,7 @@ const Categories = () => {
   }, []);
 
   if (loading) {
-    //  return <p>Loading...</p>;
+    return <CardSkeletons />;
   }
   return (
     <section className="p-6 space-y-6">

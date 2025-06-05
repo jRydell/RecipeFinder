@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { recipeService, SavedRecipe } from "@/api/services/recipe-service";
-import { persist } from "zustand/middleware";
 
 type SavedRecipesState = {
   savedRecipes: SavedRecipe[];
@@ -21,66 +20,51 @@ type SavedRecipesState = {
   setError: (error: string | null) => void;
 };
 
-export const useSavedRecipesStore = create<SavedRecipesState>()(
-  persist(
-    (set, get) => ({
-      savedRecipes: [],
-      loading: false,
-      error: null,
-      initialLoad: true,
+export const useSavedRecipesStore = create<SavedRecipesState>((set, get) => ({
+  savedRecipes: [],
+  loading: false,
+  error: null,
+  initialLoad: true,
 
-      setSavedRecipes: (recipes) => set({ savedRecipes: recipes }),
-      setError: (error) => set({ error }),
-      setInitialLoad: (value) => set({ initialLoad: value }),
+  setSavedRecipes: (recipes) => set({ savedRecipes: recipes }),
+  setError: (error) => set({ error }),
+  setInitialLoad: (value) => set({ initialLoad: value }),
 
-      fetchSavedRecipes: async () => {
-        set({ loading: true, error: null });
-        const { data, error } = await recipeService.getSavedRecipes();
-        if (error) {
-          set({ error, loading: false });
-        } else {
-          set({ savedRecipes: data || [], error: null, loading: false });
-          set({ initialLoad: false });
-        }
-      },
-
-      saveRecipe: async (mealId, mealName, mealThumb) => {
-        set({ loading: true, error: null });
-        const { error } = await recipeService.saveRecipe(
-          mealId,
-          mealName,
-          mealThumb
-        );
-        if (error) {
-          set({ error, loading: false });
-        } else {
-          await get().fetchSavedRecipes();
-        }
-      },
-
-      removeSavedRecipe: async (mealId) => {
-        set({ loading: true, error: null });
-        const { error } = await recipeService.deleteSavedRecipe(mealId);
-        if (error) {
-          set({ error, loading: false });
-        } else {
-          await get().fetchSavedRecipes();
-        }
-      },
-
-      isSaved: (mealId) => {
-        return get().savedRecipes.some((recipe) => recipe.meal_id === mealId);
-      },
-    }),
-    {
-      name: "saved-recipes-store",
-      partialize: (state) => ({ savedRecipes: state.savedRecipes }),
-      onRehydrateStorage: () => (state) => {
-        // after localStorage is loaded, set initialLoad to false
-        if (state) {
-          state.setInitialLoad(false);
-        }
-      },
+  fetchSavedRecipes: async () => {
+    set({ loading: true, error: null });
+    const { data, error } = await recipeService.getSavedRecipes();
+    if (error) {
+      set({ error, loading: false });
+    } else {
+      set({ savedRecipes: data || [], error: null, loading: false });
+      set({ initialLoad: false });
     }
-  )
-);
+  },
+
+  saveRecipe: async (mealId, mealName, mealThumb) => {
+    set({ loading: true, error: null });
+    const { error } = await recipeService.saveRecipe(
+      mealId,
+      mealName,
+      mealThumb
+    );
+    if (error) {
+      set({ error, loading: false });
+    } else {
+      await get().fetchSavedRecipes();
+    }
+  },
+
+  removeSavedRecipe: async (mealId) => {
+    set({ loading: true, error: null });
+    const { error } = await recipeService.deleteSavedRecipe(mealId);
+    if (error) {
+      set({ error, loading: false });
+    } else {
+      await get().fetchSavedRecipes();
+    }
+  },
+  isSaved: (mealId) => {
+    return get().savedRecipes.some((recipe) => recipe.meal_id === mealId);
+  },
+}));

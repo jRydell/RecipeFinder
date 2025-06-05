@@ -1,6 +1,6 @@
 import { Meal, mealDbService } from "@/api/services/mealdb-service";
 import { useState, useEffect } from "react";
-import { SearchSkeletons } from "./SearchSkeletons";
+import { CardSkeletons } from "../CardSkeletons";
 import RecipeCard from "../RecipeCard";
 import { CategoryCard } from "../CategoryCard";
 
@@ -35,7 +35,7 @@ export const FeaturedContent = () => {
     void fetchInitialContent();
   }, []);
 
-  if (loading) return <SearchSkeletons />;
+  if (loading) return <CardSkeletons />;
 
   return (
     <div className="space-y-12">

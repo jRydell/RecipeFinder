@@ -5,7 +5,7 @@ import { useAuthStore } from "../../stores/auth.store";
 const isDevelopment = import.meta.env.DEV;
 const API_URL = isDevelopment ? "http://localhost:3000" : "";
 
-const apiClient = axios.create({
+const client = axios.create({
   baseURL: API_URL,
   headers: { "Content-Type": "application/json" },
   timeout: 8000,
@@ -36,7 +36,7 @@ type ErrorResponse = {
   message?: string;
 };
 
-//Only logs the errors in development
+//logs the errors in development
 const handleError = (error: unknown): string => {
   // axios errors with response
   if (axios.isAxiosError(error) && error.response) {
@@ -67,7 +67,7 @@ const handleError = (error: unknown): string => {
 export const api = {
   get: async <T>(endpoint: string): Promise<ApiResponse<T>> => {
     try {
-      const response = await apiClient.get<T>(endpoint, {
+      const response = await client.get<T>(endpoint, {
         headers: { ...getAuthHeader() },
       });
       return { data: response.data, error: null };
@@ -78,12 +78,13 @@ export const api = {
       return { data: null, error: handleError(error) };
     }
   },
+
   post: async <T>(
     endpoint: string,
     data: ApiRequestData
   ): Promise<ApiResponse<T>> => {
     try {
-      const response = await apiClient.post<T>(endpoint, data, {
+      const response = await client.post<T>(endpoint, data, {
         headers: { ...getAuthHeader() },
       });
       return { data: response.data, error: null };
@@ -94,12 +95,13 @@ export const api = {
       return { data: null, error: handleError(error) };
     }
   },
+
   put: async <T>(
     endpoint: string,
     data: ApiRequestData
   ): Promise<ApiResponse<T>> => {
     try {
-      const response = await apiClient.put<T>(endpoint, data, {
+      const response = await client.put<T>(endpoint, data, {
         headers: { ...getAuthHeader() },
       });
       return { data: response.data, error: null };
@@ -110,9 +112,10 @@ export const api = {
       return { data: null, error: handleError(error) };
     }
   },
+
   delete: async <T>(endpoint: string): Promise<ApiResponse<T>> => {
     try {
-      const response = await apiClient.delete<T>(endpoint, {
+      const response = await client.delete<T>(endpoint, {
         headers: { ...getAuthHeader() },
       });
       return { data: response.data, error: null };

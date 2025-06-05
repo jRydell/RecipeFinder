@@ -15,6 +15,7 @@ type RecipeCardProps = {
 const RecipeCard = ({ idMeal, strMealThumb, strMeal }: RecipeCardProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
+  // MAKE THIS A HOOK ? ^^ Add to category card.
   return (
     <Link to={`/recipe/${idMeal}`} className="block h-full">
       <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 h-full p-0">
