@@ -18,7 +18,7 @@ export const SearchForm = ({
     <Card>
       {" "}
       <CardHeader>
-        <CardTitle className="text-lg sm:text-3xl text-center">
+        <CardTitle className="text-xl sm:text-3xl text-center">
           Lets find something tasty!
         </CardTitle>
       </CardHeader>
