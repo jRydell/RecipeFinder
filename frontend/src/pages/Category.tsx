@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import ErrorMessage from "@/components/ErrorMessage";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { CardSkeletons } from "@/components/CardSkeletons";
 
 const Category = () => {
   const { strCategory } = useParams();
@@ -28,7 +29,7 @@ const Category = () => {
   }, [strCategory]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <CardSkeletons />;
   }
   return (
     <section className="p-6 space-y-6">
