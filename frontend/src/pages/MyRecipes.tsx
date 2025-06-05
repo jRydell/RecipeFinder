@@ -4,13 +4,24 @@ import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import RecipeCard from "../components/RecipeCard";
 import { useSavedRecipesStore } from "@/stores/savedRecipes.store";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CardSkeletons } from "@/components/CardSkeletons";
 
 const MyRecipes = () => {
-  const { savedRecipes, error, initialLoad, removeSavedRecipe } =
-    useSavedRecipesStore();
+  const {
+    savedRecipes,
+    error,
+    initialLoad,
+    removeSavedRecipe,
+    fetchSavedRecipes,
+  } = useSavedRecipesStore();
   const [removingId, setRemovingId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (initialLoad) {
+      void fetchSavedRecipes();
+    }
+  }, [initialLoad, fetchSavedRecipes]);
 
   const handleRemoveRecipe = async (mealId: string) => {
     setRemovingId(mealId);
