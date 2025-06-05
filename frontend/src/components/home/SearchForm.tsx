@@ -15,9 +15,11 @@ export const SearchForm = ({
 }) => {
   const { error, loading } = useSearchRecipe();
   return (
-    <Card className="mb-8">
+    <Card>
       <CardHeader>
-        <CardTitle className="text-3xl">Find something you like</CardTitle>
+        <CardTitle className="text-3xl text-center">
+          Lets find something tasty!
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={onSubmit} className="flex gap-2">
