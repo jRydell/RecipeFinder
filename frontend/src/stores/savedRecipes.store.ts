@@ -18,6 +18,7 @@ type SavedRecipesState = {
   setInitialLoad: (value: boolean) => void;
   setSavedRecipes: (recipes: SavedRecipe[]) => void;
   setError: (error: string | null) => void;
+  clearSavedRecipes: () => void;
 };
 
 export const useSavedRecipesStore = create<SavedRecipesState>((set, get) => ({
@@ -29,6 +30,7 @@ export const useSavedRecipesStore = create<SavedRecipesState>((set, get) => ({
   setSavedRecipes: (recipes) => set({ savedRecipes: recipes }),
   setError: (error) => set({ error }),
   setInitialLoad: (value) => set({ initialLoad: value }),
+  clearSavedRecipes: () => set({ savedRecipes: [], initialLoad: true }),
 
   fetchSavedRecipes: async () => {
     set({ loading: true, error: null });

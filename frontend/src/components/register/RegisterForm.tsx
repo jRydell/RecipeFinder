@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import ErrorMessage from "../shared/ErrorMessage";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const registerSchema = z.object({
   username: z
@@ -28,10 +29,11 @@ const registerSchema = z.object({
 
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
-export const RegisterForm = ({ disabled = false }: { disabled?: boolean }) => {
+export const RegisterForm = () => {
   const navigate = useNavigate();
   const { register, loading } = useAuthStore();
   const [error, setError] = useState<string | null>(null);
+  const [agreement, setAgreement] = useState(false);
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
@@ -55,7 +57,6 @@ export const RegisterForm = ({ disabled = false }: { disabled?: boolean }) => {
       setError(error || "Registration failed");
     }
   };
-
   return (
     <Form {...form}>
       <form
@@ -105,10 +106,28 @@ export const RegisterForm = ({ disabled = false }: { disabled?: boolean }) => {
             </FormItem>
           )}
         />
+        <div className="flex flex-row items-center gap-2 mt-6">
+          <Checkbox
+            id="terms"
+            checked={agreement}
+            onCheckedChange={(checked) => setAgreement(checked === true)}
+          />
+          <label htmlFor="terms" className="text-sm font-normal cursor-pointer">
+            I agree to the{" "}
+            <a
+              href="/terms-and-conditions"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-primary"
+            >
+              Terms and Conditions
+            </a>
+          </label>
+        </div>
         <Button
           type="submit"
           className="w-full mt-6"
-          disabled={loading || disabled}
+          disabled={loading || !agreement}
         >
           {loading ? "Creating Account..." : "Create Account"}
         </Button>
