@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import ErrorMessage from "../ErrorMessage";
+import ErrorMessage from "../shared/ErrorMessage";
 
 const registerSchema = z.object({
   username: z

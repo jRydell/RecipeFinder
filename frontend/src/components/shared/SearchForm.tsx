@@ -1,8 +1,8 @@
 import { useSearchRecipe } from "@/hooks/useSearchRecipe";
-import ErrorMessage from "@/components/ErrorMessage";
 import { Button } from "../ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 import { Input } from "../ui/input";
+import ErrorMessage from "./ErrorMessage";
 
 export const SearchForm = ({
   searchQuery,

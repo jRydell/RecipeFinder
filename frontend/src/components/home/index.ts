@@ -1,2 +1,2 @@
-export { SearchForm } from "./SearchForm";
+export { SearchForm } from "../shared/SearchForm";
 export { FeaturedContent } from "./FeaturedContent";

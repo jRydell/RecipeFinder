@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
-import ErrorMessage from "@/components/ErrorMessage";
+import ErrorMessage from "@/components/shared/ErrorMessage";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -42,7 +42,9 @@ const Register = () => {
                 <Checkbox
                   id="terms"
                   checked={agreed}
-                  onChange={(e) => setAgreed(e.target.checked)}
+                  onChange={(e) =>
+                    setAgreed((e.target as HTMLInputElement).checked)
+                  }
                 />
                 <label htmlFor="terms" className="text-sm">
                   I agree to the{" "}

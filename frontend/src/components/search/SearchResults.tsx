@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useSearchRecipe } from "@/hooks/useSearchRecipe";
-import RecipeCard from "../RecipeCard";
+import RecipeCard from "../shared/RecipeCard";
 
 type SearchResultsProps = {
   displayedCount: number;

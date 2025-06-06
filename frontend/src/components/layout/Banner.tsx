@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { SearchForm } from "../home/SearchForm";
+import { SearchForm } from "../shared/SearchForm";
 
 const Banner = () => {
   const location = useLocation();

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { SearchResults } from "@/components/search/SearchResults";
 import { useSearchRecipe } from "@/hooks/useSearchRecipe";
-import { CardSkeletons } from "@/components/CardSkeletons";
+import { CardSkeletons } from "@/components/shared/CardSkeletons";
 
 const Search = () => {
   const [displayedCount, setDisplayedCount] = useState(6);

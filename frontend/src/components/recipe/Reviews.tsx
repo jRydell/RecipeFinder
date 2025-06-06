@@ -7,7 +7,7 @@ import { Meal } from "@/api/services/mealdb-service";
 import { ReviewForm } from "./ReviewForm";
 import { ReviewList } from "./ReviewList";
 import { SignInPrompt } from "./SignInPrompt";
-import ErrorMessage from "../ErrorMessage";
+import ErrorMessage from "../shared/ErrorMessage";
 
 export const Reviews = ({ recipe }: { recipe: Meal }) => {
   const { isAuthenticated, user } = useAuthStore();
