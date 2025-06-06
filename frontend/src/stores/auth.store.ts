@@ -64,8 +64,8 @@ export const useAuthStore = create<AuthState>()(
         return { data, error };
       },
       logout: () => {
-        set({ user: null, token: null, isAuthenticated: false });
         useSavedRecipesStore.getState().clearSavedRecipes();
+        set({ user: null, token: null, isAuthenticated: false });
       },
     }),
     {
