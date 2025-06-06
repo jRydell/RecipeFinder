@@ -36,15 +36,13 @@ const Register = () => {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit}>
-            <RegisterForm disabled={!agreed} />
+            <RegisterForm disabled={!agreed} />{" "}
             <div className="flex flex-col items-center gap-2 mt-6">
               <div className="flex items-center gap-2">
                 <Checkbox
                   id="terms"
                   checked={agreed}
-                  onChange={(e) =>
-                    setAgreed((e.target as HTMLInputElement).checked)
-                  }
+                  onCheckedChange={(checked) => setAgreed(!!checked)}
                 />
                 <label htmlFor="terms" className="text-sm">
                   I agree to the{" "}
