@@ -2,7 +2,7 @@ import { useAuthStore } from "@/stores/auth.store";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
-import { AverageRating } from "../AverageRating";
+import { AverageRating } from "../shared/AverageRating";
 import { Meal } from "@/api/services/mealdb-service";
 import { useSavedRecipesStore } from "@/stores/savedRecipes.store";
 

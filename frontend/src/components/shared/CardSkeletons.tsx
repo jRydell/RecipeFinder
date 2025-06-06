@@ -1,5 +1,5 @@
-import { Card, CardContent, CardFooter } from "./ui/card";
-import { Skeleton } from "./ui/skeleton";
+import { Card, CardContent, CardFooter } from "../ui/card";
+import { Skeleton } from "../ui/skeleton";
 
 export const CardSkeletons = () => {
   return (
@@ -14,9 +14,7 @@ export const CardSkeletons = () => {
           </CardContent>{" "}
           <CardFooter className="flex-col items-center p-4">
             <Skeleton className="h-7 w-4/5 mb-2" />
-            <div className="flex gap-2 mt-2">
-              <Skeleton className="h-5 w-40" />
-            </div>
+            <Skeleton className="h-5 w-40 mt-2" />
           </CardFooter>
         </Card>
       ))}

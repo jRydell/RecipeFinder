@@ -1,8 +1,8 @@
 import { Meal, mealDbService } from "@/api/services/mealdb-service";
 import { useState, useEffect } from "react";
-import { CardSkeletons } from "../CardSkeletons";
-import RecipeCard from "../RecipeCard";
-import { CategoryCard } from "../CategoryCard";
+import { CardSkeletons } from "../shared/CardSkeletons";
+import { CategoryCard } from "../shared/CategoryCard";
+import RecipeCard from "../shared/RecipeCard";
 
 export type Category = {
   strCategory: string;

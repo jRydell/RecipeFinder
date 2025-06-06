@@ -1,4 +1,3 @@
-import ErrorMessage from "@/components/ErrorMessage";
 import { getIngredients } from "@/utils/getIngredients";
 import { useRecipeData } from "../hooks/useRecipeData";
 import {
@@ -12,6 +11,7 @@ import {
 } from "@/components/recipe";
 import { useParams } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
+import ErrorMessage from "@/components/shared/ErrorMessage";
 
 const Recipe = () => {
   const { mealId } = useParams();
