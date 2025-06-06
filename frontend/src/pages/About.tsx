@@ -11,6 +11,7 @@ const About = () => {
           recipes from The MealDB API, save the ones you like, and leave reviews
           for others to see.
         </p>
+        <br />
         <p className="text-primary">
           It is built with React and Node.js with a MySQL database. It's my
           final project for the Frontend Developer program at Yrkeshögskolan

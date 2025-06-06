@@ -1,11 +1,11 @@
-import ErrorMessage from "../components/ErrorMessage";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
-import RecipeCard from "../components/RecipeCard";
 import { useSavedRecipesStore } from "@/stores/savedRecipes.store";
 import { useState, useEffect } from "react";
-import { CardSkeletons } from "@/components/CardSkeletons";
+import { CardSkeletons } from "@/components/shared/CardSkeletons";
+import ErrorMessage from "@/components/shared/ErrorMessage";
+import RecipeCard from "@/components/shared/RecipeCard";
 
 const MyRecipes = () => {
   const {

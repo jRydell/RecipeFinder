@@ -36,30 +36,26 @@ type ErrorResponse = {
   message?: string;
 };
 
-//logs the errors in development
 const handleError = (error: unknown): string => {
-  // axios errors with response
+  // Axios errors with response
   if (axios.isAxiosError(error) && error.response) {
     const errorData = error.response.data as ErrorResponse;
-    if (import.meta.env.DEV) {
-      console.error("API Error Response:", {
-        status: error.response.status,
-        statusText: error.response.statusText,
-        data: errorData,
-      });
+    if (isDevelopment) {
+      console.error("API Error:", error.response.status, errorData);
     }
     return errorData.message || `Error: ${error.response.status}`;
   }
-  // standard JS errors
+
+  // Standard JS errors
   if (error instanceof Error) {
-    if (import.meta.env.DEV) {
-      console.error("JS Error:", error.message, error.stack);
+    if (isDevelopment) {
+      console.error("JS Error:", error.message);
     }
     return error.message;
   }
-  // fallback for unknown error types
-  if (import.meta.env.DEV) {
-    console.error("Unknown error type:", error);
+
+  if (isDevelopment) {
+    console.error("Unknown error:", error);
   }
   return "Unknown error";
 };
@@ -72,9 +68,6 @@ export const api = {
       });
       return { data: response.data, error: null };
     } catch (error) {
-      if (import.meta.env.DEV) {
-        console.error(`API GET Error (${endpoint}):`, error);
-      }
       return { data: null, error: handleError(error) };
     }
   },
@@ -89,9 +82,6 @@ export const api = {
       });
       return { data: response.data, error: null };
     } catch (error) {
-      if (import.meta.env.DEV) {
-        console.error(`API POST Error (${endpoint}):`, error);
-      }
       return { data: null, error: handleError(error) };
     }
   },
@@ -106,9 +96,6 @@ export const api = {
       });
       return { data: response.data, error: null };
     } catch (error) {
-      if (import.meta.env.DEV) {
-        console.error(`API PUT Error (${endpoint}):`, error);
-      }
       return { data: null, error: handleError(error) };
     }
   },
@@ -120,9 +107,6 @@ export const api = {
       });
       return { data: response.data, error: null };
     } catch (error) {
-      if (import.meta.env.DEV) {
-        console.error(`API DELETE Error (${endpoint}):`, error);
-      }
       return { data: null, error: handleError(error) };
     }
   },

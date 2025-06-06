@@ -1,10 +1,10 @@
 import { Category } from "@/api/services/mealdb-service";
 import { mealDbService } from "@/api/services/mealdb-service";
-import { CategoryCard } from "@/components/CategoryCard";
 import { Separator } from "@/components/ui/separator";
-import ErrorMessage from "@/components/ErrorMessage";
 import { useEffect, useState } from "react";
-import { CardSkeletons } from "@/components/CardSkeletons";
+import { CardSkeletons } from "@/components/shared/CardSkeletons";
+import ErrorMessage from "@/components/shared/ErrorMessage";
+import { CategoryCard } from "@/components/shared/CategoryCard";
 
 const Categories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
