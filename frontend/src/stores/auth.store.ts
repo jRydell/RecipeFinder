@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { authService, User, AuthResponse } from "../api/services/auth-service";
+import { useSavedRecipesStore } from "./savedRecipes.store";
 
 type AuthState = {
   user: User | null;
@@ -64,6 +65,7 @@ export const useAuthStore = create<AuthState>()(
       },
       logout: () => {
         set({ user: null, token: null, isAuthenticated: false });
+        useSavedRecipesStore.getState().clearSavedRecipes();
       },
     }),
     {
