@@ -8,7 +8,7 @@ It is built with React and Node.js with a MySQL database. It's my
 final project for the Frontend Developer program at Yrkeshögskolan
 Borås.
 
-It is a work in progress.
+It is a work in progress..
 
 ## Project Features
 
