@@ -209,12 +209,7 @@
  * @layer base - Applies styles at the base layer (lowest specificity)
  * @apply - Uses Tailwind utility classes within CSS rules
  * 
- * This section sets up foundational styles that apply throughout your app:
- * - Default background and text colors from your theme
- * - Border and outline colors for consistent focus states
- * - Layout fixes and browser-specific adjustments
  * 
-
  */
 @layer base {
   /* =================================================================
@@ -248,10 +243,7 @@
   /* =================================================================
    * LAYOUT STABILITY FIX
    * =================================================================
-   * Prevents layout shift when scrollbar appears/disappears during
-   * navigation by always reserving space for the scrollbar.
-   * This maintains consistent layout across all pages.
-   * 
+    * 
    * ALTERNATIVE APPROACHES:
    * - Use scrollbar-gutter: stable; (modern browsers)
    * - Apply to specific containers instead of html

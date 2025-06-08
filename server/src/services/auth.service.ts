@@ -1,3 +1,6 @@
+// Authentication service: handles user registration and login, including password hashing and JWT token generation.
+// Uses userQueries for database operations.
+
 import * as userQueries from "../queries/user.queries";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -9,27 +12,38 @@ if (!JWT_SECRET) {
 }
 
 export const authService = {
+  /**
+   * Registers a new user.
+   * - Validates input fields
+   * - Checks if email already exists
+   * - Creates user (password will be hashed in userQueries)
+   * - Generates JWT token for the new user
+   * @param username string
+   * @param email string
+   * @param password string
+   * @returns Success: user info + token; Error: error message and status
+   */
   async register(username: string, email: string, password: string) {
     try {
-      // Basic validation
+      // Validate required fields
       if (!username || !email || !password) {
         return { error: "All fields are required", status: 400 };
       }
 
-      // Check if email already exists
+      // Check if user already exists by email
       const existingUser = await userQueries.getUserByEmail(email);
       if (existingUser) {
         return { error: "User with this email already exists", status: 409 };
       }
 
-      // Create user
+      // Create user in DB (password will be hashed in userQueries)
       const userId = await userQueries.createUser({
         username,
         email,
         password,
       });
 
-      // Generate JWT token
+      // Generate JWT token for the new user
       const token = jwt.sign({ id: userId, username }, JWT_SECRET, {
         expiresIn: "24h",
       });
@@ -52,26 +66,36 @@ export const authService = {
     }
   },
 
+  /**
+   * Logs in a user.
+   * - Validates input fields
+   * - Looks up user by email
+   * - Compares password with hashed password in DB
+   * - Generates JWT token if credentials are valid
+   * @param email string
+   * @param password string
+   * @returns Success: user info + token; Error: error message and status
+   */
   async login(email: string, password: string) {
     try {
-      // Basic validation
+      // Validate required fields
       if (!email || !password) {
         return { error: "Email and password are required", status: 400 };
       }
 
-      // Get user by email
+      // Find user by email
       const user = await userQueries.getUserByEmail(email);
       if (!user) {
         return { error: "Invalid credentials", status: 401 };
       }
 
-      // Compare passwords
+      // Compare provided password with hashed password
       const passwordMatch = await bcrypt.compare(password, user.password);
       if (!passwordMatch) {
         return { error: "Invalid credentials", status: 401 };
       }
 
-      // Generate JWT token
+      // Generate JWT token for the user
       const token = jwt.sign(
         { id: user.id, username: user.username },
         JWT_SECRET,

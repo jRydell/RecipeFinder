@@ -1,6 +1,18 @@
+// Service for saved recipe operations: handles business logic for saving, retrieving, and deleting user recipes.
+// Uses savedRecipeQueries for database operations.
+
 import * as savedRecipeQueries from "../queries/saved-recipe.queries";
 
 export const savedRecipeService = {
+  /**
+   * Saves a recipe to the user's collection.
+   * Validates input and delegates to savedRecipeQueries.
+   * @param userId number
+   * @param mealId string
+   * @param mealName string
+   * @param mealThumb string (optional)
+   * @returns Success message and savedId or error message
+   */
   async saveRecipe(
     userId: number,
     mealId: string,
@@ -33,6 +45,12 @@ export const savedRecipeService = {
       return { error: "Failed to save recipe", status: 500 };
     }
   },
+
+  /**
+   * Retrieves all recipes saved by a user.
+   * @param userId number
+   * @returns Array of saved recipes or error message
+   */
   async getSavedRecipes(userId: number) {
     try {
       const savedRecipes = await savedRecipeQueries.getUserSavedRecipes(userId);
@@ -43,6 +61,12 @@ export const savedRecipeService = {
     }
   },
 
+  /**
+   * Deletes a saved recipe for a user.
+   * @param userId number
+   * @param mealId string
+   * @returns Success message or error message
+   */
   async deleteSavedRecipe(userId: number, mealId: string) {
     try {
       if (!mealId) {
