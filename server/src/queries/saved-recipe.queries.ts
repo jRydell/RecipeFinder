@@ -1,6 +1,18 @@
+// Saved recipe queries: handles database operations for saving, retrieving, and removing user recipes
+// Uses MySQL connection for all queries
+
 import connection from "../db";
 import { SavedRecipe } from "../types/recipe.types";
 
+/**
+ * Saves a recipe for a user in the database.
+ * Throws an error if the recipe is already saved (duplicate entry).
+ * @param userId number
+ * @param mealId string
+ * @param mealName string
+ * @param mealThumb string
+ * @returns number (inserted saved recipe ID)
+ */
 export async function saveRecipe(
   userId: number,
   mealId: string,
@@ -22,6 +34,11 @@ export async function saveRecipe(
   }
 }
 
+/**
+ * Retrieves all recipes saved by a user.
+ * @param userId number
+ * @returns Array of SavedRecipe objects
+ */
 export async function getUserSavedRecipes(
   userId: number
 ): Promise<SavedRecipe[]> {
@@ -33,6 +50,12 @@ export async function getUserSavedRecipes(
   return rows as SavedRecipe[];
 }
 
+/**
+ * Removes a saved recipe for a user.
+ * @param userId number
+ * @param mealId string
+ * @returns true if deleted, false if not found
+ */
 export async function removeUserSavedRecipe(
   userId: number,
   mealId: string

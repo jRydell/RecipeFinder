@@ -1,12 +1,24 @@
+// Review queries: handles database operations related to reviews (add, fetch, delete, ratings)
+// Uses MySQL connection for all queries
+
 import connection from "../db";
 import { Review, ReviewResponse } from "../types/review.types";
 
+/**
+ * Adds a new review to the database for a meal by a user.
+ * @param userId number
+ * @param mealId string
+ * @param rating number or null
+ * @param comment string or null
+ * @returns The created Review object
+ */
 export async function addReview(
   userId: number,
   mealId: string,
   rating: number | null,
   comment: string | null
 ): Promise<Review> {
+  // Insert review into DB
   const [result] = await connection.query(
     `INSERT INTO reviews (user_id, meal_id, rating, comment)
      VALUES (?, ?, ?, ?)
@@ -14,6 +26,7 @@ export async function addReview(
     [userId, mealId, rating, comment]
   );
 
+  // Fetch and return the newly created review
   const [rows] = await connection.query(
     `SELECT * FROM reviews WHERE user_id = ? AND meal_id = ?`,
     [userId, mealId]
@@ -21,6 +34,11 @@ export async function addReview(
   return (rows as Review[])[0];
 }
 
+/**
+ * Gets all reviews for a specific meal, including usernames.
+ * @param mealId string
+ * @returns Array of ReviewResponse objects
+ */
 export async function getReviewsByMealId(
   mealId: string
 ): Promise<ReviewResponse[]> {
@@ -39,6 +57,11 @@ type Rating = {
   rating: number;
 };
 
+/**
+ * Gets all ratings (numbers) for a specific meal.
+ * @param mealId string
+ * @returns Array of numbers (ratings)
+ */
 export async function getAllRatingsByMealid(mealId: string): Promise<number[]> {
   const [result] = await connection.query(
     `SELECT rating
@@ -50,18 +73,12 @@ export async function getAllRatingsByMealid(mealId: string): Promise<number[]> {
   return (result as Rating[]).map((r) => r.rating);
 }
 
-export async function getReviewByUserAndMeal(
-  userId: number,
-  mealId: string
-): Promise<Review | null> {
-  const [rows] = await connection.query(
-    `SELECT * FROM reviews WHERE user_id = ? AND meal_id = ?`,
-    [userId, mealId]
-  );
-  const arr = rows as Review[];
-  return arr.length > 0 ? arr[0] : null;
-}
-
+/**
+ * Deletes a review for a meal by a specific user.
+ * @param userId number
+ * @param mealId string
+ * @returns true if deleted, false if not found
+ */
 export async function deleteReview(
   userId: number,
   mealId: string

@@ -1,6 +1,18 @@
+// Service for review operations: handles business logic for adding, retrieving, deleting reviews, and calculating average ratings.
+// Uses reviewQueries for database operations.
+
 import * as reviewQueries from "../queries/review.queries";
 
 export const reviewService = {
+  /**
+   * Adds a new review for a meal by a user.
+   * Validates input and delegates to reviewQueries.
+   * @param userId number
+   * @param mealId string
+   * @param rating number (optional)
+   * @param comment string (optional)
+   * @returns Created review or error message
+   */
   async addReview(
     userId: number,
     mealId: string,
@@ -26,6 +38,11 @@ export const reviewService = {
     }
   },
 
+  /**
+   * Retrieves all reviews for a specific meal.
+   * @param mealId string
+   * @returns Array of reviews or error message
+   */
   async getReviewsByMealId(mealId: string) {
     try {
       if (!mealId) {
@@ -40,19 +57,12 @@ export const reviewService = {
     }
   },
 
-  async getReviewByUserAndMeal(userId: number, mealId: string) {
-    try {
-      if (!mealId) {
-        return { error: "Meal ID is required", status: 400 };
-      }
-
-      const review = await reviewQueries.getReviewByUserAndMeal(userId, mealId);
-      return { data: review, status: 200 };
-    } catch (error) {
-      console.error("Error getting review:", error);
-      return { error: "Failed to get review", status: 500 };
-    }
-  },
+  /**
+   * Deletes a review for a meal by a specific user.
+   * @param userId number
+   * @param mealId string
+   * @returns Success message or error message
+   */
   async deleteReview(userId: number, mealId: string) {
     try {
       if (!mealId) {
@@ -71,6 +81,12 @@ export const reviewService = {
       return { error: "Failed to delete review", status: 500 };
     }
   },
+
+  /**
+   * Calculates the average rating for a specific meal.
+   * @param mealId string
+   * @returns Average rating and count or error message
+   */
   async getAverageRating(mealId: string) {
     try {
       if (!mealId) {

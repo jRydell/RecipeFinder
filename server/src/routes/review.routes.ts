@@ -10,13 +10,6 @@ router.post("/", authenticateToken, reviewController.addReview);
 // Get all reviews for a meal (noAuth)
 router.get("/meal/:mealId", reviewController.getReviewsByMealId);
 
-// Get a review by user and meal (auth)
-router.get(
-  "/user/meal/:mealId",
-  authenticateToken,
-  reviewController.getReviewByUserAndMeal
-);
-
 // get average rating per meal id (no auth)
 router.get("/average-rating", reviewController.getAverageRating);
 

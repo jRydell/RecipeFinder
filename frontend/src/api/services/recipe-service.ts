@@ -40,14 +40,10 @@ export const recipeService = {
   deleteSavedRecipe: async (mealId: string) => {
     return api.delete<SavedRecipe>(`${ENDPOINTS.SAVED_RECIPES}/${mealId}`);
   },
-
   getReviews: async (mealId: string) => {
     return api.get<Review[]>(`${ENDPOINTS.REVIEWS}/meal/${mealId}`);
   },
 
-  getUserReview: async (mealId: string) => {
-    return api.get<Review>(`${ENDPOINTS.REVIEWS}/user/meal/${mealId}`);
-  },
   addReview: async (mealId: string, rating: number, comment: string) => {
     return api.post<Review>(`${ENDPOINTS.REVIEWS}`, {
       mealId,
