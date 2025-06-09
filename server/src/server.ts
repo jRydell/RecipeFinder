@@ -25,7 +25,20 @@ const serverStartTime = new Date();
 // Middleware
 setupLogging(app, serverStartTime);
 app.use(express.json());
-app.use(cors());
+
+// CORS - Only for DEV
+const isProduction = process.env.NODE_ENV === "production";
+if (!isProduction) {
+  app.use(
+    cors({
+      origin: ["http://localhost:5173", "http://localhost:3000"],
+      credentials: true,
+    })
+  );
+  console.log("CORS enabled for development");
+} else {
+  console.log("CORS disabled for production (handled by nginx)");
+}
 
 // Routes
 app.use("/", healthRoutes(serverStartTime));
