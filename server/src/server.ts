@@ -26,9 +26,10 @@ const serverStartTime = new Date();
 setupLogging(app, serverStartTime);
 app.use(express.json());
 
-// CORS - Only for DEV
-const isProduction = process.env.NODE_ENV === "production";
-if (!isProduction) {
+// CORS
+const isDevelopment = process.env.NODE_ENV !== "production";
+if (isDevelopment) {
+  // Development: Allow localhost origins
   app.use(
     cors({
       origin: ["http://localhost:5173", "http://localhost:3000"],
@@ -37,7 +38,14 @@ if (!isProduction) {
   );
   console.log("CORS enabled for development");
 } else {
-  console.log("CORS disabled for production (handled by nginx)");
+  // Production: Minimal CORS for same-origin requests
+  app.use(
+    cors({
+      origin: true,
+      credentials: true,
+    })
+  );
+  console.log("CORS enabled for production (same origin)");
 }
 
 // Routes
