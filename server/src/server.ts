@@ -27,26 +27,7 @@ setupLogging(app, serverStartTime);
 app.use(express.json());
 
 // CORS
-const isDevelopment = process.env.NODE_ENV !== "production";
-if (isDevelopment) {
-  // Development: Allow localhost origins
-  app.use(
-    cors({
-      origin: ["http://localhost:5173", "http://localhost:3000"],
-      credentials: true,
-    })
-  );
-  console.log("CORS enabled for development");
-} else {
-  // Production: Minimal CORS for same-origin requests
-  app.use(
-    cors({
-      origin: true,
-      credentials: true,
-    })
-  );
-  console.log("CORS enabled for production (same origin)");
-}
+app.use(cors());
 
 // Routes
 app.use("/", healthRoutes(serverStartTime));
