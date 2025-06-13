@@ -8,8 +8,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
-import { useAuthStore } from "@/stores/auth.store";
+
 import { BookOpen, Utensils, LogOut } from "lucide-react";
+import { useAuthStore } from "@/stores/auth.store";
 
 type NavItem = {
   path: string;

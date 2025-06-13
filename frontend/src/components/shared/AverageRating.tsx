@@ -1,5 +1,5 @@
 import { useAverageRating } from "@/hooks/useAverageRating";
-import ErrorMessage from "./ErrorMessage";
+import ErrorMessage from "@/components/shared/ErrorMessage";
 
 export const AverageRating = ({ mealId }: { mealId: string | undefined }) => {
   const { rating, loading, error } = useAverageRating(mealId);

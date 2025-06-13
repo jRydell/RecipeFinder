@@ -1,5 +1,5 @@
 import { formatTimestamp } from "@/utils/formatTimestamp";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import type { Review } from "@/api/services/recipe-service";
 import type { User } from "@/api/services/auth-service";

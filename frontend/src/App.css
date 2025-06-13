@@ -243,11 +243,7 @@
   /* =================================================================
    * LAYOUT STABILITY FIX
    * =================================================================
-    * 
-   * ALTERNATIVE APPROACHES:
-   * - Use scrollbar-gutter: stable; (modern browsers)
-   * - Apply to specific containers instead of html
-   * - Combine with smooth scrolling: scroll-behavior: smooth;
+
    */
   html {
     overflow-y: scroll;
@@ -263,10 +259,5 @@
  *   <p className="text-foreground leading-relaxed">Body content...</p>
  *   <a className="text-primary hover:text-primary/80">Read more</a>
  * </article>
- * 
- * ACCESSIBILITY REMINDERS:
- * - Always test color contrast ratios
- * - Provide focus indicators for keyboard users  
- * - Use semantic color names (destructive vs red)
- * - Test with color blindness simulators
+
  */

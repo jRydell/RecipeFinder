@@ -1,5 +1,5 @@
-import { Skeleton } from "../ui/skeleton";
-import { Separator } from "../ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Separator } from "@/components/ui/separator";
 
 export const RecipeSkeletons = () => (
   <div className="p-6">
