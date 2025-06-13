@@ -1,20 +1,20 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./pages/Home";
-import "./App.css";
-import NotFound from "./pages/NotFound";
-import Login from "./pages/Login";
-import MyRecipes from "./pages/MyRecipes";
-import Register from "./pages/Register";
-import Privacy from "./pages/Privacy";
-import About from "./pages/About";
-import Terms from "./pages/Terms";
-import Contact from "./pages/Contact";
-import Recipe from "./pages/Recipe";
-import Layout from "./components/layout/Layout";
-import Search from "./pages/Search";
-import Categories from "./pages/Categories";
-import Category from "./pages/Category";
-import ProtectedRoute from "./components/shared/ProtectedRoutes";
+import Home from "@/pages/Home";
+import "@/App.css";
+import NotFound from "@/pages/NotFound";
+import Login from "@/pages/Login";
+import MyRecipes from "@/pages/MyRecipes";
+import Register from "@/pages/Register";
+import Privacy from "@/pages/Privacy";
+import About from "@/pages/About";
+import Terms from "@/pages/Terms";
+import Contact from "@/pages/Contact";
+import Recipe from "@/pages/Recipe";
+import Layout from "@/components/layout/Layout";
+import Search from "@/pages/Search";
+import Categories from "@/pages/Categories";
+import Category from "@/pages/Category";
+import ProtectedRoute from "@/components/shared/ProtectedRoutes";
 
 const router = createBrowserRouter([
   {

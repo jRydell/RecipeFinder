@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import { Link } from "react-router-dom";
-import { AverageRating } from "./AverageRating";
+import { AverageRating } from "@/components/shared/AverageRating";
 
 type RecipeCardProps = {
   idMeal: string;

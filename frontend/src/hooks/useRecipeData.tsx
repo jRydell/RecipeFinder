@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Meal, mealDbService } from "../api/services/mealdb-service";
+import { Meal, mealDbService } from "@/api/services/mealdb-service";
 
 export const useRecipeData = (mealId: string | undefined) => {
   const [loading, setLoading] = useState<boolean>(true);

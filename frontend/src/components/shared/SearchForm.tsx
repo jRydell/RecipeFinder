@@ -1,8 +1,8 @@
 import { useSearchRecipe } from "@/hooks/useSearchRecipe";
-import { Button } from "../ui/button";
-import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
-import { Input } from "../ui/input";
-import ErrorMessage from "./ErrorMessage";
+import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import ErrorMessage from "@/components/shared/ErrorMessage";
 
 export const SearchForm = ({
   searchQuery,

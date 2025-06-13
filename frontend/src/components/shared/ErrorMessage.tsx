@@ -1,4 +1,4 @@
-import { Alert, AlertDescription } from "../ui/alert";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 type ErrorMessageProps = {
   error: string;

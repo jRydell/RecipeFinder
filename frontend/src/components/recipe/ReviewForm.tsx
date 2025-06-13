@@ -1,5 +1,5 @@
-import { Textarea } from "../ui/textarea";
-import { Button } from "../ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 import type { Review } from "@/api/services/recipe-service";
 import { useState } from "react";
 
