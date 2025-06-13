@@ -36,17 +36,15 @@ export const authenticateToken = (
   // Extract token from Authorization header
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1]; // Bearer TOKEN
-
   if (!token) {
     // No token provided
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).json({ message: "Access token is required" });
   }
-
   // Verify JWT token
   jwt.verify(token, JWT_SECRET, (err: any, user: any) => {
     if (err) {
       // Token invalid or expired
-      return res.status(403).json({ message: "Forbidden" });
+      return res.status(403).json({ message: "Invalid or expired token" });
     }
     // Attach user info to request for downstream handlers
     req.user = user;

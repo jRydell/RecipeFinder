@@ -14,7 +14,6 @@ if (!JWT_SECRET) {
 export const authService = {
   /**
    * Registers a new user.
-   * - Validates input fields
    * - Checks if email already exists
    * - Creates user (password will be hashed in userQueries)
    * - Generates JWT token for the new user
@@ -25,11 +24,6 @@ export const authService = {
    */
   async register(username: string, email: string, password: string) {
     try {
-      // Validate required fields
-      if (!username || !email || !password) {
-        return { error: "All fields are required", status: 400 };
-      }
-
       // Check if user already exists by email
       const existingUser = await userQueries.getUserByEmail(email);
       if (existingUser) {
