@@ -1,5 +1,5 @@
-import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
-import { AspectRatio } from "../ui/aspect-ratio";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { useRecipeData } from "@/hooks/useRecipeData";
 import { useParams } from "react-router-dom";
 

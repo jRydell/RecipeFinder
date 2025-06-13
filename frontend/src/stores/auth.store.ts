@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { authService, User, AuthResponse } from "../api/services/auth-service";
-import { useSavedRecipesStore } from "./savedRecipes.store";
+import { authService, User, AuthResponse } from "@/api/services/auth-service";
+import { useSavedRecipesStore } from "@/stores/savedRecipes.store";
 
 type AuthState = {
   user: User | null;

@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import ErrorMessage from "../shared/ErrorMessage";
+import ErrorMessage from "@/components/shared/ErrorMessage";
 import { Checkbox } from "@/components/ui/checkbox";
 
 const registerSchema = z.object({

@@ -1,8 +1,8 @@
 import { useAuthStore } from "@/stores/auth.store";
 import { useNavigate } from "react-router-dom";
-import { Button } from "../ui/button";
-import { Badge } from "../ui/badge";
-import { AverageRating } from "../shared/AverageRating";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { AverageRating } from "@/components/shared/AverageRating";
 import { Meal } from "@/api/services/mealdb-service";
 import { useSavedRecipesStore } from "@/stores/savedRecipes.store";
 

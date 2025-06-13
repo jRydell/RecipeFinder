@@ -1,4 +1,4 @@
-import { api, ENDPOINTS, ApiResponse } from "../config/api-config";
+import { api, ENDPOINTS, ApiResponse } from "@/api/config/api-config";
 
 export type User = {
   id: number;
@@ -33,11 +33,4 @@ export const authService = {
       password,
     });
   },
-
-  // Validate the current auth token (can be expanded later)
-
-  /*   validateToken: async (token: string) => {
-    // This is a placeholder. In a real implementation, you might call a token validation endpoint
-    return Promise.resolve({ valid: !!token });
-  }, */
 };

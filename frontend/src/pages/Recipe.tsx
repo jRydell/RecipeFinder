@@ -1,5 +1,5 @@
 import { getIngredients } from "@/utils/getIngredients";
-import { useRecipeData } from "../hooks/useRecipeData";
+import { useRecipeData } from "@/hooks/useRecipeData";
 import {
   FoodImage,
   Header,
