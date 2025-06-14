@@ -6,7 +6,6 @@ import * as reviewQueries from "../queries/review.queries";
 export const reviewService = {
   /**
    * Adds a new review for a meal by a user.
-   * Validates input and delegates to reviewQueries.
    * @param userId number
    * @param mealId string
    * @param rating number (optional)

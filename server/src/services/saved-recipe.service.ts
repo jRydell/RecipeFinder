@@ -6,7 +6,6 @@ import * as savedRecipeQueries from "../queries/saved-recipe.queries";
 export const savedRecipeService = {
   /**
    * Saves a recipe to the user's collection.
-   * Input validated by zod,delegates to savedRecipeQueries.
    * @param userId number
    * @param mealId string
    * @param mealName string
