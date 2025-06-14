@@ -13,7 +13,7 @@ const connection = mysql.createPool({
   waitForConnections: true,
 });
 
-export async function testConnection() {
+export const testConnection = async () => {
   try {
     await connection.query("SELECT 1");
     return true;
@@ -21,6 +21,6 @@ export async function testConnection() {
     console.error("Database connection test failed:", error);
     return false;
   }
-}
+};
 
 export default connection;

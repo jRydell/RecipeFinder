@@ -1,11 +1,18 @@
 import { Router } from "express";
 import * as reviewController from "../controllers/review.controller";
 import { authenticateToken } from "../middleware/auth";
+import { validateBody } from "../middleware/validation";
+import { reviewSchema } from "../validation/review.validation";
 
 const router = Router();
 
 // create a review a review (auth)
-router.post("/", authenticateToken, reviewController.addReview);
+router.post(
+  "/",
+  authenticateToken,
+  validateBody(reviewSchema),
+  reviewController.addReview
+);
 
 // Get all reviews for a meal (noAuth)
 router.get("/meal/:mealId", reviewController.getReviewsByMealId);

@@ -20,10 +20,6 @@ export const reviewService = {
     comment?: string
   ) {
     try {
-      if (!mealId) {
-        return { error: "Meal ID is required", status: 400 };
-      }
-
       const review = await reviewQueries.addReview(
         userId,
         mealId,

@@ -62,7 +62,6 @@ export const authService = {
 
   /**
    * Logs in a user.
-   * - Validates input fields
    * - Looks up user by email
    * - Compares password with hashed password in DB
    * - Generates JWT token if credentials are valid
@@ -72,11 +71,6 @@ export const authService = {
    */
   async login(email: string, password: string) {
     try {
-      // Validate required fields
-      if (!email || !password) {
-        return { error: "Email and password are required", status: 400 };
-      }
-
       // Find user by email
       const user = await userQueries.getUserByEmail(email);
       if (!user) {

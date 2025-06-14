@@ -6,7 +6,7 @@ import * as savedRecipeQueries from "../queries/saved-recipe.queries";
 export const savedRecipeService = {
   /**
    * Saves a recipe to the user's collection.
-   * Validates input and delegates to savedRecipeQueries.
+   * Input validated by zod,delegates to savedRecipeQueries.
    * @param userId number
    * @param mealId string
    * @param mealName string
@@ -20,9 +20,6 @@ export const savedRecipeService = {
     mealThumb?: string
   ) {
     try {
-      if (!mealId || !mealName) {
-        return { error: "Recipe ID and name are required", status: 400 };
-      }
       const savedId = await savedRecipeQueries.saveRecipe(
         userId,
         mealId,

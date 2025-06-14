@@ -8,12 +8,20 @@ export const validateBody = (schema: z.ZodSchema) => {
       next();
     } catch (error) {
       if (error instanceof z.ZodError) {
-        return res.status(400).json({
-          message: "Validation failed",
-          errors: error.errors.map((error) => ({
-            field: error.path.join("."),
-            message: error.message,
+        // Log technical info for debugging
+        console.error(`Validation failed on ${req.method} ${req.path}:`, {
+          body: req.body,
+          errors: error.errors.map((e) => ({
+            field: e.path.join("."),
+            message: e.message,
           })),
+        });
+
+        //user-friendly error message
+        const errorMessage = error.errors.map((e) => e.message).join(", ");
+
+        return res.status(400).json({
+          message: errorMessage,
         });
       }
     }
