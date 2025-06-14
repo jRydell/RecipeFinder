@@ -1,6 +1,3 @@
-// Authentication middleware for Express routes.
-// Verifies JWT tokens and attaches user info to the request object if valid.
-
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
