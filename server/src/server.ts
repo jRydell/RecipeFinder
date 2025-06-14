@@ -6,7 +6,7 @@ import connection, { testConnection } from "./db";
 import authRoutes from "./routes/auth.routes";
 import savedRecipeRoutes from "./routes/saved.recipe.routes";
 import reviewRoutes from "./routes/review.routes";
-import { setupLogging } from "./middleware/logging";
+import { logging } from "./middleware/logging";
 import { healthRoutes } from "./routes/health.routes";
 import { errorHandler } from "./middleware/error.handler";
 
@@ -23,7 +23,7 @@ const server = createServer(app);
 const serverStartTime = new Date();
 
 // Middleware
-setupLogging(app, serverStartTime);
+logging(app, serverStartTime);
 app.use(express.json());
 
 // CORS configuration
@@ -57,18 +57,23 @@ app.use("/api/my-recipes", savedRecipeRoutes);
 // Error handling
 app.use(errorHandler);
 
-// Start server
-async function startServer() {
-  server.listen(port, "127.0.0.1", async () => {
-    console.log(`Server is running on port ${port}`);
-
+(async () => {
+  try {
+    // Test database connection first
     const dbConnected = await testConnection();
-    if (dbConnected) {
-      console.log("Connected to MySQL database");
-    } else {
+    if (!dbConnected) {
       console.error("Unable to connect to MySQL database");
+      process.exit(1);
     }
-  });
-}
+    console.log("Connected to MySQL database");
 
-startServer();
+    // Start HTTP server
+    server.listen(port, "127.0.0.1", () => {
+      console.log(`Server is running on port ${port}`);
+      console.log("Server started successfully");
+    });
+  } catch (error) {
+    console.error("Failed to start server:", error);
+    process.exit(1);
+  }
+})();

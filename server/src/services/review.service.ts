@@ -6,7 +6,6 @@ import * as reviewQueries from "../queries/review.queries";
 export const reviewService = {
   /**
    * Adds a new review for a meal by a user.
-   * Validates input and delegates to reviewQueries.
    * @param userId number
    * @param mealId string
    * @param rating number (optional)
@@ -20,10 +19,6 @@ export const reviewService = {
     comment?: string
   ) {
     try {
-      if (!mealId) {
-        return { error: "Meal ID is required", status: 400 };
-      }
-
       const review = await reviewQueries.addReview(
         userId,
         mealId,
