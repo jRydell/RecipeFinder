@@ -86,7 +86,7 @@ It is a work in progress..
     DB_HOST=localhost
     DB_USER=yourusername
     DB_PASSWORD=yourpassword
-    DB_NAME=recipefinder
+    DB_NAME=recipe_db
     JWT_SECRET=your-secret-key
     PORT=3000
     ```
@@ -124,9 +124,12 @@ It is a work in progress..
     ```
 
 8.  Open the application in your browser
-
     - Frontend: [http://localhost:5173](http://localhost:5173)
     - Backend API: [http://localhost:3000/api](http://localhost:3000/api)
+
+## Backend setup
+
+See `server/readme.md` for backend-specific instructions.
 
 ## Troubleshooting
 
