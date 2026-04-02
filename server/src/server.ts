@@ -30,14 +30,13 @@ app.use(express.json());
 const isProduction = process.env.NODE_ENV === "production";
 
 if (isProduction) {
-  //Minimal CORS
   app.use(
     cors({
-      origin: true,
+      origin: "https://recipefinder.jrydell.dev",
       credentials: true,
     })
   );
-  console.log("CORS enabled for production (same origin)");
+  console.log("CORS enabled for production");
 } else {
   // Full CORS for development
   app.use(
