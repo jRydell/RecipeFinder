@@ -1,5 +1,5 @@
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { Category } from "@/components/home/FeaturedContent";
 
 type CategoryCardProps = {

@@ -9,7 +9,7 @@ import {
   Reviews,
   YoutubeVideo,
 } from "@/components/recipe";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { Separator } from "@/components/ui/separator";
 import ErrorMessage from "@/components/shared/ErrorMessage";
 

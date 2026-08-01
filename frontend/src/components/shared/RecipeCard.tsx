@@ -2,7 +2,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { AverageRating } from "@/components/shared/AverageRating";
 
 type RecipeCardProps = {
