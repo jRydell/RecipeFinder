@@ -1,7 +1,7 @@
 import { Meal, mealDbService } from "@/api/services/mealdb-service";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { CardSkeletons } from "@/components/shared/CardSkeletons";
 import ErrorMessage from "@/components/shared/ErrorMessage";
 import RecipeCard from "@/components/shared/RecipeCard";

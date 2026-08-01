@@ -1,5 +1,5 @@
 import { useRecipeData } from "@/hooks/useRecipeData";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 export const FoodImage = () => {
   const { mealId } = useParams();

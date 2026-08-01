@@ -1,5 +1,5 @@
 import { useAuthStore } from "@/stores/auth.store";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { AverageRating } from "@/components/shared/AverageRating";

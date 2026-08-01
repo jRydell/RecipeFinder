@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { useAuthStore } from "@/stores/auth.store";
 import { ThemeToggle } from "./ThemeToggle";
 import MobileMenu from "./MobileNavigation";

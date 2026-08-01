@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { useRecipeData } from "@/hooks/useRecipeData";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 export const YoutubeVideo = () => {
   const { mealId } = useParams();
