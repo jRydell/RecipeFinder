@@ -25,6 +25,16 @@ export type Rating = {
   count: number;
 };
 
+// The server looks the recipe up in TheMealDB for us, so a top rated entry
+// arrives complete with the details needed to render a card.
+export type TopRatedRecipe = Rating & {
+  idMeal: string;
+  strMeal: string;
+  strMealThumb: string;
+  strCategory: string;
+  strArea: string;
+};
+
 export const recipeService = {
   getSavedRecipes: async () => {
     return api.get<SavedRecipe[]>(ENDPOINTS.SAVED_RECIPES);
@@ -58,6 +68,12 @@ export const recipeService = {
   getAverageRating: async (mealId: string) => {
     return api.get<Rating>(
       `${ENDPOINTS.REVIEWS}/average-rating?mealId=${mealId}`
+    );
+  },
+
+  getTopRated: async (limit: number) => {
+    return api.get<TopRatedRecipe[]>(
+      `${ENDPOINTS.REVIEWS}/top-rated?limit=${limit}`
     );
   },
 };

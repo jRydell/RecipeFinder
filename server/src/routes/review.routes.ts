@@ -7,6 +7,7 @@ import {
   deleteReviewSchema,
   reviewBodySchema,
   reviewParamsSchema,
+  topRatedQuerySchema,
 } from "../validation/review.validation";
 
 const router = Router();
@@ -31,6 +32,13 @@ router.get(
   "/average-rating",
   validate(averageRatingQuerySchema, "query"),
   reviewController.getAverageRating
+);
+
+// Get the highest rated meals across all users (no auth)
+router.get(
+  "/top-rated",
+  validate(topRatedQuerySchema, "query"),
+  reviewController.getTopRatedMeals
 );
 
 // Delete a review (auth)

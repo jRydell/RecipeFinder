@@ -4,6 +4,9 @@
 import { Request, Response } from "express";
 import { reviewService } from "../services/review.service";
 
+const DEFAULT_TOP_RATED_LIMIT = 6;
+const DEFAULT_MIN_REVIEWS = 1;
+
 /**
  * POST /reviews
  * Adds a new review for a meal by the authenticated user.
@@ -68,6 +71,29 @@ export const deleteReview = async (req: Request, res: Response) => {
 export const getAverageRating = async (req: Request, res: Response) => {
   const mealId = req.query.mealId as string;
   const result = await reviewService.getAverageRating(mealId);
+
+  if (result.error) {
+    return res.status(result.status).json({ message: result.error });
+  }
+
+  res.status(result.status).json(result.data);
+};
+
+/**
+ * GET /reviews/top-rated?limit=...&minReviews=...
+ * Retrieves the highest rated meals across all users, best average first.
+ * Both query parameters are optional.
+ * Responds with an array of { mealId, averageRating, count } or error message.
+ */
+export const getTopRatedMeals = async (req: Request, res: Response) => {
+  const limit = req.query.limit
+    ? Number(req.query.limit)
+    : DEFAULT_TOP_RATED_LIMIT;
+  const minReviews = req.query.minReviews
+    ? Number(req.query.minReviews)
+    : DEFAULT_MIN_REVIEWS;
+
+  const result = await reviewService.getTopRatedMeals(limit, minReviews);
 
   if (result.error) {
     return res.status(result.status).json({ message: result.error });

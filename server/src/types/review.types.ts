@@ -17,3 +17,9 @@ export type ReviewDTO = {
 export type ReviewResponse = Review & {
   username: string;
 };
+
+export type TopRatedMeal = {
+  mealId: string;
+  averageRating: number;
+  count: number;
+};
