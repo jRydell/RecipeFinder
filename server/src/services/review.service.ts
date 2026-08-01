@@ -2,6 +2,8 @@
 // Uses reviewQueries for database operations.
 
 import * as reviewQueries from "../queries/review.queries";
+import { mealDbService } from "./mealdb.service";
+import { TopRatedRecipe } from "../types/recipe.types";
 
 // Upper bound on how many top rated meals a single request can ask for
 const MAX_LIMIT = 24;
@@ -113,22 +115,38 @@ export const reviewService = {
   },
 
   /**
-   * Gets the highest rated meals across all users.
+   * Gets the highest rated meals across all users, with the recipe details
+   * looked up from TheMealDB so clients get everything in one response.
+   * Meals that cannot be fetched from TheMealDB are left out rather than
+   * failing the whole request.
    * @param limit how many meals to return (clamped to 1-24)
    * @param minReviews minimum number of ratings a meal needs to qualify
-   * @returns Array of top rated meals or error message
+   * @returns Array of top rated recipes or error message
    */
   async getTopRatedMeals(limit: number, minReviews: number) {
     try {
       const safeLimit = Math.min(Math.max(Math.trunc(limit), 1), MAX_LIMIT);
       const safeMinReviews = Math.max(Math.trunc(minReviews), 1);
 
-      const meals = await reviewQueries.getTopRatedMeals(
+      const rated = await reviewQueries.getTopRatedMeals(
         safeLimit,
         safeMinReviews
       );
 
-      return { data: meals, status: 200 };
+      // Look the recipes up in parallel, keeping each meal paired with the
+      // rating it earned and preserving the ranking order.
+      const recipes = await Promise.all(
+        rated.map(async ({ mealId, averageRating, count }) => {
+          const meal = await mealDbService.getById(mealId);
+          return meal ? { ...meal, averageRating, count } : null;
+        })
+      );
+
+      const data = recipes.filter(
+        (recipe): recipe is TopRatedRecipe => recipe !== null
+      );
+
+      return { data, status: 200 };
     } catch (error) {
       console.error("Error getting top rated meals:", error);
       return { error: "Failed to get top rated recipes", status: 500 };
