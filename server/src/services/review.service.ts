@@ -8,6 +8,21 @@ import { TopRatedRecipe } from "../types/recipe.types";
 // Upper bound on how many top rated meals a single request can ask for
 const MAX_LIMIT = 24;
 
+// The top rated list only changes when a review is written, but serving it
+// costs one TheMealDB lookup per recipe. Holding the finished response in
+// memory keeps the home page from triggering those lookups on every visit.
+const TOP_RATED_TTL = 5 * 60 * 1000;
+
+type CachedTopRated = {
+  data: TopRatedRecipe[];
+  expiresAt: number;
+};
+
+// Keyed by limit and minReviews, since those produce different lists
+const topRatedCache = new Map<string, CachedTopRated>();
+
+const clearTopRatedCache = () => topRatedCache.clear();
+
 export const reviewService = {
   /**
    * Adds a new review for a meal by a user.
@@ -30,6 +45,9 @@ export const reviewService = {
         rating ?? null,
         comment ?? null
       );
+
+      // A new rating can reorder the top list, so stop serving the old one
+      clearTopRatedCache();
 
       return { data: review, status: 200 };
     } catch (error) {
@@ -74,6 +92,9 @@ export const reviewService = {
       if (!result) {
         return { error: "Review not found", status: 404 };
       }
+
+      // Removing a rating can reorder the top list too
+      clearTopRatedCache();
 
       return { data: { message: "Review deleted successfully" }, status: 200 };
     } catch (error) {
@@ -128,6 +149,13 @@ export const reviewService = {
       const safeLimit = Math.min(Math.max(Math.trunc(limit), 1), MAX_LIMIT);
       const safeMinReviews = Math.max(Math.trunc(minReviews), 1);
 
+      const cacheKey = `${safeLimit}:${safeMinReviews}`;
+      const cached = topRatedCache.get(cacheKey);
+
+      if (cached && cached.expiresAt > Date.now()) {
+        return { data: cached.data, status: 200 };
+      }
+
       const rated = await reviewQueries.getTopRatedMeals(
         safeLimit,
         safeMinReviews
@@ -145,6 +173,16 @@ export const reviewService = {
       const data = recipes.filter(
         (recipe): recipe is TopRatedRecipe => recipe !== null
       );
+
+      // Only cache a complete list. If TheMealDB dropped a recipe we still
+      // serve what we got, but the next request retries instead of being
+      // stuck with the gap until the entry expires.
+      if (data.length === rated.length) {
+        topRatedCache.set(cacheKey, {
+          data,
+          expiresAt: Date.now() + TOP_RATED_TTL,
+        });
+      }
 
       return { data, status: 200 };
     } catch (error) {
