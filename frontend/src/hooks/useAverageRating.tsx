@@ -6,7 +6,9 @@ type CachedRating = {
   timestamp: number;
 };
 
-const CACHE_DURATION = 30 * 60 * 1000;
+export const CACHE_DURATION = 30 * 60 * 1000;
+
+export const ratingCacheKey = (mealId: string) => `rating_${mealId}`;
 
 export const useAverageRating = (mealId: string | undefined) => {
   const [rating, setRating] = useState<Rating | null>();
@@ -18,7 +20,7 @@ export const useAverageRating = (mealId: string | undefined) => {
       if (!mealId) return;
 
       try {
-        const cacheKey = `rating_${mealId}`;
+        const cacheKey = ratingCacheKey(mealId);
         const cachedDataString = sessionStorage.getItem(cacheKey);
 
         if (cachedDataString) {

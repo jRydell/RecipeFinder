@@ -25,6 +25,10 @@ export type Rating = {
   count: number;
 };
 
+export type TopRatedMeal = Rating & {
+  mealId: string;
+};
+
 export const recipeService = {
   getSavedRecipes: async () => {
     return api.get<SavedRecipe[]>(ENDPOINTS.SAVED_RECIPES);
@@ -58,6 +62,12 @@ export const recipeService = {
   getAverageRating: async (mealId: string) => {
     return api.get<Rating>(
       `${ENDPOINTS.REVIEWS}/average-rating?mealId=${mealId}`
+    );
+  },
+
+  getTopRated: async (limit: number) => {
+    return api.get<TopRatedMeal[]>(
+      `${ENDPOINTS.REVIEWS}/top-rated?limit=${limit}`
     );
   },
 };

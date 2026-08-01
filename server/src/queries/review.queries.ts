@@ -2,7 +2,7 @@
 // Uses MySQL connection for all queries
 
 import connection from "../db";
-import { Review, ReviewResponse } from "../types/review.types";
+import { Review, ReviewResponse, TopRatedMeal } from "../types/review.types";
 
 /**
  * Adds a new review to the database for a meal by a user.
@@ -71,6 +71,44 @@ export async function getAllRatingsByMealid(mealId: string): Promise<number[]> {
   );
 
   return (result as Rating[]).map((r) => r.rating);
+}
+
+// AVG() comes back from mysql2 as a DECIMAL string, so the raw row is not
+// TopRatedMeal until it has been normalised below.
+type RawTopRatedMeal = {
+  mealId: string;
+  averageRating: string | number;
+  count: string | number;
+};
+
+/**
+ * Gets the highest rated meals across all users, best average first.
+ * Meals with fewer than minReviews ratings are left out so a single
+ * five star review cannot take the top spot.
+ * @param limit number of meals to return
+ * @param minReviews minimum number of ratings a meal needs to qualify
+ * @returns Array of TopRatedMeal objects
+ */
+export async function getTopRatedMeals(
+  limit: number,
+  minReviews: number
+): Promise<TopRatedMeal[]> {
+  const [rows] = await connection.query(
+    `SELECT meal_id AS mealId, AVG(rating) AS averageRating, COUNT(*) AS \`count\`
+     FROM reviews
+     WHERE rating IS NOT NULL
+     GROUP BY meal_id
+     HAVING COUNT(*) >= ?
+     ORDER BY averageRating DESC, \`count\` DESC, meal_id ASC
+     LIMIT ?`,
+    [minReviews, limit]
+  );
+
+  return (rows as RawTopRatedMeal[]).map((row) => ({
+    mealId: row.mealId,
+    averageRating: Number(row.averageRating),
+    count: Number(row.count),
+  }));
 }
 
 /**

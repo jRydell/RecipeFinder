@@ -29,6 +29,22 @@ export const averageRatingQuerySchema = z.object({
     .max(20, "Could not fetch rating please try again"),
 });
 
+const TOP_RATED_ERROR = "Could not fetch top rated recipes, please try again";
+
+export const topRatedQuerySchema = z.object({
+  limit: z.coerce
+    .number({ invalid_type_error: TOP_RATED_ERROR })
+    .int(TOP_RATED_ERROR)
+    .min(1, TOP_RATED_ERROR)
+    .max(24, TOP_RATED_ERROR)
+    .optional(),
+  minReviews: z.coerce
+    .number({ invalid_type_error: TOP_RATED_ERROR })
+    .int(TOP_RATED_ERROR)
+    .min(1, TOP_RATED_ERROR)
+    .optional(),
+});
+
 export const deleteReviewSchema = z.object({
   mealId: z
     .string()
